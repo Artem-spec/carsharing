@@ -16,7 +16,7 @@ $color-gray-light: #eeeeee;
   align-items: center;
   justify-content: space-between;
   width: 6%;
-  height: inherit;
+  height: 100vh;
   background-color: #151b1f;
 
   .start-page__language-wrap {
@@ -221,7 +221,7 @@ $color-gray-light: #eeeeee;
 
 @media (max-width: 768px) {
   .start-page__menu {
-    width: 95px;
+    min-width: 67px;
     .start-page__language-wrap {
       margin-bottom: 27px;
     }
@@ -240,7 +240,7 @@ $color-gray-light: #eeeeee;
 
 @media (max-width: 320px) {
   .start-page {
-    width: 320px;
+    width: 100%;
   }
   .button-burger_color {
     stroke: black;
@@ -297,8 +297,6 @@ $color-gray-light: #eeeeee;
         width: 100%;
         padding-top: 15px;
         padding-bottom: 12px;
-        position: absolute;
-        left: 0;
         border-radius: initial;
       }
     }
@@ -325,6 +323,28 @@ $color-gray-light: #eeeeee;
       line-height: 15px;
       color: $color-gray-dark;
       margin-right: 15px;
+    }
+  }
+}
+@media (max-height: 538px) {
+  .start-page__reservation {
+    .start-page__header {
+    }
+    .start-page__main {
+      .start-page__heading-h1 {
+        font-size: 32px;
+        line-height: 100%;
+      }
+      .start-page__heading-h2 {
+        font-size: 32px;
+        line-height: 100%;
+        margin-top: 20px;
+      }
+      .start-page__description {
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 21px;
+      }
     }
   }
 }
