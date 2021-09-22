@@ -1,2 +1,0 @@
-(this.webpackJsonpcarsharing=this.webpackJsonpcarsharing||[]).push([[0],{11:function(n,e,c){"use strict";c.r(e);var t=c(1),r=c.n(t),s=c(3),i=c.n(s),a=(c(8),c(9),c(0));var o=function(){return Object(a.jsx)("div",{className:"App",children:Object(a.jsx)("h1",{children:"Hello World"})})};i.a.render(Object(a.jsx)(r.a.StrictMode,{children:Object(a.jsx)(o,{})}),document.getElementById("root"))},8:function(n,e,c){},9:function(n,e,c){}},[[11,1,2]]]);
-//# sourceMappingURL=main.a290a5c4.chunk.js.map
