@@ -1,0 +1,111 @@
+$color-green: #0ec261;
+$color-black-basic: #121212;
+$color-gray-dark: #999999;
+$color-gray-light: #eeeeee;
+
+.burger {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: left;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 4;
+  pointer-events: none; //Для того чтобы не мешал opacity
+  .burger__content {
+    width: 53%;
+    height: 100vh;
+    position: relative;
+    background-color: black;
+    .burger__close {
+      position: absolute;
+      top: 40px;
+      left: 24px;
+      cursor: pointer;
+    }
+    .burger__menu {
+      display: flex;
+      flex-direction: column;
+    }
+    .burger__menu-magrin {
+      margin: 307px 64px 0 128px;
+    }
+    .burger__menu__language-wrap {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      display: none;
+
+      .burger__menu__language {
+        font-weight: 700;
+        font-size: 13px;
+        line-height: 15px;
+        text-decoration: initial;
+        color: #0ec261;
+        cursor: pointer;
+      }
+    }
+    .burger__menu__language-wrap:hover,
+    .burger__menu__language-wrap:active {
+      border: 1px solid white;
+      border-radius: 50%;
+    }
+    .burger__menu__language-wrap:hover {
+      .burger__menu__language {
+        color: $color-gray-light;
+      }
+    }
+    .burger__menu__language-wrap:active {
+      .burger__menu__language {
+        color: $color-green;
+      }
+    }
+  }
+}
+
+.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+@media (max-width: 1440px) {
+}
+
+@media (max-width: 1024px) {
+  .burger {
+    .burger__content {
+      width: 614px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .burger .burger__content {
+    width: 100%;
+  }
+}
+
+@media (max-width: 320px) {
+  .burger {
+    .burger__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .burger__menu-magrin {
+        margin-top: 80px;
+        margin-left: 28px;
+      }
+      .burger__menu__language-wrap {
+        display: flex;
+        margin: 23px;
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+$color-green: #0ec261;
+$color-black-basic: #121212;
+$color-gray-dark: #999999;
+$color-gray-light: #eeeeee;
+
+.modal-city {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;    
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none; //Для того чтобы не мешал opacity
+    transition: 0.5s;
+    z-index: 5;
+    .modal-city__content {
+        position: relative;
+        padding: 20px;
+        width: 300px;
+        height: 200px;
+        border-radius: 10px;
+        background-color: #ffffff;
+        .modal-city__label {
+            font-size: 14px;
+            line-height: 16px;
+            color: $color-black-basic;
+        }
+        .modal-city__input {
+            border: none;
+            border-bottom: 1px solid $color-gray-dark;
+        }
+        .modal-city__label_padding {
+            padding-right: 10px;
+        }
+        .modal-city__list {
+            height: 80%;
+            padding: 0;
+            margin: 10px 0;
+            border: 1px solid #eeeeee;
+        }
+        .modal-city__item {
+            font-size: 14px;
+            line-height: 16px;
+            color: $color-gray-dark;
+            list-style-type: none;
+        }
+        .modal-city__item:hover {
+            color: $color-green;
+        }
+        .modal-city__close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+    }
+    
+}
+.active {
+    opacity: 1;
+    pointer-events: all;
+}

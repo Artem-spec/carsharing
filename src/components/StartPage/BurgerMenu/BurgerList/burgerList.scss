@@ -1,0 +1,19 @@
+$color-green: #0ec261;
+$color-black-basic: #121212;
+$color-gray-dark: #999999;
+$color-gray-light: #eeeeee;
+
+.burger__item {
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 37px;
+    a {
+        color: $color-gray-light;
+    }
+    a:hover {
+        color: $color-green;
+    }
+}
+.burger__item:not(:first-child) {
+    padding-top: 10px;
+}
