@@ -45,20 +45,21 @@ function StartPage(props) {
 
     return (
         <section className="start-page">
-            <div className="start-page__menu">
-                <button id="button-burger" className="button-burger" onClick={() => setBurgerActive(true)}
-                    type="button">
-                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                        <path d="M4 16H28" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="button-burger_color" />
-                        <path d="M4 8H28" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="button-burger_color" />
-                        <path d="M4 24H28" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="button-burger_color" />
-                    </svg>
-                </button>
-                <div className="start-page__language-wrap">
-                    <span href='#' className="start-page__language" onClick={(e) => handleClickLinkLanguage(e)}>{language}</span>
-                </div>
-            </div>
+
             <div className="start-page__wrap">
+                <div className="start-page__menu">
+                    <button id="button-burger" className="button-burger" onClick={() => setBurgerActive(true)}
+                        type="button">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <path d="M4 16H28" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="button-burger_color" />
+                            <path d="M4 8H28" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="button-burger_color" />
+                            <path d="M4 24H28" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="button-burger_color" />
+                        </svg>
+                    </button>
+                    <div className="start-page__language-wrap">
+                        <span href='#' className="start-page__language" onClick={(e) => handleClickLinkLanguage(e)}>{language}</span>
+                    </div>
+                </div>
                 <div className="start-page__reservation">
                     <div className="start-page__header">
                         <h4 className="start-page__heading-h4 start-page__heading-h4_padding">Need for drive</h4>

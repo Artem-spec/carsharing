@@ -4,16 +4,24 @@ $color-gray-dark: #999999;
 $color-gray-light: #eeeeee;
 
 .burger__item {
-    font-weight: 500;
-    font-size: 32px;
-    line-height: 37px;
-    a {
-        color: $color-gray-light;
-    }
-    a:hover {
-        color: $color-green;
-    }
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 37px;
+  a {
+    color: $color-gray-light;
+  }
+  a:hover {
+    color: $color-green;
+  }
 }
 .burger__item:not(:first-child) {
-    padding-top: 10px;
+  padding-top: 10px;
+}
+
+@media (max-width: 320px) {
+  .burger__item {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+  }
 }
