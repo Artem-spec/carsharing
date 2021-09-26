@@ -1,22 +1,25 @@
-import './burgerList.scss';
+import styles from './burgerList.module.scss';
 import { useTranslation } from 'react-i18next';
+import classnamesBind from 'classnames/bind';
 
-export default function BurgerList() {
+const BurgerList = () => {
+    const classnames = classnamesBind.bind(styles);
     const { t } = useTranslation();
     return (
-        <ul className="burger__list">
-            <li className="burger__item">
-                <a href="#">{t('Menu.1')}</a>
+        <ul className={classnames('burger__list')}>
+            <li className={classnames('burger__item')}>
+                <a href="#parking">{t('Menu.1')}</a>
             </li>
-            <li className="burger__item">
-                <a href="#">{t('Menu.2')}</a>
+            <li className={classnames('burger__item')}>
+                <a href="#insurance">{t('Menu.2')}</a>
             </li>
-            <li className="burger__item">
-                <a href="#">{t('Menu.3')}</a>
+            <li className={classnames('burger__item')}>
+                <a href="#petrol">{t('Menu.3')}</a>
             </li>
-            <li className="burger__item">
-                <a href="#">{t('Menu.4')}</a>
+            <li className={classnames('burger__item')}>
+                <a href="#service">{t('Menu.4')}</a>
             </li>
         </ul>
     )
 }
+export default BurgerList;

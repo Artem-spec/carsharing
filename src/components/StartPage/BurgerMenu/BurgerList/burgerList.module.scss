@@ -1,7 +1,4 @@
-$color-green: #0ec261;
-$color-black-basic: #121212;
-$color-gray-dark: #999999;
-$color-gray-light: #eeeeee;
+@import "../../../../styles/global.scss";
 
 .burger__item {
   font-weight: 500;
@@ -18,7 +15,7 @@ $color-gray-light: #eeeeee;
   padding-top: 10px;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 767px) {
   .burger__item {
     font-weight: 500;
     font-size: 24px;

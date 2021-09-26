@@ -1,7 +1,4 @@
-$color-green: #0ec261;
-$color-black-basic: #121212;
-$color-gray-dark: #999999;
-$color-gray-light: #eeeeee;
+@import "../../../styles/global.scss";
 
 .burger {
   height: 100vh;
@@ -17,10 +14,10 @@ $color-gray-light: #eeeeee;
   z-index: 5;
   pointer-events: none; //Для того чтобы не мешал opacity
   .burger__content {
-    width: 53%;
+    width: 54%;
     height: inherit;
     position: relative;
-    background-color: black;
+    background-color: $color-black;
     .burger__close {
       position: absolute;
       top: 40px;
@@ -35,9 +32,8 @@ $color-gray-light: #eeeeee;
       flex-direction: column;
     }
     .burger__menu-magrin {
-      // margin: 307px 64px 0 128px;
     }
-    .burger__menu__language-wrap {
+    .burger__language-wrap {
       position: absolute;
       bottom: 0;
       width: 40px;
@@ -45,27 +41,27 @@ $color-gray-light: #eeeeee;
       margin-bottom: 32px;
       display: none;
 
-      .burger__menu__language {
+      .burger__language {
         font-weight: 700;
         font-size: 13px;
         line-height: 15px;
         text-decoration: initial;
-        color: #0ec261;
+        color: $color-green;
         cursor: pointer;
       }
     }
-    .burger__menu__language-wrap:hover,
-    .burger__menu__language-wrap:active {
-      border: 1px solid white;
+    .burger__language-wrap:hover,
+    .burger__language-wrap:active {
+      border: 1px solid $color-white;
       border-radius: 50%;
     }
-    .burger__menu__language-wrap:hover {
-      .burger__menu__language {
+    .burger__language-wrap:hover {
+      .burger__language {
         color: $color-gray-light;
       }
     }
-    .burger__menu__language-wrap:active {
-      .burger__menu__language {
+    .burger__language-wrap:active {
+      .burger__language {
         color: $color-green;
       }
     }
@@ -77,24 +73,23 @@ $color-gray-light: #eeeeee;
   pointer-events: all;
 }
 
-@media (max-width: 1440px) {
-}
 
-@media (max-width: 1024px) {
+
+@media (max-width: 1439px) {
   .burger {
     .burger__content {
-      width: 614px;
+      width: 60%;
     }
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .burger .burger__content {
     width: 100%;
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 767px) {
   .burger {
     .burger__content {
       display: flex;
@@ -111,7 +106,7 @@ $color-gray-light: #eeeeee;
         margin-top: 79px;
         margin-left: 36px;
       }
-      .burger__menu__language-wrap {
+      .burger__language-wrap {
         display: flex;
         margin: 23px;
       }

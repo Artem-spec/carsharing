@@ -1,7 +1,4 @@
-$color-green: #0ec261;
-$color-black-basic: #121212;
-$color-gray-dark: #999999;
-$color-gray-light: #eeeeee;
+@import "../../../styles/global.scss";
 
 .modal-city {
     height: 100vh;
@@ -23,7 +20,7 @@ $color-gray-light: #eeeeee;
         width: 300px;
         height: 200px;
         border-radius: 10px;
-        background-color: #ffffff;
+        background-color: $color-white;
         .modal-city__label {
             font-size: 14px;
             line-height: 16px;
@@ -40,7 +37,7 @@ $color-gray-light: #eeeeee;
             height: 80%;
             padding: 0;
             margin: 10px 0;
-            border: 1px solid #eeeeee;
+            border: 1px solid $color-gray-light;
         }
         .modal-city__item {
             font-size: 14px;

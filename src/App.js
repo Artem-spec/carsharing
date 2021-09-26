@@ -1,19 +1,15 @@
-import React, { Suspense } from 'react';
-import './App.css';
+import React from 'react';
 import { Switch, Route, useLocation } from "react-router-dom";
 import StartPage from './components/StartPage/StartPage';
 import './i18n';
 
-function App() {
-  let location = useLocation();
-  let background = location.state && location.state.background;
-  
+const App = () => {
+  const location = useLocation();
+  const background = location.state && location.state.background;
   return (
-    <Suspense fallback="loading">
       <Switch location={background || location}>
         <Route exact path="/carsharing" children={<StartPage />} />
       </Switch>
-    </Suspense>
 
   );
 }

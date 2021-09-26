@@ -1,3 +1,5 @@
+@import "../../../styles/global.scss";
+
 .slider {
   position: relative;
   width: 50%;
@@ -16,7 +18,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+    background: $background-blackout;
     mix-blend-mode: normal;
     z-index: 4;
   }
@@ -30,7 +32,7 @@
   z-index: 1;
   width: 10%;
   height: 100%;
-  background: rgba(14, 194, 97, 0);
+  // background: rgba(14, 194, 97, 0);
   cursor: pointer;
 }
 .slider__slide-prev:hover,
@@ -45,7 +47,7 @@
 }
 .slider__image {
   background-size: contain;
-  width: 100%;
+  // width: 100%;
   height: 100vh;
 }
 .slider-img-prev {
@@ -61,7 +63,7 @@
   font-weight: 500;
   font-size: 18px;
   line-height: 21px;
-  color: white;
+  color: $color-white;
   border: none;
   cursor: pointer;
   border-radius: 4px;
@@ -70,47 +72,49 @@
   margin-top: 32px;
 }
 .slider__button-parking {
-  background: linear-gradient(90deg, #13493f 0%, #0c7b1b 100%);
+  background: $background-btn-green;
 }
 .slider__button-parking:hover {
-  background: linear-gradient(90deg, #0b3f35 0%, #086314 100%);
+  background: $background-btn-green-hover;
 }
 .slider__button-parking:active {
-  background: linear-gradient(90deg, #093a30 0%, #065710 100%);
+  background: $background-btn-green-active;
 }
 
 .slider__button-insurance {
-  background: linear-gradient(90deg, #132949 0%, #0c7b67 100%);
+  background: $background-btn-blue;
 }
 .slider__button-insurance:hover {
-  background: linear-gradient(90deg, #112542 0%, #075042 100%);
+  background: $background-btn-blue-hover;
 }
 .slider__button-insurance:active {
-  background: linear-gradient(90deg, #10223d 0%, #064136 100%);
+  background: $background-btn-blue-active;
 }
 
 .slider__button-petrol {
-  background: linear-gradient(90deg, #493013 0%, #7b0c3b 100%);
+  background: $background-btn-red;
 }
 .slider__button-petrol:hover {
-  background: linear-gradient(90deg, #3d280f 0%, #680a31 100%);
+  background: $background-btn-red-hover;
 }
 .slider__button-petrol:active {
-  background: linear-gradient(90deg, #33210d 0%, #61092d 100%);
+  background: $background-btn-red-active;
 }
 
 .slider__button-service {
-  background: linear-gradient(90deg, #281349 0%, #720c7b 100%);
+  background: $background-btn-purple;
 }
 .slider__button-service:hover {
-  background: linear-gradient(90deg, #241142 0%, #5b0963 100%);
+  background: $background-btn-purple-hover;
 }
 .slider__button-service:active {
-  background: linear-gradient(90deg, #210f3d 0%, #4a0850 100%);
+  background: $background-btn-purple-active;
 }
 
 .slider__group-description {
   position: absolute;
+  // margin: 0 55px 0 69px;
+  // top: 25%;
   top: 0;
   left: 0;
   z-index: 4;
@@ -121,14 +125,14 @@
   font-weight: 500;
   font-size: 40px;
   line-height: 47px;
-  color: #ffffff;
+  color: $color-white;
 }
 
 .slider__description {
   font-weight: 300;
   font-size: 24px;
   line-height: 90%;
-  color: #eeeeee;
+  color: $color-gray-light;
   padding-top: 8px;
 }
 
@@ -145,24 +149,23 @@
   width: 8px;
   height: 8px;
   margin: 0 5px;
-  background-color: white;
+  background-color: $color-white;
   border-radius: 50%;
 }
 .slider__circle:hover {
-  background-color: #0ec261;
+  background-color: $color-green;
 }
 .slider__circle-active {
-  background-color: #0ec261;
+  background-color: $color-green;
 }
 
-@media (max-width: 1440px) {
-  .slider__group-description {
-    margin: 0 55px 0 69px;
-    top: 25%;
-  }
-}
+// @media (max-width: 1440px) {
+//   .slider__group-description {
 
-@media (max-width: 1024px) {
+//   }
+// }
+
+@media (max-width: 1439px) {
   .slider__header {
     font-weight: 500;
     font-size: 32px;
@@ -184,12 +187,38 @@
   .slider__slide-next {
     width: 32px;
   }
-  .slider__image {
-    width: 498px;
-  }
+  // .slider__image {
+  //   width: 498px;
+  // }
 }
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .slider {
     display: none;
   }
+}
+@media (max-height: 810px) {
+  .slider__image {
+    width: 100%;
+  }
+}
+
+.slider-position-img {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.slider-wrapper {
+  width: 100%;
+  height: 100vh;
+  border: 5px solid #515151;
+  margin: 1em 2em;
+  float: left;
+}
+.slider-position-img img {
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  flex-shrink: 0;
 }

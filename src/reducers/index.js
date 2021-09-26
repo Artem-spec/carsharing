@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import LanguageReducers from './language';
-import cityReducers from './city';
+import cityReducers from './citys';
+import languageReducers from "./language";
 
 const allReducers = combineReducers({
-    language: LanguageReducers,
-    city: cityReducers
+    citys: cityReducers,
+    language: languageReducers
 });
 
 export default allReducers;

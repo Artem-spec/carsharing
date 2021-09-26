@@ -1,22 +1,31 @@
 import { useState } from 'react';
-import { connect } from 'react-redux';
+import { useSelector} from 'react-redux';
 import SimpleBar from 'simplebar-react';
 import { useTranslation } from 'react-i18next';
+// import classnames from 'classnames';
+import classnamesBind from 'classnames/bind';
 import 'simplebar/dist/simplebar.min.css';
-import './selectCity.scss';
-
-function SelectCity(props) {
-    let citysList = props.city[props.language];
+import styles from './selectCity.module.scss';
+const SelectCity = (props) => {
+    const {
+        active,
+        setActive,
+        setCity,
+        language
+    } = props;
+    const citysList = useSelector((state) => state.citys[language]);
+    console.log(citysList);
     const [citys, setCitys] = useState(citysList);
     const { t } = useTranslation();
+    const classnames = classnamesBind.bind(styles);
 
     function handleClick(e) {
-        props.setCity(e.target.innerText);
-        props.setActive(false);
+        setCity(e.target.innerText);
+        setActive(false);
     }
 
     function handleChange(event) {
-        let filterCity = citysList.filter(item => {
+        const filterCity = citysList.filter(item => {
             let value = event.target.value.toLowerCase().trim();
             let city = item.toLowerCase().trim();
             if (city.startsWith(value))
@@ -28,22 +37,21 @@ function SelectCity(props) {
         setCitys(filterCity);
     }
 
-
     return (
-        <div className={props.active ? "modal-city active" : "modal-city"} onClick={() => { props.setActive(false); }}>
-            <div className="modal-city__content" onClick={(e) => e.stopPropagation()}>
-                <label className="modal-city__label modal-city__label_padding" htmlFor="modal-city__input">{t('City.1')}</label>
-                <input className="modal-city__input" id="modal-city__input" type="search" placeholder={t('City.2')} onChange={(event) => handleChange(event)}></input>
-                <ul className="modal-city__list">
+        <div className={classnames('modal-city', { active })} onClick={() => { setActive(false); }}>
+            <div className={classnames('modal-city__content')} onClick={(e) => e.stopPropagation()}>
+                <label className={classnames('modal-city__label', 'modal-city__label_padding')} htmlFor="modalCity__input">{t('City.1')}</label>
+                <input className={classnames('modal-city__input')} id="modalCity__input" type="search" placeholder={t('City.2')} onChange={(event) => handleChange(event)}></input>
+                <ul className={classnames('modal-city__list')}>
                     <SimpleBar style={{ height: '100%' }}>
                         {citys.map((city) =>
-                            <li key={city} className="modal-city__item" onClick={(e) => handleClick(e)}>{city}</li>
+                            <li key={city} className={classnames('modal-city__item')} onClick={(e) => handleClick(e)}>{city}</li>
                         )}
                     </SimpleBar>
                 </ul>
                 <svg
-                    className="modal-city__close"
-                    onClick={() => { props.setActive(false); }}
+                    className={classnames('modal-city__close')}
+                    onClick={() => { setActive(false); }}
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
@@ -61,10 +69,4 @@ function SelectCity(props) {
     )
 }
 
-function mapStateToProps(state) {
-    return {
-        city: state.city
-    }
-}
-
-export default connect(mapStateToProps)(SelectCity);
+export default SelectCity;

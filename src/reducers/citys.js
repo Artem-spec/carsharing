@@ -1,9 +1,4 @@
-export default function () {
-    return {
-        Eng: citysRus,
-        Рус: citysEng
-    }
-}
+
 const citysRus = [
     'Астрахань', 'Абакан', 'Анапа', 'Азов', 'Ангарск',
     'Барнаул', 'Белгород', 'Батайск', 'Брянск', 'Бор',
@@ -65,3 +60,10 @@ const citysEng = [
     'Yuzhno-Sakhalinsk', 'Yurga',
     'Yakutsk', 'Yalta', 'Yaroslavl'
 ]
+const city = () => {
+    return {
+        Eng: citysRus,
+        Рус: citysEng
+    }
+}
+export default city;

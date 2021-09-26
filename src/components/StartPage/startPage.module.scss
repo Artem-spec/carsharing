@@ -1,7 +1,4 @@
-$color-black-basic: #121212;
-$color-green: #0ec261;
-$color-gray-dark: #999999;
-$color-gray-light: #eeeeee;
+@import "../../styles/global.scss";
 
 .start-page {
   display: flex;
@@ -17,7 +14,7 @@ $color-gray-light: #eeeeee;
   justify-content: space-between;
   width: 6%;
   height: 100vh;
-  background-color: #151b1f;
+  background-color: $color-menu-start-page;
 
   .start-page__language-wrap {
     width: 40px;
@@ -32,13 +29,14 @@ $color-gray-light: #eeeeee;
       font-size: 13px;
       line-height: 15px;
       text-decoration: initial;
-      color: #0ec261;
+      color: $color-green;
       cursor: pointer;
     }
   }
   .start-page__language-wrap:hover,
   .start-page__language-wrap:active {
-    border: 1px solid white;
+    border: 1px solid $color-gray-light;
+    box-sizing: border-box;
     border-radius: 50%;
   }
   .start-page__language-wrap:hover {
@@ -55,12 +53,11 @@ $color-gray-light: #eeeeee;
     margin-top: 40px;
     border: none;
     background-color: initial;
-    outline: blue;
     cursor: pointer;
   }
 }
 .button-burger_color {
-  stroke: white;
+  stroke: $color-gray-light;
 }
 
 .start-page__wrap {
@@ -109,7 +106,7 @@ $color-gray-light: #eeeeee;
 }
 
 .button {
-  color: #ffffff;
+  color: $color-white;
   border-radius: 4px;
   font-weight: 500;
   font-size: 18px;
@@ -179,25 +176,7 @@ $color-gray-light: #eeeeee;
     color: $color-green;
   }
 }
-@media (max-width: 1440px) {
-  .start-page__menu {
-    width: 64px;
-    .button-burger {
-      margin-top: 32px;
-    }
-    .start-page__language-wrap {
-      margin-bottom: 21px;
-    }
-  }
-
-  .start-page__reservation {
-    width: 695px;
-    .start-page__main {
-      margin-bottom: 60px;
-    }
-  }
-}
-@media (max-width: 1024px) {
+@media (max-width: 1439px) {
   .start-page__menu {
     width: 65px;
     .button-burger {
@@ -209,7 +188,6 @@ $color-gray-light: #eeeeee;
   }
 
   .start-page__reservation {
-    width: 621px;
     padding: 32px 35px;
     .start-page__main {
       margin-bottom: 61px;
@@ -220,7 +198,7 @@ $color-gray-light: #eeeeee;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .start-page__menu {
     min-width: 67px;
     .start-page__language-wrap {
@@ -232,18 +210,6 @@ $color-gray-light: #eeeeee;
     padding: 20px 10px 20px 10px;
     .start-page__main {
       margin-bottom: 15%;
-      .start-page__heading-h1 {
-        font-size: 32px;
-        line-height: 100%;
-      }
-      .start-page__heading-h2 {
-        font-size: 32px;
-        line-height: 100%;
-      }
-      .start-page__description {
-        font-weight: 300;
-        font-size: 18px;
-      }
       .start-page__button-reservation_margin {
         margin-top: 10%;
       }
@@ -251,12 +217,12 @@ $color-gray-light: #eeeeee;
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 767px) {
   .start-page {
     width: 100%;
   }
   .button-burger_color {
-    stroke: black;
+    stroke: $color-black;
   }
   .start-page__menu {
     position: absolute;
@@ -292,7 +258,6 @@ $color-gray-light: #eeeeee;
         font-size: 32px;
         line-height: 100%;
         margin: 0 15px;
-        // margin-top: 50px;
       }
       .start-page__description {
         font-weight: 300;
@@ -341,8 +306,6 @@ $color-gray-light: #eeeeee;
 }
 @media (max-height: 538px) {
   .start-page__reservation {
-    .start-page__header {
-    }
     .start-page__main {
       .start-page__heading-h1 {
         font-size: 32px;
@@ -361,7 +324,7 @@ $color-gray-light: #eeeeee;
     }
   }
 }
-@media (max-height: 400px) {
+@media (max-height: 437px) {
   .start-page__wrap {
     height: max-content;
   }

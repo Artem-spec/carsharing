@@ -9,7 +9,7 @@ import './i18n';
 import { Provider } from 'react-redux';
 
 const store = createStore(allReducers);
-console.log(store );
+
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
