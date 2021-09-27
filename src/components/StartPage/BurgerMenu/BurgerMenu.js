@@ -45,17 +45,19 @@ const BurgerMenu = (props) => {
           />
         </svg>
         <div className={classnames("burger__menu", "burger__menu-magrin")}>
-          <BurgerList />
-          <SocialNetworks />
-        </div>
-        <div className={classnames("burger__language-wrap")}>
-          <span
-            href="#"
-            className={classnames("burger__language")}
-            onClick={(e) => setLenguage(e)}
-          >
-            {language}
-          </span>
+          <div>
+            <BurgerList />
+            <SocialNetworks />
+          </div>
+          <div className={classnames("burger__language-wrap")}>
+            <span
+              href="#"
+              className={classnames("burger__language")}
+              onClick={(e) => setLenguage(e)}
+            >
+              {language}
+            </span>
+          </div>
         </div>
       </div>
     </div>
