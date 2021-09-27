@@ -159,12 +159,6 @@
   background-color: $color-green;
 }
 
-// @media (max-width: 1440px) {
-//   .slider__group-description {
-
-//   }
-// }
-
 @media (max-width: 1439px) {
   .slider__header {
     font-weight: 500;
@@ -187,9 +181,6 @@
   .slider__slide-next {
     width: 32px;
   }
-  // .slider__image {
-  //   width: 498px;
-  // }
 }
 @media (max-width: 1023px) {
   .slider {
