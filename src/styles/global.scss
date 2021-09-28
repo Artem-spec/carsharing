@@ -1,0 +1,26 @@
+$color-black-basic: #121212;
+$color-green: #0ec261;
+$color-gray-dark: #999999;
+$color-gray-light: #eeeeee;
+$color-menu-start-page: #151b1f;
+$color-white: #ffffff;
+$color-black: #000000;
+
+$background-blackout: linear-gradient(
+  180deg,
+  rgba(0, 0, 0, 0) 0%,
+  #000000 100%
+);
+
+$background-btn-green: linear-gradient(90deg, #13493f 0%, #0c7b1b 100%);
+$background-btn-green-hover: linear-gradient(90deg, #0b3f35 0%, #086314 100%);
+$background-btn-green-active: linear-gradient(90deg, #093a30 0%, #065710 100%);
+$background-btn-blue: linear-gradient(90deg, #132949 0%, #0c7b67 100%);
+$background-btn-blue-hover: linear-gradient(90deg, #112542 0%, #075042 100%);
+$background-btn-blue-active: linear-gradient(90deg, #10223d 0%, #064136 100%);
+$background-btn-red: linear-gradient(90deg, #493013 0%, #7b0c3b 100%);
+$background-btn-red-hover: linear-gradient(90deg, #3d280f 0%, #680a31 100%);
+$background-btn-red-active: linear-gradient(90deg, #33210d 0%, #61092d 100%);
+$background-btn-purple: linear-gradient(90deg, #281349 0%, #720c7b 100%);
+$background-btn-purple-hover: linear-gradient(90deg, #241142 0%, #5b0963 100%);
+$background-btn-purple-active: linear-gradient(90deg, #210f3d 0%, #4a0850 100%);
