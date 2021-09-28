@@ -1,11 +1,16 @@
-import './App.css';
+import React from "react";
+import { Switch, Route, useLocation } from "react-router-dom";
+import "./i18n";
+import StartPage from "./components/StartPage/StartPage";
 
-function App() {
+const App = () => {
+  const location = useLocation();
+  const background = location.state && location.state.background;
   return (
-    <div className="App">
-      <h1>Hello World</h1>
-    </div>
+    <Switch location={background || location}>
+      <Route exact path="/carsharing" children={<StartPage />} />
+    </Switch>
   );
-}
+};
 
 export default App;

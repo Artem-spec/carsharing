@@ -1,0 +1,215 @@
+@import "../../../styles/global.scss";
+
+.slider {
+  position: relative;
+  width: 50%;
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: hidden;
+
+  .slider__turn-over {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: $background-blackout;
+    mix-blend-mode: normal;
+    z-index: 4;
+  }
+}
+.slider__slide-prev,
+.slider__slide-next {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  width: 10%;
+  height: 100%;
+  // background: rgba(14, 194, 97, 0);
+  cursor: pointer;
+}
+.slider__slide-prev:hover,
+.slider__slide-next:hover {
+  background: rgba(14, 194, 97, 0.2);
+}
+.slider-img {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  transition: all 0.2s;
+}
+.slider__image {
+  background-size: contain;
+  // width: 100%;
+  height: 100vh;
+}
+.slider-img-prev {
+  transform: translateX(-100%);
+}
+
+.slider-img-next {
+  transform: translateX(100%);
+}
+.slider__button {
+  width: 164px;
+  height: 48px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: $color-white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.slider__button_margin {
+  margin-top: 32px;
+}
+.slider__button-parking {
+  background: $background-btn-green;
+}
+.slider__button-parking:hover {
+  background: $background-btn-green-hover;
+}
+.slider__button-parking:active {
+  background: $background-btn-green-active;
+}
+
+.slider__button-insurance {
+  background: $background-btn-blue;
+}
+.slider__button-insurance:hover {
+  background: $background-btn-blue-hover;
+}
+.slider__button-insurance:active {
+  background: $background-btn-blue-active;
+}
+
+.slider__button-petrol {
+  background: $background-btn-red;
+}
+.slider__button-petrol:hover {
+  background: $background-btn-red-hover;
+}
+.slider__button-petrol:active {
+  background: $background-btn-red-active;
+}
+
+.slider__button-service {
+  background: $background-btn-purple;
+}
+.slider__button-service:hover {
+  background: $background-btn-purple-hover;
+}
+.slider__button-service:active {
+  background: $background-btn-purple-active;
+}
+
+.slider__group-description {
+  position: absolute;
+  // margin: 0 55px 0 69px;
+  // top: 25%;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  margin: 237px 183px 0 96px;
+}
+
+.slider__header {
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 47px;
+  color: $color-white;
+}
+
+.slider__description {
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 90%;
+  color: $color-gray-light;
+  padding-top: 8px;
+}
+
+.slider__slide-circle {
+  display: flex;
+  flex-direction: row;
+  height: max-content;
+  position: relative;
+  margin-bottom: 20px;
+  z-index: 5;
+  cursor: pointer;
+}
+.slider__circle {
+  width: 8px;
+  height: 8px;
+  margin: 0 5px;
+  background-color: $color-white;
+  border-radius: 50%;
+}
+.slider__circle:hover {
+  background-color: $color-green;
+}
+.slider__circle-active {
+  background-color: $color-green;
+}
+
+@media (max-width: 1439px) {
+  .slider__header {
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 37px;
+  }
+  .slider__description {
+    font-weight: 300;
+    font-size: 22px;
+    line-height: 100%;
+  }
+  .slider__group-description {
+    margin: 0 55px 0 69px;
+    top: 15%;
+  }
+  .slider__slide-circle {
+    margin-top: 728px;
+  }
+  .slider__slide-prev,
+  .slider__slide-next {
+    width: 32px;
+  }
+}
+@media (max-width: 1023px) {
+  .slider {
+    display: none;
+  }
+}
+@media (max-height: 810px) {
+  .slider__image {
+    width: 100%;
+  }
+}
+
+.slider-position-img {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.slider-wrapper {
+  width: 100%;
+  height: 100vh;
+  border: 5px solid #515151;
+  margin: 1em 2em;
+  float: left;
+}
+.slider-position-img img {
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  flex-shrink: 0;
+}

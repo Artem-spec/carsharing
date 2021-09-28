@@ -1,0 +1,131 @@
+@import "../../../styles/global.scss";
+
+.burger {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: left;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 5;
+  pointer-events: none; //Для того чтобы не мешал opacity
+  .burger__content {
+    width: 54%;
+    height: inherit;
+    position: relative;
+    background-color: $color-black;
+    .burger__close {
+      position: absolute;
+      top: 40px;
+      left: 24px;
+      cursor: pointer;
+    }
+    .burger__menu {
+      position: absolute;
+      top: 20%;
+      left: 10%;
+      display: flex;
+      flex-direction: column;
+    }
+    .burger__menu-magrin {
+    }
+    .burger__language-wrap {
+      position: absolute;
+      bottom: 0;
+      width: 40px;
+      height: 40px;
+      margin-bottom: 32px;
+      display: none;
+
+      .burger__language {
+        font-weight: 700;
+        font-size: 13px;
+        line-height: 15px;
+        text-decoration: initial;
+        color: $color-green;
+        cursor: pointer;
+      }
+    }
+    .burger__language-wrap:hover,
+    .burger__language-wrap:active {
+      border: 1px solid $color-white;
+      border-radius: 50%;
+    }
+    .burger__language-wrap:hover {
+      .burger__language {
+        color: $color-gray-light;
+      }
+    }
+    .burger__language-wrap:active {
+      .burger__language {
+        color: $color-green;
+      }
+    }
+  }
+}
+
+.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+@media (max-width: 1439px) {
+  .burger {
+    .burger__content {
+      width: 60%;
+    }
+  }
+}
+
+@media (max-width: 1023px) {
+  .burger .burger__content {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .burger {
+    .burger__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .burger__menu {
+        height: 100vh;
+        position: relative;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .burger__menu-magrin {
+        margin-top: 79px;
+        margin-left: 36px;
+      }
+      .burger__language-wrap {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
+
+@media (max-height: 380px) {
+  .burger {
+    .burger__content {
+      .burger__menu {
+        flex-direction: row;
+        justify-content: flex-start;
+      }
+      .burger__language-wrap {
+        margin: 0 30px;
+      }
+    }
+  }
+}
