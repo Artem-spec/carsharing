@@ -1,0 +1,112 @@
+@import "../../styles/global.scss";
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 6%;
+  max-width: 6%;
+  // height: inherit;
+  // height: 100vh;
+  background-color: $color-menu-start-page;
+}
+.button-burger {
+  margin-top: 40px;
+  border: none;
+  background-color: initial;
+  cursor: pointer;
+}
+.button-burger_color {
+  stroke: $color-gray-light;
+}
+
+@media (max-width: 1439px) {
+  .menu {
+    min-width: 65px;
+    max-width: 65px;
+    .button-burger {
+      margin-top: 27px;
+    }
+    .language-wrap {
+      margin-bottom: 21px;
+    }
+  }
+}
+@media (max-width: 1023px) {
+  .menu {
+    min-width: 67px;
+    .language-wrap {
+      margin-bottom: 27px;
+    }
+  }
+}
+@media (max-width: 767px) {
+  .button-burger_color {
+    stroke: $color-black;
+  }
+  .menu {
+    position: absolute;
+    background-color: initial;
+    top: 0;
+    left: 0;
+    width: 62px;
+    min-width: 62px;
+    .button-burger {
+      margin-top: 15px;
+      padding: 0;
+    }
+    .language-wrap {
+      display: none;
+    }
+  }
+}
+
+// Cтили для языка
+.language-wrap {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .language {
+      font-weight: 700;
+      font-size: 13px;
+      line-height: 15px;
+      text-decoration: initial;
+      color: $color-green;
+      cursor: pointer;
+    }
+  }
+  .language-wrap:hover,
+  .language-wrap:active {
+    border: 1px solid $color-gray-light;
+    box-sizing: border-box;
+    border-radius: 50%;
+  }
+  .language-wrap:hover {
+    .language {
+      color: $color-gray-light;
+    }
+  }
+  .language-wrap:active {
+    .language {
+      color: $color-green;
+    }
+  }
+  
+  @media (max-width: 1439px) {
+    .language-wrap {
+      margin-bottom: 21px;
+    }
+  }
+  @media (max-width: 1023px) {
+    .language-wrap {
+      margin-bottom: 27px;
+    }
+  }
+  @media (max-width: 767px) {
+    .language-wrap {
+      // display: none;
+    }
+  }

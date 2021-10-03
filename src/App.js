@@ -1,15 +1,19 @@
 import React from "react";
-import { Switch, Route, useLocation } from "react-router-dom";
+import { Switch, Route, BrowserRouter, HashRouter } from "react-router-dom";
 import "./i18n";
 import StartPage from "./components/StartPage/StartPage";
+import Reservation from "./components/Reservation/Reservation";
 
 const App = () => {
-  const location = useLocation();
-  const background = location.state && location.state.background;
   return (
-    <Switch location={background || location}>
-      <Route exact path="/carsharing" children={<StartPage />} />
-    </Switch>
+    <BrowserRouter basename="/carsharing"> 
+      <Switch>
+        <Route exact path="/"  children={<StartPage />} />
+        <Route path="/reservation">
+          <Reservation />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 };
 

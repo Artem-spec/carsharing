@@ -5,7 +5,9 @@
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: nowrap;
-  height: 100vh;
+  // height: 100vh;
+  min-height: 100vh;
+  height: max-content;
 }
 .start-page__menu {
   display: flex;
@@ -59,10 +61,13 @@
 .button-burger_color {
   stroke: $color-gray-light;
 }
+.start-page__header{
+  margin:0;
+}
 
 .start-page__wrap {
   width: 100%;
-  height: 100%;
+  // height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -76,41 +81,15 @@
   box-sizing: border-box;
 }
 
-.start-page__header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  .start-page__geolocation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform: translateY(3px);
-  }
-  .start-page__city {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 16px;
-    color: $color-gray-dark;
-    cursor: pointer;
-  }
-  .start-page__city_padding {
-    padding-left: 8px;
-  }
-  .start-page__heading-h4 {
-    font-weight: 700;
-    font-size: 30px;
-    line-height: 35px;
-    color: $color-green;
-  }
-}
 
 .button {
+  display: block;
   color: $color-white;
   border-radius: 4px;
   font-weight: 500;
   font-size: 18px;
   line-height: 21px;
+  text-align: center;
 }
 
 .start-page__main {
@@ -136,6 +115,7 @@
     padding-top: 34px;
   }
   .start-page__button-reservation {
+    width: 150px;
     background: linear-gradient(90deg, #0ec261 2.61%, #039f67 112.6%);
     background-blend-mode: darken;
     border-radius: 8px;
@@ -238,16 +218,13 @@
       display: none;
     }
   }
-
+  .start-page__header{
+    margin: 45px 15px 0;
+  }
   .start-page__reservation {
     padding: 0;
-    .start-page__header {
-      flex-direction: column;
-      align-items: flex-end;
-      padding: 13px;
-    }
     .start-page__main {
-      margin-bottom: 221px;
+      margin-bottom: 10%;
       .start-page__heading-h1 {
         font-size: 32px;
         line-height: 100%;
@@ -272,7 +249,7 @@
         margin-top: 32px;
       }
       .start-page__button-reservation_padding {
-        width: 100%;
+        width: inherit;
         padding-top: 15px;
         padding-bottom: 12px;
         border-radius: initial;
@@ -329,7 +306,7 @@
     height: max-content;
   }
   .start-page__reservation {
-    height: max-content;
+    // height: max-content;
   }
   .start-page__menu {
     height: initial;
