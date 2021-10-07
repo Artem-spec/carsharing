@@ -2,21 +2,13 @@ import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import classnamesBind from "classnames/bind";
+import styles from "./language.module.scss";
 
-const Language = (props) => {
-  const { styles } = props;
-  const { language } = useSelector((state) => state); //  city, citys,
+const Language = () => {
+
+  const { language } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  // const changeCity = useCallback(
-  //   (city) =>
-
-  //     dispatch({
-  //       type: "city",
-  //       payload: city.name,
-  //     }),
-  //   [dispatch]
-  // );
   const changeLang = useCallback(
     (language) =>
       dispatch({
@@ -36,14 +28,9 @@ const Language = (props) => {
     switch (lang) {
       case lang_en:
         changeLang(lang_ru);
-        // changeCity(citys[lang_ru][cityIndex]);
-        // console.log(citys[lang_en][cityIndex]);
         break;
       case lang_ru:
         changeLang(lang_en);
-        // console.log(citys[lang_en][cityIndex]);
-        // changeCity(citys[lang_en][cityIndex]);
-
         break;
       default:
         break;
@@ -53,7 +40,6 @@ const Language = (props) => {
   const classnames = classnamesBind.bind(styles);
 
   return (
-    <div className={classnames("language-wrap")}>
       <span
         href="#"
         className={classnames("language")}
@@ -61,7 +47,6 @@ const Language = (props) => {
       >
         {language}
       </span>
-    </div>
   );
 };
 

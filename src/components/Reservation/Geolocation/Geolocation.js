@@ -1,18 +1,39 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { YMaps, Map, Clusterer, Placemark } from "react-yandex-maps";
 import { useSelector, useDispatch } from "react-redux";
 import SimpleBar from "simplebar-react";
 import classnamesBind from "classnames/bind";
 import styles from "./geolocation.module.scss";
+import YandexMap from "./YandexMap/YandexMap";
+import { headerGet } from "../../../constants/headerGetAPI";
 
-const filterCastom = (value, array, setArray) => {
+const filterCastom = (value, array, setArray, field) => {
   const filterCity = array.filter((item) => {
     const valueFilter = value.toLowerCase().trim();
-    const city = item.toLowerCase().trim();
+    const city = item[field].toLowerCase().trim();
     if (city.startsWith(valueFilter)) return true;
     else return false;
   });
   setArray(filterCity);
+};
+
+const resultApi = async (path, setItems, setAddress, setCity) => {
+  const response = await fetch(
+    `https://api-factory.simbirsoft1.com/api/db/${path}`,
+    headerGet
+  ).then((res) => res.json());
+  if (path === "point") {
+    const newArr = response.data.filter((item) => {
+      if (item.cityId !== null) {
+        return true;
+      }
+      return false;
+    });
+    setItems(newArr);
+    setAddress(newArr);
+  } else {
+    setItems(response.data);
+    setCity(response.data);
+  }
 };
 
 const Geolocation = (props) => {
@@ -33,38 +54,54 @@ const Geolocation = (props) => {
     [dispatch]
   );
 
-  const classnames = classnamesBind.bind(styles);
-  const { city, citys, language } = useSelector((state) => state); //  order
-  // Заполнение массивов значений
-  const citysListArr = [];
-  const addressListArr = [];
-  const addressMap = []; //Сразу выводим весь список меток на карту
-  for (const city of citys[language]) {
-    citysListArr.push(city.name);
-    for (const address of city.address) {
-      addressListArr.push(address.descr);
-      addressMap.push(address);
-    }
-  }
+  const resetGeolocation = useCallback(
+    () =>
+      dispatch({
+        type: "geolocation",
+        payload: "",
+      }),
+    [dispatch]
+  );
 
+  const changeDefCoords = useCallback(
+    (obj) =>
+      dispatch({
+        type: "defCoords",
+        payload: obj,
+      }),
+    [dispatch]
+  );
+
+  const changeCitys = useCallback(
+    (obj) =>
+      dispatch({
+        type: "citys",
+        payload: obj,
+      }),
+    [dispatch]
+  );
+  const changeAddress = useCallback(
+    (obj) =>
+      dispatch({
+        type: "address",
+        payload: obj,
+      }),
+    [dispatch]
+  );
+  const classnames = classnamesBind.bind(styles);
+  const { city, order, addressAPI, citysAPI } = useSelector((state) => state);
   // Список всех городов (фильтруется во время ввода)
-  const [citysList, setCitysList] = useState(citysListArr);
+  const [citysList, setCitysList] = useState([]);
   // Список всех адресов (фильтруется во время ввода)
-  const [addressList, setAddressList] = useState(addressListArr);
+  const [addressList, setAddressList] = useState([]);
   // Выподающий список городов (индикатор)
   const [selectCity, setSelectCity] = useState(false);
   // Выподающий список адресов (индикатор)
   const [selectAddress, setSelectAddress] = useState(false);
   // Город который попадает в input
-  const [cityInput, setCityInput] = useState("");
+  const [cityInput, setCityInput] = useState(city.name);
   // Адресс который попадает в input
   const [addressInput, setAddressInput] = useState("");
-  // Для карты
-  const [ymaps, setYmaps] = useState(null);
-  const [defCoords, setDefCoords] = useState({
-    center: city.center,
-    zoom: city.zoom,
-  });
 
   useEffect(() => {
     setButtonDisabled(true);
@@ -78,52 +115,64 @@ const Geolocation = (props) => {
     setActiveTotal,
   ]);
 
-  // useEffect(()=>{
-  //   for (const city of citys[language]) {
-  //     if (order.squeezePoint.startsWith(city.name)) {
-  //       setCityInput(city.name);
-  //       for (const address of city.address) {
-  //         if (order.squeezePoint.endsWith(address.descr)) {
-  //           setAddressInput(address.descr);
-  //           // setButtonDisabled(false);
-  //         }
-  //       }
-  //     }
+  useEffect(() => {
+    resultApi("city", setCitysList, changeAddress, changeCitys);
+    resultApi("point", setAddressList, changeAddress, changeCitys);
+    if (order.squeezePoint) {
+      let nameCoord = "";
+      for (const city of citysAPI) {
+        if (order.squeezePoint.startsWith(city.name)) {
+          setCityInput(city.name);
+          for (const address of addressAPI) {
+            if (order.squeezePoint.endsWith(address.address)) {
+              setAddressInput(address.address);
+              nameCoord = `${city.name}, ${address.address}`;
+            }
+          }
+        }
+      }
+      changeDefCoords({
+        name: nameCoord,
+        zoom: 15,
+      });
+    } else {
+      changeDefCoords({
+        name: city.name,
+        zoom: 10,
+      });
+    }
+  }, []);
 
-  //   }
-  // },[order, citys, language])
-  // ------------------------------------------------------------------
-  // Изменение пункта выдачи
-  // ------------------------------------------------------------------
-  const addGeoInOrder = (cityNew, addressNew) => {
-    // Если у нас два поля заполнены, то добавляем их в заказ
-    if (cityNew !== "" && addressNew !== "") {
-      for (const city of citys[language]) {
-        if (city.name === cityNew) {
-          for (const address of city.address) {
-            if (address.descr === addressNew) {
-              changeGeolocation(cityNew, addressNew);
+  useEffect(() => {
+    setButtonDisabled(true);
+    if (cityInput !== "" && addressInput !== "") {
+      for (const city of citysAPI) {
+        if (city.name === cityInput) {
+          for (const address of addressAPI) {
+            if (address.address === addressInput) {
+              changeGeolocation(cityInput, addressInput);
               setButtonDisabled(false);
             }
           }
         }
       }
     }
-  };
+  }, [
+    cityInput,
+    addressInput,
+    changeGeolocation,
+    setButtonDisabled,
+    addressAPI,
+    citysAPI,
+  ]);
   // ------------------------------------------------------------------
   // Изменение списка адресов в зависимости от города
   // ------------------------------------------------------------------
   const changeAddressList = (value, setList) => {
     const newArrAddress = [];
-    for (const city of citys[language]) {
-      if (city.name === value) {
-        setDefCoords({
-          center: city.center,
-          zoom: city.zoom,
-        });
-        for (const address of city.address) {
-          newArrAddress.push(address.descr);
-        }
+    for (const address of addressAPI) {
+      if (address.cityId.name === value) {
+        newArrAddress.push(address);
       }
     }
     setList(newArrAddress);
@@ -132,80 +181,85 @@ const Geolocation = (props) => {
   // Событие изменения города через input
   // ------------------------------------------------------------------
   const handleChangeCity = (value) => {
+    resetGeolocation();
+    setAddressInput("");
     if (value === "") {
       setButtonDisabled(true);
-      setAddressList(addressListArr);
+      setCitysList(citysAPI);
+      setAddressList(addressAPI);
       setSelectCity(false);
     } else {
       setSelectCity(true); // Открываем выпадающий список
-      filterCastom(value, citysListArr, setCitysList);
+      filterCastom(value, citysList, setCitysList, "name");
       // Проверяем , вдруг уже есть такое значение в массиве
-      for (const city of citys[language]) {
+      for (const city of citysAPI) {
         if (city.name === value) {
-          setDefCoords({
-            center: city.center,
-            zoom: city.zoom,
-          });
           setSelectCity(false);
+          changeAddressList(value, setAddressList);
         }
       }
-      changeAddressList(value, setAddressList);
     }
     setCityInput(value);
-    addGeoInOrder(value, addressInput);
   };
   // ------------------------------------------------------------------
   // Событие изменения адреса через input
   // ------------------------------------------------------------------
   const handleChangeAddress = (value) => {
+    resetGeolocation();
     if (value === "") {
       setButtonDisabled(true);
       setSelectAddress(false);
     } else {
-      filterCastom(value, addressListArr, setAddressList);
+      filterCastom(value, addressList, setAddressList, "address");
       setSelectAddress(true);
+      for (const address of addressAPI) {
+        if (address.address === value) {
+          setCityInput(address.cityId.name);
+        }
+      }
     }
     setAddressInput(value);
-    addGeoInOrder(cityInput, value);
   };
   // ------------------------------------------------------------------
   // Событие выбора города в выподающем списке
   // ------------------------------------------------------------------
-  const handleClickSelectCity = (e) => {
+  const handleClickSelectCity = (e) => {    
+    setAddressInput("");
+    changeDefCoords({
+      name: e.currentTarget.innerText,
+      zoom: 10,
+    });
     setCityInput(e.currentTarget.innerText);
     setSelectCity(false);
     changeAddressList(e.currentTarget.innerText, setAddressList);
-    addGeoInOrder(e.currentTarget.innerText, addressInput);
   };
   // ------------------------------------------------------------------
   // Событие выбора адреса в выподающем списке
   // ------------------------------------------------------------------
   const handleClickSelectAddress = (e) => {
-    setAddressInput(e.currentTarget.innerText);
+    const value = e.currentTarget.innerText;
+    setAddressInput(value);
     setSelectAddress(false);
-    for (const city of citys[language]) {
-      for (const address of city.address) {
-        if (address.descr === e.currentTarget.innerText) {
-          setCityInput(address.city);
-          addGeoInOrder(address.city, e.currentTarget.innerText);
-          setDefCoords({
-            center: address.center,
-            zoom: address.zoom,
-          });
-        }
+    for (const address of addressAPI) {
+      if (address.address === value) {
+        setCityInput(address.cityId.name);
+        const name = `${address.cityId.name}, ${e.currentTarget.innerText}`;
+        changeDefCoords({
+          name: name,
+          zoom: 15,
+        });
       }
     }
   };
 
   const handleClickPlacemark = (point, geometry) => {
     setCityInput(point.city);
-    setAddressInput(point.descr);
-    console.log(point.center + " " + point.zoom);
-    addGeoInOrder(point.city, point.descr);
+    setAddressInput(point.address);
     changeAddressList(point.city, setAddressList);
-    setDefCoords({
-      center: point.center,
-      zoom: point.zoom,
+    const nameCoords = `${point.city}, ${point.address}`;
+    changeDefCoords({
+      name: nameCoords,
+      zoom: 15,
     });
   };
 
@@ -245,17 +299,17 @@ const Geolocation = (props) => {
               "list-active": selectCity === true,
             })}
           >
-            <SimpleBar style={{ height: "100%" }}>
-              {citysList.map((item) => {
+            <SimpleBar style={{ height: "100%", maxHeight: "200px" }}>
+              {citysList.map((item, index) => {
                 return (
                   <li
-                    key={item}
+                    key={index}
                     className={classnames("item")}
                     onClick={(e) => {
                       handleClickSelectCity(e);
                     }}
                   >
-                    {item}
+                    {item.name}
                   </li>
                 );
               })}
@@ -307,7 +361,7 @@ const Geolocation = (props) => {
                       handleClickSelectAddress(e);
                     }}
                   >
-                    {item}
+                    {item.address}
                   </li>
                 );
               })}
@@ -322,34 +376,11 @@ const Geolocation = (props) => {
         Выбрать на карте:
       </label>
       <div className={classnames("geolocation__map")}>
-        <YMaps className={classnames("geolocation__map")}>
-          <Map
-            state={defCoords}
-            width={"100%"}
-            height={"100%"}
-            onLoad={(ymaps) => {
-              return setYmaps({ ymaps });
-            }}
-          >
-            <Clusterer
-              options={{
-                preset: "islands#invertedVioletClusterIcons",
-                groupByCoordinates: false,
-              }}
-            >
-              {ymaps &&
-                addressMap.map((address, index) => (
-                  <Placemark
-                    key={index}
-                    geometry={address.center}
-                    onClick={(geometry) =>
-                      handleClickPlacemark(address, geometry)
-                    }
-                  />
-                ))}
-            </Clusterer>
-          </Map>
-        </YMaps>
+        <YandexMap
+          // defCoords={defCoords}
+          address={addressAPI} // addressListAPI
+          handleClickPlacemark={handleClickPlacemark}
+        />
       </div>
     </div>
   );

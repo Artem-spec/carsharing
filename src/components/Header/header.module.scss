@@ -29,9 +29,9 @@
   }
 }
 @media (max-width: 767px) {
-  .header__header {
+  .header {
     flex-direction: column;
     align-items: flex-end;
-    padding: 13px;
+    padding-bottom: 13px;
   }
 }

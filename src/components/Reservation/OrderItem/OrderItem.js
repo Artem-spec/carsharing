@@ -10,8 +10,8 @@ const OrderItem = (props) => {
         descr
     } = props;
 
-    if (item !== '') {
         return(
+            item &&
             <div className={classnames("order-item__wrap")}>                
                 <span className={classnames("descr")}>
                     {descr}
@@ -21,8 +21,6 @@ const OrderItem = (props) => {
                 </span>
             </div>
         );
-    }
-    else return null;
    
 }
 export default OrderItem;

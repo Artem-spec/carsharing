@@ -1,24 +1,28 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import classnamesBind from "classnames/bind";
 import styles from "./header.module.scss";
 import SelectCity from "./SelectCity/SelectCity";
+import { Link } from "react-router-dom";
 
 const Header = () => {
-  const { city,  } = useSelector((state) => state); //language
+  const { city } = useSelector((state) => state); //language
   const classnames = classnamesBind.bind(styles);
   //Состояние модального окна выбора города
   const [selectCityActive, setSelectCityActive] = useState(false);
   return (
     <div className={classnames("header")}>
-      <h4
+      <Link
+        to={{
+          pathname: `/`,
+        }}
         className={classnames(
           "header__heading-h4",
           "header__heading-h4_padding"
         )}
       >
         Need for drive
-      </h4>
+      </Link>     
       <div className={classnames("header__geolocation")}>
         <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
           <path

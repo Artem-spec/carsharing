@@ -43,8 +43,6 @@ const Reservation = () => {
   const location = useLocation();
   const [burgerActive, setBurgerActive] = useState(false);
   const [selectCityActive, setSelectCityActive] = useState(false);
-
-  const [activeGeolocation, setActiveGeolocation] = useState(true);
   const [activeModel, setActiveModel] = useState(false);
   const [activeAdditionally, setActiveAdditionally] = useState(false);
   const [activeTotal, setActiveTotal] = useState(false);
@@ -56,6 +54,7 @@ const Reservation = () => {
   //-----------------------------------------------------------------
   const handleClickButton = () => {
     switch (location.pathname) {
+      
       case `${path}/geolocation`:
         document.getElementById("model").click();
         break;
@@ -75,7 +74,6 @@ const Reservation = () => {
   useEffect(() => {
     changeButtonText(location, path, setButtonText);
   }, [location, path]);
-
   return (
     <section className={classnames("reservation")}>
       <Redirect to={`${path}/geolocation`} />
@@ -100,7 +98,7 @@ const Reservation = () => {
             <Link
               to={`${url}/geolocation`}
               className={classnames("reservation__link", {
-                "reservation__link-active": activeGeolocation,
+                "reservation__link-active": true,
               })}
               onClick={() => {}}
             >

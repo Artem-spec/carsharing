@@ -50,7 +50,9 @@ const BurgerMenu = (props) => {
             <BurgerList />
             <SocialNetworks />
           </div>
-          <Language styles={styles}/>
+          <div className={classnames("language-wrap")}>
+            <Language />
+          </div>
         </div>
       </div>
     </div>

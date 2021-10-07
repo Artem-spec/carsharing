@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, BrowserRouter, HashRouter } from "react-router-dom";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 import "./i18n";
 import StartPage from "./components/StartPage/StartPage";
 import Reservation from "./components/Reservation/Reservation";

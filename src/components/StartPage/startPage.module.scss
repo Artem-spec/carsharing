@@ -219,7 +219,8 @@
     }
   }
   .start-page__header{
-    margin: 45px 15px 0;
+    margin-top: 15px;
+    padding-right: 15px;
   }
   .start-page__reservation {
     padding: 0;
@@ -304,9 +305,6 @@
 @media (max-height: 437px) {
   .start-page__wrap {
     height: max-content;
-  }
-  .start-page__reservation {
-    // height: max-content;
   }
   .start-page__menu {
     height: initial;
