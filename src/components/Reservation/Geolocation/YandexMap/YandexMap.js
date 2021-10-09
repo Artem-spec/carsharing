@@ -11,7 +11,7 @@ const YandexMap = (props) => {
     center: city.center,
     zoom: city.zoom,
   });
-  useEffect( () => () => setStateCoords({}), [] );
+  useEffect(() => () => setStateCoords({}), []);
   //-------------------------------------------------------
   //  Получение координат, массовая загрузка. Исполльзуется
   //  только в самом начале, когда получаем ymaps.
@@ -51,7 +51,7 @@ const YandexMap = (props) => {
 
   useEffect(() => {
     const getAddressAll = async () => {
-      if (ymaps !== null) {
+      if (ymaps) {
         await getCoordsMass(ymaps, address);
       }
     };
@@ -60,8 +60,8 @@ const YandexMap = (props) => {
 
   useEffect(() => {
     const getCenter = async () => {
-      if (ymaps !== null) {
-        if (order.squeezePoint === "") {
+      if (ymaps) {
+        if (!order.squeezePoint) {
           const center = await getCoords(ymaps, defCoords.name);
           setStateCoords({
             ...defCoords,

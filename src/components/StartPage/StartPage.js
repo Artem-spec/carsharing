@@ -8,7 +8,7 @@ import Menu from "./../Menu/Menu";
 import Header from "../Header/Header";
 import styles from "./startPage.module.scss";
 
-const StartPage = (props) => {
+const StartPage = () => {
   const classnames = classnamesBind.bind(styles);
   //Состояние бургер меню
   const [burgerActive, setBurgerActive] = useState(false);

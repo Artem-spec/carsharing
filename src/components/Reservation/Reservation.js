@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Route, useRouteMatch, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import classnamesBind from "classnames/bind";
@@ -7,28 +7,25 @@ import Header from "../Header/Header";
 import SelectCity from "../Header/SelectCity/SelectCity";
 import BurgerMenu from "../Menu/BurgerMenu/BurgerMenu";
 import Menu from "../Menu/Menu";
-import Geolocation from "./Geolocation/Geolocation";
-import Model from "./Model/Model";
-import Additionally from "./Additionally/Additionally";
-import Total from "./Total/Total";
+import SwitchReservation from "./SwitchReservation/SwitchReservation";
 import OrderItem from "./OrderItem/OrderItem";
 import styles from "./reservation.module.scss";
 
 //-----------------------------------------------------------------
 // Изменение текста кнопки
 //-----------------------------------------------------------------
-const changeButtonText = (location, path, setButtonText) => {
-  switch (location.pathname) {
-    case `${path}/geolocation`:
+const changeButtonText = (params, setButtonText) => {
+  switch (params) {
+    case `geolocation`:
       setButtonText("Выбрать модель");
       break;
-    case `${path}/model`:
+    case `model`:
       setButtonText("Дополнительно");
       break;
-    case `${path}/additionally`:
+    case `additionally`:
       setButtonText("Итого");
       break;
-    case `${path}/total`:
+    case `total`:
       setButtonText("Заказать");
       break;
     default:
@@ -40,31 +37,29 @@ const Reservation = () => {
   const { url, path } = useRouteMatch();
   const classnames = classnamesBind.bind(styles);
   const { order } = useSelector((state) => state);
-  const location = useLocation();
   const [burgerActive, setBurgerActive] = useState(false);
   const [selectCityActive, setSelectCityActive] = useState(false);
   const [activeModel, setActiveModel] = useState(false);
   const [activeAdditionally, setActiveAdditionally] = useState(false);
   const [activeTotal, setActiveTotal] = useState(false);
-
   const [buttonDisabled, setDisabled] = useState(true);
+  const [params, setParams] = useState("");
   const [buttonText, setButtonText] = useState("Выбрать модель");
   //-----------------------------------------------------------------
   // Изменение текста кнопки
   //-----------------------------------------------------------------
   const handleClickButton = () => {
-    switch (location.pathname) {
-      
-      case `${path}/geolocation`:
+    switch (params) {
+      case `geolocation`:
         document.getElementById("model").click();
         break;
-      case `${path}/model`:
+      case `model`:
         document.getElementById("additionally").click();
         break;
-      case `${path}/additionally`:
+      case `additionally`:
         document.getElementById("total").click();
         break;
-      case `${path}/total`:
+      case `total`:
         break;
       default:
         break;
@@ -72,8 +67,9 @@ const Reservation = () => {
   };
 
   useEffect(() => {
-    changeButtonText(location, path, setButtonText);
-  }, [location, path]);
+    changeButtonText(params, setButtonText);
+  }, [params]);
+
   return (
     <section className={classnames("reservation")}>
       <Redirect to={`${path}/geolocation`} />
@@ -173,40 +169,17 @@ const Reservation = () => {
           )}
         >
           <Route
-            path={`${path}/geolocation`}
+            path={`${path}/:id`}
             children={
-              <Geolocation
-                setButtonDisabled={setDisabled}
+              <SwitchReservation
+                setDisabled={setDisabled}
                 setActiveModel={setActiveModel}
                 setActiveAdditionally={setActiveAdditionally}
                 setActiveTotal={setActiveTotal}
+                setParams={setParams}
               />
             }
           />
-          <Route
-            path={`${path}/model`}
-            children={
-              <Model
-                setButtonDisabled={setDisabled}
-                setActiveAdditionally={setActiveAdditionally}
-                setActiveTotal={setActiveTotal}
-              />
-            }
-          />
-          <Route
-            path={`${path}/additionally`}
-            children={
-              <Additionally
-                setButtonDisabled={setDisabled}
-                setActiveTotal={setActiveTotal}
-              />
-            }
-          />
-          <Route
-            path={`${path}/total`}
-            children={<Total setButtonDisabled={setDisabled} />}
-          />
-
           <div
             className={classnames(
               "reservation__order",
@@ -244,5 +217,4 @@ const Reservation = () => {
     </section>
   );
 };
-
 export default Reservation;

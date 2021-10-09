@@ -3,37 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import SimpleBar from "simplebar-react";
 import classnamesBind from "classnames/bind";
 import styles from "./geolocation.module.scss";
+import axiosConfig from "../../../utils/axiosConfig";
 import YandexMap from "./YandexMap/YandexMap";
-import { headerGet } from "../../../constants/headerGetAPI";
 
 const filterCastom = (value, array, setArray, field) => {
   const filterCity = array.filter((item) => {
     const valueFilter = value.toLowerCase().trim();
     const city = item[field].toLowerCase().trim();
-    if (city.startsWith(valueFilter)) return true;
-    else return false;
+    return !!city.startsWith(valueFilter);
   });
   setArray(filterCity);
-};
-
-const resultApi = async (path, setItems, setAddress, setCity) => {
-  const response = await fetch(
-    `https://api-factory.simbirsoft1.com/api/db/${path}`,
-    headerGet
-  ).then((res) => res.json());
-  if (path === "point") {
-    const newArr = response.data.filter((item) => {
-      if (item.cityId !== null) {
-        return true;
-      }
-      return false;
-    });
-    setItems(newArr);
-    setAddress(newArr);
-  } else {
-    setItems(response.data);
-    setCity(response.data);
-  }
 };
 
 const Geolocation = (props) => {
@@ -116,8 +95,25 @@ const Geolocation = (props) => {
   ]);
 
   useEffect(() => {
-    resultApi("city", setCitysList, changeAddress, changeCitys);
-    resultApi("point", setAddressList, changeAddress, changeCitys);
+    const getAPI = async () => {
+      const responseCity = await axiosConfig.get("/city").then((response) => {
+        return response.data.data;
+      });
+      changeCitys(responseCity);
+      setCitysList(responseCity);
+      const responseAddress = await axiosConfig
+        .get("/point")
+        .then((response) => {
+          return response.data.data;
+        });
+      const newArr = responseAddress.filter((item) => {
+        return !!item.cityId;
+      });
+      setAddressList(newArr);
+      changeAddress(newArr);
+    };
+    getAPI();
+
     if (order.squeezePoint) {
       let nameCoord = "";
       for (const city of citysAPI) {
@@ -145,7 +141,7 @@ const Geolocation = (props) => {
 
   useEffect(() => {
     setButtonDisabled(true);
-    if (cityInput !== "" && addressInput !== "") {
+    if (cityInput && addressInput) {
       for (const city of citysAPI) {
         if (city.name === cityInput) {
           for (const address of addressAPI) {
@@ -183,7 +179,7 @@ const Geolocation = (props) => {
   const handleChangeCity = (value) => {
     resetGeolocation();
     setAddressInput("");
-    if (value === "") {
+    if (!value) {
       setButtonDisabled(true);
       setCitysList(citysAPI);
       setAddressList(addressAPI);
@@ -206,7 +202,7 @@ const Geolocation = (props) => {
   // ------------------------------------------------------------------
   const handleChangeAddress = (value) => {
     resetGeolocation();
-    if (value === "") {
+    if (!value) {
       setButtonDisabled(true);
       setSelectAddress(false);
     } else {
@@ -223,7 +219,7 @@ const Geolocation = (props) => {
   // ------------------------------------------------------------------
   // Событие выбора города в выподающем списке
   // ------------------------------------------------------------------
-  const handleClickSelectCity = (e) => {    
+  const handleClickSelectCity = (e) => {
     setAddressInput("");
     changeDefCoords({
       name: e.currentTarget.innerText,
@@ -377,8 +373,7 @@ const Geolocation = (props) => {
       </label>
       <div className={classnames("geolocation__map")}>
         <YandexMap
-          // defCoords={defCoords}
-          address={addressAPI} // addressListAPI
+          address={addressAPI}
           handleClickPlacemark={handleClickPlacemark}
         />
       </div>

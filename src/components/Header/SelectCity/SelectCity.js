@@ -8,11 +8,11 @@ import styles from "./selectCity.module.scss";
 
 const SelectCity = (props) => {
   const { active, setActive } = props;
-  const {  citys, language } = useSelector((state) => state); //city,
+  const { citys, language } = useSelector((state) => state);
   const { t } = useTranslation();
   const classnames = classnamesBind.bind(styles);
-  
-  const dispatch = useDispatch(); 
+
+  const dispatch = useDispatch();
   const changeCity = useCallback(
     (city) =>
       dispatch({
@@ -26,17 +26,18 @@ const SelectCity = (props) => {
   const [citysModal, setCitys] = useState(citysList);
 
   const handleClick = (e) => {
-    const objectCity = citys[language].find(city => city.name === e.target.innerText)
+    const objectCity = citys[language].find(
+      (city) => city.name === e.target.innerText
+    );
     changeCity(objectCity);
     setActive(false);
   };
- 
+
   const handleChange = (event) => {
     const filterCity = citysList.filter((item) => {
       const value = event.target.value.toLowerCase().trim();
       const city = item.name.toLowerCase().trim();
-      if (city.startsWith(value)) return true;
-      else return false;
+      return !!city.startsWith(value);
     });
     setCitys(filterCity);
   };
@@ -99,7 +100,6 @@ const SelectCity = (props) => {
           <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
       </div>
-      
     </div>
   );
 };
