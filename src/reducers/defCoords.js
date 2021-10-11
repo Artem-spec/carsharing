@@ -5,8 +5,8 @@ const initState = {
 
 const selectedCity = (state = initState, action) => {
     switch (action.type) {
-        case 'defCoords':
-            return state = action.payload;
+        case 'CHANGE_DEF_COORDS':
+            return {...action.payload}
         default:
             return state;
     }

@@ -2,8 +2,8 @@ const initState = [];
 
 const citys = (state = initState, action) => {
     switch (action.type) {
-        case 'citys':
-            return state = action.payload;
+        case 'ADD_CITY_API':
+            return [...action.payload]
         default:
             return state;
     }

@@ -1,23 +1,13 @@
-import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import classnamesBind from "classnames/bind";
 import styles from "./language.module.scss";
+import { changeLanguage } from "../../actions/actionLanguage";
 
 const Language = () => {
-
-  const { language } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const changeLang = useCallback(
-    (language) =>
-      dispatch({
-        type: "language",
-        payload: language,
-      }),
-    [dispatch]
-  );
-
+  const { language } = useSelector((state) => state.language); 
   const { i18n } = useTranslation();
 
   const handleClickLinkLanguage = (e) => {
@@ -27,10 +17,10 @@ const Language = () => {
 
     switch (lang) {
       case lang_en:
-        changeLang(lang_ru);
+        dispatch(changeLanguage({language: lang_ru}));
         break;
       case lang_ru:
-        changeLang(lang_en);
+        dispatch(changeLanguage({language: lang_en}));
         break;
       default:
         break;

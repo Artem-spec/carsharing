@@ -6,8 +6,8 @@ const initState = {
 
 const selectedCity = (state = initState, action) => {
     switch (action.type) {
-        case 'selectedCity':
-            return state = action.payload;
+        case 'SELECTED_CITY':
+            return {...action.payload}
         default:
             return state;
     }

@@ -9,7 +9,7 @@ const orderState = {
 };
 const order = (state = orderState, action) => {
   switch (action.type) {
-    case "geolocation":
+    case "CHANGE_GEOLOCATION" || "RESET_GEOLOCATION":
       return {
         ...state,
         squeezePoint: action.payload,

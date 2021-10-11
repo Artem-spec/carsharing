@@ -1,26 +1,22 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import SimpleBar from "simplebar-react";
 import classnamesBind from "classnames/bind";
 import "simplebar/dist/simplebar.min.css";
 import styles from "./selectCity.module.scss";
+import { changeCity } from "../../../actions/actionCity";
 
 const SelectCity = (props) => {
   const { active, setActive } = props;
-  const { citys, language } = useSelector((state) => state);
+  const { citys, language } = useSelector((state) => ({
+    ...state.citys,
+    ...state.language
+  }));
   const { t } = useTranslation();
   const classnames = classnamesBind.bind(styles);
 
   const dispatch = useDispatch();
-  const changeCity = useCallback(
-    (city) =>
-      dispatch({
-        type: "selectedCity",
-        payload: city,
-      }),
-    [dispatch]
-  );
 
   const citysList = citys[language];
   const [citysModal, setCitys] = useState(citysList);
@@ -29,7 +25,7 @@ const SelectCity = (props) => {
     const objectCity = citys[language].find(
       (city) => city.name === e.target.innerText
     );
-    changeCity(objectCity);
+    dispatch(changeCity(objectCity));
     setActive(false);
   };
 

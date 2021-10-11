@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Route, useRouteMatch, Redirect } from "react-router-dom";
+import { Route, useRouteMatch, Redirect, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import classnamesBind from "classnames/bind";
 import Header from "../Header/Header";
@@ -35,6 +35,7 @@ const changeButtonText = (params, setButtonText) => {
 
 const Reservation = () => {
   const { url, path } = useRouteMatch();
+  const history = useHistory();
   const classnames = classnamesBind.bind(styles);
   const { order } = useSelector((state) => state);
   const [burgerActive, setBurgerActive] = useState(false);
@@ -46,18 +47,18 @@ const Reservation = () => {
   const [params, setParams] = useState("");
   const [buttonText, setButtonText] = useState("Выбрать модель");
   //-----------------------------------------------------------------
-  // Изменение текста кнопки
+  // Переход на следующий этап формирования заказа, по кнопке
   //-----------------------------------------------------------------
   const handleClickButton = () => {
     switch (params) {
       case `geolocation`:
-        document.getElementById("model").click();
+        history.push(`${path}/model`);
         break;
       case `model`:
-        document.getElementById("additionally").click();
+        history.push(`${path}/additionally`);
         break;
       case `additionally`:
-        document.getElementById("total").click();
+        history.push(`${path}/total`);
         break;
       case `total`:
         break;
@@ -96,7 +97,6 @@ const Reservation = () => {
               className={classnames("reservation__link", {
                 "reservation__link-active": true,
               })}
-              onClick={() => {}}
             >
               Местоположение
             </Link>
@@ -114,9 +114,6 @@ const Reservation = () => {
                 "reservation__link-active": activeModel,
                 "reservation__link-disabled": !activeModel,
               })}
-              onClick={() => {
-                setActiveModel(true);
-              }}
             >
               Модель
             </Link>
@@ -134,9 +131,6 @@ const Reservation = () => {
                 "reservation__link-disabled": !activeAdditionally,
               })}
               id="additionally"
-              onClick={() => {
-                setActiveAdditionally(true);
-              }}
             >
               Дополнительно
             </Link>
@@ -153,9 +147,6 @@ const Reservation = () => {
               "reservation__link-disabled": !activeTotal,
             })}
             id="total"
-            onClick={() => {
-              setActiveTotal(true);
-            }}
           >
             Итого
           </Link>

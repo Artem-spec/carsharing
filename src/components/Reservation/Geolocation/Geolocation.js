@@ -1,10 +1,14 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import SimpleBar from "simplebar-react";
 import classnamesBind from "classnames/bind";
 import styles from "./geolocation.module.scss";
 import axiosConfig from "../../../utils/axiosConfig";
 import YandexMap from "./YandexMap/YandexMap";
+import { addAddressAPI } from "../../../actions/actionAddressAPI";
+import { addCityAPI } from "../../../actions/actionCitysAPI";
+import { changeDefCoords } from "../../../actions/actionDefCoords";
+import { changeGeolocation, resetGeolocation } from "../../../actions/actionOrder";
 
 const filterCastom = (value, array, setArray, field) => {
   const filterCity = array.filter((item) => {
@@ -24,49 +28,7 @@ const Geolocation = (props) => {
   } = props;
 
   const dispatch = useDispatch();
-  const changeGeolocation = useCallback(
-    (city, address) =>
-      dispatch({
-        type: "geolocation",
-        payload: city + ", " + address,
-      }),
-    [dispatch]
-  );
 
-  const resetGeolocation = useCallback(
-    () =>
-      dispatch({
-        type: "geolocation",
-        payload: "",
-      }),
-    [dispatch]
-  );
-
-  const changeDefCoords = useCallback(
-    (obj) =>
-      dispatch({
-        type: "defCoords",
-        payload: obj,
-      }),
-    [dispatch]
-  );
-
-  const changeCitys = useCallback(
-    (obj) =>
-      dispatch({
-        type: "citys",
-        payload: obj,
-      }),
-    [dispatch]
-  );
-  const changeAddress = useCallback(
-    (obj) =>
-      dispatch({
-        type: "address",
-        payload: obj,
-      }),
-    [dispatch]
-  );
   const classnames = classnamesBind.bind(styles);
   const { city, order, addressAPI, citysAPI } = useSelector((state) => state);
   // Список всех городов (фильтруется во время ввода)
@@ -99,7 +61,7 @@ const Geolocation = (props) => {
       const responseCity = await axiosConfig.get("/city").then((response) => {
         return response.data.data;
       });
-      changeCitys(responseCity);
+      dispatch(addCityAPI(responseCity));
       setCitysList(responseCity);
       const responseAddress = await axiosConfig
         .get("/point")
@@ -110,7 +72,7 @@ const Geolocation = (props) => {
         return !!item.cityId;
       });
       setAddressList(newArr);
-      changeAddress(newArr);
+      dispatch(addAddressAPI(newArr));
     };
     getAPI();
 
@@ -127,15 +89,15 @@ const Geolocation = (props) => {
           }
         }
       }
-      changeDefCoords({
+      dispatch(changeDefCoords({
         name: nameCoord,
         zoom: 15,
-      });
+      }));
     } else {
-      changeDefCoords({
+      dispatch(changeDefCoords({
         name: city.name,
         zoom: 10,
-      });
+      }));
     }
   }, []);
 
@@ -146,7 +108,7 @@ const Geolocation = (props) => {
         if (city.name === cityInput) {
           for (const address of addressAPI) {
             if (address.address === addressInput) {
-              changeGeolocation(cityInput, addressInput);
+              dispatch(changeGeolocation(cityInput + ", " + addressInput));
               setButtonDisabled(false);
             }
           }
@@ -156,7 +118,7 @@ const Geolocation = (props) => {
   }, [
     cityInput,
     addressInput,
-    changeGeolocation,
+    dispatch,
     setButtonDisabled,
     addressAPI,
     citysAPI,
@@ -177,7 +139,7 @@ const Geolocation = (props) => {
   // Событие изменения города через input
   // ------------------------------------------------------------------
   const handleChangeCity = (value) => {
-    resetGeolocation();
+    dispatch(resetGeolocation());
     setAddressInput("");
     if (!value) {
       setButtonDisabled(true);
@@ -201,7 +163,7 @@ const Geolocation = (props) => {
   // Событие изменения адреса через input
   // ------------------------------------------------------------------
   const handleChangeAddress = (value) => {
-    resetGeolocation();
+    dispatch(resetGeolocation());
     if (!value) {
       setButtonDisabled(true);
       setSelectAddress(false);
@@ -221,10 +183,10 @@ const Geolocation = (props) => {
   // ------------------------------------------------------------------
   const handleClickSelectCity = (e) => {
     setAddressInput("");
-    changeDefCoords({
+    dispatch(changeDefCoords({
       name: e.currentTarget.innerText,
       zoom: 10,
-    });
+    }));
     setCityInput(e.currentTarget.innerText);
     setSelectCity(false);
     changeAddressList(e.currentTarget.innerText, setAddressList);
@@ -240,10 +202,10 @@ const Geolocation = (props) => {
       if (address.address === value) {
         setCityInput(address.cityId.name);
         const name = `${address.cityId.name}, ${e.currentTarget.innerText}`;
-        changeDefCoords({
+        dispatch(changeDefCoords({
           name: name,
           zoom: 15,
-        });
+        }));
       }
     }
   };
@@ -253,10 +215,10 @@ const Geolocation = (props) => {
     setAddressInput(point.address);
     changeAddressList(point.city, setAddressList);
     const nameCoords = `${point.city}, ${point.address}`;
-    changeDefCoords({
+    dispatch(changeDefCoords({
       name: nameCoords,
       zoom: 15,
-    });
+    }));
   };
 
   return (
