@@ -1,0 +1,92 @@
+@import "../../styles/global.scss";
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 6%;
+  max-width: 6%;
+  background-color: $color-menu-start-page;
+}
+.button-burger {
+  margin-top: 40px;
+  border: none;
+  background-color: initial;
+  cursor: pointer;
+}
+.button-burger_color {
+  stroke: $color-gray-light;
+}
+
+@media (max-width: 1439px) {
+  .menu {
+    min-width: 65px;
+    max-width: 65px;
+    .button-burger {
+      margin-top: 27px;
+    }
+  }
+}
+@media (max-width: 1023px) {
+  .menu {
+    min-width: 67px;
+  }
+}
+@media (max-width: 767px) {
+  .button-burger_color {
+    stroke: $color-black;
+  }
+  .menu {
+    position: absolute;
+    background-color: initial;
+    top: 0;
+    left: 0;
+    width: 62px;
+    min-width: 62px;
+    .button-burger {
+      margin-top: 15px;
+      padding: 0;
+    }
+    .language-wrap {
+      display: none;
+    }
+  }
+}
+
+// Cтили для языка
+.language-wrap {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.language-wrap:hover,
+.language-wrap:active {
+  border: 1px solid $color-gray-light;
+  box-sizing: border-box;
+  border-radius: 50%;
+}
+.language-wrap:hover {
+  span {
+    color: $color-gray-light;
+  }
+}
+.language-wrap:active {
+  span {
+    color: $color-green;
+  }
+}
+
+@media (max-width: 1439px) {
+  .language-wrap {
+    margin-bottom: 21px;
+  }
+}
+@media (max-width: 1023px) {
+  .language-wrap {
+    margin-bottom: 27px;
+  }
+}
+

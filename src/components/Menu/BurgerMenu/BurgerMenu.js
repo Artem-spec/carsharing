@@ -1,10 +1,11 @@
 import classnamesBind from "classnames/bind";
 import BurgerList from "./BurgerList/BurgerList";
 import SocialNetworks from "./SocialNetworls/SocialNetworks";
+import Language from "../../Language/Language";
 import styles from "./burgerMenu.module.scss";
 
 const BurgerMenu = (props) => {
-  const { active, setActive, setLenguage, language } = props;
+  const { active, setActive } = props;
 
   const classnames = classnamesBind.bind(styles);
 
@@ -49,14 +50,8 @@ const BurgerMenu = (props) => {
             <BurgerList />
             <SocialNetworks />
           </div>
-          <div className={classnames("burger__language-wrap")}>
-            <span
-              href="#"
-              className={classnames("burger__language")}
-              onClick={(e) => setLenguage(e)}
-            >
-              {language}
-            </span>
+          <div className={classnames("language-wrap")}>
+            <Language />
           </div>
         </div>
       </div>

@@ -1,0 +1,10 @@
+@import "../../styles/global.scss";
+
+.language {
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 15px;
+  text-decoration: initial;
+  color: $color-green;
+  cursor: pointer;
+}

@@ -1,0 +1,37 @@
+@import "../../styles/global.scss";
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  .header__geolocation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(3px);
+  }
+  .header__city {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: $color-gray-dark;
+    cursor: pointer;
+  }
+  .header__city_padding {
+    padding-left: 8px;
+  }
+  .header__heading-h4 {
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 35px;
+    color: $color-green;
+  }
+}
+@media (max-width: 767px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-end;
+    padding-bottom: 13px;
+  }
+}

@@ -1,7 +1,9 @@
-const language = (state = "Eng", action) => {
-  switch (action.type) {
-    case "language":
-      return (state = action.payload);
+const language = (state = {
+  language:  "Eng"
+}, action) => {
+  switch (action.type) {    
+    case "LANGUAGE":
+      return {...action.payload}
     default:
       return state;
   }

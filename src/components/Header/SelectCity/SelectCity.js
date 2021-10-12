@@ -1,31 +1,42 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import SimpleBar from "simplebar-react";
 import classnamesBind from "classnames/bind";
 import "simplebar/dist/simplebar.min.css";
 import styles from "./selectCity.module.scss";
+import { changeCity } from "../../../actions/actionCity";
 
 const SelectCity = (props) => {
-  const { active, setActive, setCity, language } = props;
-  const citysList = useSelector((state) => state.citys[language]);
-  const [citys, setCitys] = useState(citysList);
+  const { active, setActive } = props;
+  const { citys, language } = useSelector((state) => ({
+    ...state.citys,
+    ...state.language
+  }));
   const { t } = useTranslation();
   const classnames = classnamesBind.bind(styles);
-  function handleClick(e) {
-    setCity(e.target.innerText);
-    setActive(false);
-  }
 
-  function handleChange(event) {
+  const dispatch = useDispatch();
+
+  const citysList = citys[language];
+  const [citysModal, setCitys] = useState(citysList);
+
+  const handleClick = (e) => {
+    const objectCity = citys[language].find(
+      (city) => city.name === e.target.innerText
+    );
+    dispatch(changeCity(objectCity));
+    setActive(false);
+  };
+
+  const handleChange = (event) => {
     const filterCity = citysList.filter((item) => {
       const value = event.target.value.toLowerCase().trim();
-      const city = item.toLowerCase().trim();
-      if (city.startsWith(value)) return true;
-      else return false;
+      const city = item.name.toLowerCase().trim();
+      return !!city.startsWith(value);
     });
     setCitys(filterCity);
-  }
+  };
 
   return (
     <div
@@ -56,13 +67,13 @@ const SelectCity = (props) => {
         ></input>
         <ul className={classnames("modal-city__list")}>
           <SimpleBar style={{ height: "100%" }}>
-            {citys.map((city) => (
+            {citysModal.map((city) => (
               <li
-                key={city}
+                key={city.name}
                 className={classnames("modal-city__item")}
                 onClick={(e) => handleClick(e)}
               >
-                {city}
+                {city.name}
               </li>
             ))}
           </SimpleBar>

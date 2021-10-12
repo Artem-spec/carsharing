@@ -7,109 +7,46 @@ import slide3 from "../../../image/petrol.png";
 import slide4 from "../../../image/service.png";
 import styles from "./slider.module.scss";
 
+const classnames = classnamesBind.bind(styles);
+
 const Slider = () => {
-  const classnames = classnamesBind.bind(styles);
   const { t } = useTranslation();
   const content = [
     {
-      image: (
-        <img
-          key={slide1}
-          src={slide1}
-          alt=""
-          className={classnames("slider__image", "img")}
-        />
-      ),
-      header: <h3 className={classnames("slider__header")}>{t("Slider.1")}</h3>,
-      text: (
-        <p className={classnames("slider__description")}>{t("Slider.2")}</p>
-      ),
-      button: (
-        <button
-          className={classnames(
-            "slider__button",
-            "slider__button_margin",
-            "slider__button-parking"
-          )}
-        >
-          <span>{t("Slider.9")}</span>
-        </button>
-      ),
+      image: slide1,
+      header: t("Slider.1"),
+      text: t("Slider.2"),
+      button: {
+        text: t("Slider.9"),
+        class: "slider__button-parking",
+      },
     },
     {
-      image: (
-        <img
-          key={slide2}
-          src={slide2}
-          alt=""
-          className={classnames("slider__image")}
-        />
-      ),
-      header: <h3 className={classnames("slider__header")}>{t("Slider.3")}</h3>,
-      text: (
-        <p className={classnames("slider__description")}>{t("Slider.4")}</p>
-      ),
-      button: (
-        <button
-          className={classnames(
-            "slider__button",
-            "slider__button_margin",
-            "slider__button-insurance"
-          )}
-        >
-          {t("Slider.9")}
-        </button>
-      ),
+      image: slide2,
+      header: t("Slider.3"),
+      text: t("Slider.4"),
+      button: {
+        text: t("Slider.9"),
+        class: "slider__button-insurance",
+      },
     },
     {
-      image: (
-        <img
-          key={slide3}
-          src={slide3}
-          alt=""
-          className={classnames("slider__image")}
-        />
-      ),
-      header: <h3 className={classnames("slider__header")}>{t("Slider.5")}</h3>,
-      text: (
-        <p className={classnames("slider__description")}>{t("Slider.6")}</p>
-      ),
-      button: (
-        <button
-          className={classnames(
-            "slider__button",
-            "slider__button_margin",
-            "slider__button-petrol"
-          )}
-        >
-          {t("Slider.9")}
-        </button>
-      ),
+      image: slide3,
+      header: t("Slider.5"),
+      text: t("Slider.6"),
+      button: {
+        text: t("Slider.9"),
+        class: "slider__button-petrol",
+      },
     },
     {
-      image: (
-        <img
-          key={slide4}
-          src={slide4}
-          alt=""
-          className={classnames("slider__image")}
-        />
-      ),
-      header: <h3 className={classnames("slider__header")}>{t("Slider.7")}</h3>,
-      text: (
-        <p className={classnames("slider__description")}>{t("Slider.8")}</p>
-      ),
-      button: (
-        <button
-          className={classnames(
-            "slider__button",
-            "slider__button_margin",
-            "slider__button-service"
-          )}
-        >
-          {t("Slider.9")}
-        </button>
-      ),
+      image: slide4,
+      header: t("Slider.7"),
+      text: t("Slider.8"),
+      button: {
+        text: t("Slider.9"),
+        class: "slider__button-service",
+      },
     },
   ];
 
@@ -118,22 +55,22 @@ const Slider = () => {
   const [prevIndex, setPrevIndex] = useState(countIndex);
   const [nextIndex, setNextIndex] = useState(1);
 
-  function handleClickInc() {
+  const handleClickInc = () => {
     setActiveIndex(activeIndex !== countIndex ? activeIndex + 1 : 0);
     setPrevIndex(prevIndex !== countIndex ? prevIndex + 1 : 0);
     setNextIndex(nextIndex !== countIndex ? nextIndex + 1 : 0);
-  }
+  };
 
-  function handleClickDef() {
+  const handleClickDef = () => {
     setActiveIndex(activeIndex !== 0 ? activeIndex - 1 : countIndex);
     setPrevIndex(prevIndex !== 0 ? prevIndex - 1 : countIndex);
     setNextIndex(nextIndex !== 0 ? nextIndex - 1 : countIndex);
-  }
-  function handleClickCircle(e, indexClick) {
+  };
+  const handleClickCircle = (e, indexClick) => {
     setActiveIndex(indexClick);
     setPrevIndex(indexClick !== 0 ? indexClick - 1 : countIndex);
     setNextIndex(indexClick !== countIndex ? indexClick + 1 : 0);
-  }
+  };
   return (
     <div className={classnames("slider")}>
       <div className={classnames("slider__slide-circle")}>
@@ -188,23 +125,23 @@ const Slider = () => {
         )}
         key={prevIndex}
       >
-        {content[prevIndex].image}
-        <div className={classnames("slider__group-description")}>
-          {content[prevIndex].header}
-          {content[prevIndex].text}
-          {content[prevIndex].button}
-        </div>
+        <SliderItem
+          slide={content[prevIndex].image}
+          header={content[prevIndex].header}
+          text={content[prevIndex].text}
+          button={content[prevIndex].button}
+        />
       </div>
       <div
         className={classnames("slider-img", "wrapper", "slider-position-img")}
         key={activeIndex}
       >
-        {content[activeIndex].image}
-        <div className={classnames("slider__group-description")}>
-          {content[activeIndex].header}
-          {content[activeIndex].text}
-          {content[activeIndex].button}
-        </div>
+        <SliderItem
+          slide={content[activeIndex].image}
+          header={content[activeIndex].header}
+          text={content[activeIndex].text}
+          button={content[activeIndex].button}
+        />
       </div>
       <div
         className={classnames(
@@ -215,14 +152,41 @@ const Slider = () => {
         )}
         key={nextIndex}
       >
-        {content[nextIndex].image}
-        <div className={classnames("slider__group-description")}>
-          {content[nextIndex].header}
-          {content[nextIndex].text}
-          {content[nextIndex].button}
-        </div>
+        <SliderItem
+          slide={content[nextIndex].image}
+          header={content[nextIndex].header}
+          text={content[nextIndex].text}
+          button={content[nextIndex].button}
+        />
       </div>
     </div>
+  );
+};
+
+const SliderItem = (props) => {
+  const { slide, header, text, button } = props;
+  return (
+    <>
+      <img
+        key={slide}
+        src={slide}
+        alt=""
+        className={classnames("slider__image", "img")}
+      />
+      <div className={classnames("slider__group-description")}>
+        <h3 className={classnames("slider__header")}>{header}</h3>,
+        <p className={classnames("slider__description")}>{text}</p>
+        <button
+          className={classnames(
+            "slider__button",
+            "slider__button_margin",
+            button.class
+          )}
+        >
+          <span>{button.text}</span>
+        </button>
+      </div>
+    </>
   );
 };
 export default Slider;
