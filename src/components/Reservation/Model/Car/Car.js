@@ -15,14 +15,19 @@ const Car = (props) => {
     dispatch(changePrice(price));
     setButtonDisabled(false);
   };
-  let styleImg = {
-    width: "100%",
-    height: "100%",
-    backgroundImage: "url(" + car.thumbnail.path + ")",
-    backgroundPosition: "center",
-    backgroundSize: "100% auto",
-    backgroundRepeat: "no-repeat",
-  };
+
+  let styleImg;
+  if (car.thumbnail.path.startsWith("/files/")) styleImg = {};
+  else
+    styleImg = {
+      width: "100%",
+      height: "100%",
+      backgroundImage: "url(" + car.thumbnail.path + ")",
+      backgroundPosition: "center",
+      backgroundSize: "100% auto",
+      backgroundRepeat: "no-repeat",
+    };
+
   return (
     <div
       className={classnames("car")}

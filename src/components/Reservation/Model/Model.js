@@ -121,7 +121,7 @@ const Model = (props) => {
         <div className={classnames("model__cars")}>
           {Boolean(cars.length) && (
             <SimpleBar
-              style={{ width: "100%", height: "101%", maxHeight: "70vh" }}
+              style={{ width: "100%", height: "101%", maxHeight: "57vh" }}
             >
               <div className={classnames("model__car-item")}>
                 {cars.map((car) => (
