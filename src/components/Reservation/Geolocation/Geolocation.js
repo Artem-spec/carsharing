@@ -8,7 +8,11 @@ import YandexMap from "./YandexMap/YandexMap";
 import { addAddressAPI } from "../../../actions/actionAddressAPI";
 import { addCityAPI } from "../../../actions/actionCitysAPI";
 import { changeDefCoords } from "../../../actions/actionDefCoords";
-import { changeGeolocation, resetGeolocation } from "../../../actions/actionOrder";
+import {
+  changeGeolocation,
+  resetGeolocation,
+  goToGeolocation,
+} from "../../../actions/actionOrder";
 
 const filterCastom = (value, array, setArray, field) => {
   const filterCity = array.filter((item) => {
@@ -49,11 +53,13 @@ const Geolocation = (props) => {
     setActiveModel(false);
     setActiveAdditionally(false);
     setActiveTotal(false);
+    dispatch(goToGeolocation());
   }, [
     setButtonDisabled,
     setActiveModel,
     setActiveAdditionally,
     setActiveTotal,
+    dispatch,
   ]);
 
   useEffect(() => {
@@ -89,15 +95,19 @@ const Geolocation = (props) => {
           }
         }
       }
-      dispatch(changeDefCoords({
-        name: nameCoord,
-        zoom: 15,
-      }));
+      dispatch(
+        changeDefCoords({
+          name: nameCoord,
+          zoom: 15,
+        })
+      );
     } else {
-      dispatch(changeDefCoords({
-        name: city.name,
-        zoom: 10,
-      }));
+      dispatch(
+        changeDefCoords({
+          name: city.name,
+          zoom: 10,
+        })
+      );
     }
   }, []);
 
@@ -183,10 +193,12 @@ const Geolocation = (props) => {
   // ------------------------------------------------------------------
   const handleClickSelectCity = (e) => {
     setAddressInput("");
-    dispatch(changeDefCoords({
-      name: e.currentTarget.innerText,
-      zoom: 10,
-    }));
+    dispatch(
+      changeDefCoords({
+        name: e.currentTarget.innerText,
+        zoom: 10,
+      })
+    );
     setCityInput(e.currentTarget.innerText);
     setSelectCity(false);
     changeAddressList(e.currentTarget.innerText, setAddressList);
@@ -202,10 +214,12 @@ const Geolocation = (props) => {
       if (address.address === value) {
         setCityInput(address.cityId.name);
         const name = `${address.cityId.name}, ${e.currentTarget.innerText}`;
-        dispatch(changeDefCoords({
-          name: name,
-          zoom: 15,
-        }));
+        dispatch(
+          changeDefCoords({
+            name: name,
+            zoom: 15,
+          })
+        );
       }
     }
   };
@@ -215,10 +229,12 @@ const Geolocation = (props) => {
     setAddressInput(point.address);
     changeAddressList(point.city, setAddressList);
     const nameCoords = `${point.city}, ${point.address}`;
-    dispatch(changeDefCoords({
-      name: nameCoords,
-      zoom: 15,
-    }));
+    dispatch(
+      changeDefCoords({
+        name: nameCoords,
+        zoom: 15,
+      })
+    );
   };
 
   return (

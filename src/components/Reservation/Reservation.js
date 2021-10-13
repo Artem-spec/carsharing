@@ -52,9 +52,11 @@ const Reservation = () => {
   const handleClickButton = () => {
     switch (params) {
       case `geolocation`:
+        setActiveModel(true);
         history.push(`${path}/model`);
         break;
       case `model`:
+        setActiveAdditionally(true);
         history.push(`${path}/additionally`);
         break;
       case `additionally`:
