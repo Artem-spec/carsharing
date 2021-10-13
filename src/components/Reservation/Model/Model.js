@@ -91,32 +91,35 @@ const Model = (props) => {
             <RadioButton
               item="Все модели"
               setChecked={setCategoryChecked}
-              inputId="radioBtnDefault"
+              inputId="inputRadioCategoryDef"
               defaultCheck={true}
               name="category"
               type="radio"
             />
           </div>
           {Boolean(category.length) &&
-            category.map((item) => (
-              <div
-                key={item.id}
-                className={classnames(
-                  "form-check",
-                  "form-check-inline",
-                  "model__category-item"
-                )}
-              >
-                <RadioButton
-                  item={item.name}
-                  setChecked={setCategoryChecked}
-                  inputId="radioBtnDefault"
-                  defaultCheck={false}
-                  name="category"
-                  type="radio"
-                />
-              </div>
-            ))}
+            category.map((item, index) => {
+              const inputId = `inputRadioCategory${index}`;
+              return (
+                <div
+                  key={item.id}
+                  className={classnames(
+                    "form-check",
+                    "form-check-inline",
+                    "model__category-item"
+                  )}
+                >
+                  <RadioButton
+                    item={item.name}
+                    setChecked={setCategoryChecked}
+                    inputId={inputId}
+                    defaultCheck={false}
+                    name="category"
+                    type="radio"
+                  />
+                </div>
+              );
+            })}
         </div>
         <div className={classnames("model__cars")}>
           {Boolean(cars.length) && (
