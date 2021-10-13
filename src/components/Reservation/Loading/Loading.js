@@ -1,6 +1,7 @@
 import classnamesBind from "classnames/bind";
 import styles from "./loading.module.scss";
 import "../../../castomBootstrap.scss";
+
 const Loading = () => {
   const classnames = classnamesBind.bind(styles);
   return (

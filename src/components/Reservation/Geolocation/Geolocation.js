@@ -279,9 +279,7 @@ const Geolocation = (props) => {
                   <li
                     key={index}
                     className={classnames("item")}
-                    onClick={(e) => {
-                      handleClickSelectCity(e);
-                    }}
+                    onClick={handleClickSelectCity}
                   >
                     {item.name}
                   </li>
@@ -331,9 +329,7 @@ const Geolocation = (props) => {
                   <li
                     key={index}
                     className={classnames("item")}
-                    onClick={(e) => {
-                      handleClickSelectAddress(e);
-                    }}
+                    onClick={handleClickSelectAddress}
                   >
                     {item.address}
                   </li>

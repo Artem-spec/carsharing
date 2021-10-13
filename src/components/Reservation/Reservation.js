@@ -197,7 +197,7 @@ const Reservation = () => {
                 "reservation_button_margin"
               )}
               disabled={buttonDisabled}
-              onClick={() => handleClickButton()}
+              onClick={handleClickButton}
             >
               {buttonText}
             </button>
