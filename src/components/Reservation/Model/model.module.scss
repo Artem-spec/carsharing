@@ -1,6 +1,7 @@
 .model {
   width: 100%;
   margin: 20px 0;
+ 
 }
 .model__cars {
   margin-top: 50px;
@@ -8,7 +9,9 @@
 .model__car-item {
   display: flex;
   flex-wrap: wrap;
-  margin-right: 4px;
+  margin-top: 1px;
+  margin-left: 1px;
+  // margin-right: 4px;
 }
 .model__category {
   display: flex;
