@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import SimpleBar from "simplebar-react";
 import classnamesBind from "classnames/bind";
 import "simplebar/dist/simplebar.min.css";
@@ -8,13 +8,11 @@ import axiosConfig from "../../../utils/axiosConfig";
 import RadioButton from "../RadioButton/RadioButton";
 import Car from "./Car/Car";
 import Loading from "../Loading/Loading";
-import { goToModel } from "../../../actions/actionOrder";
 import styles from "./model.module.scss";
 
 const Model = (props) => {
   const classnames = classnamesBind.bind(styles);
-  const dispatch = useDispatch();
-  const { setButtonDisabled, setActiveAdditionally, setActiveTotal } = props;
+  const { setButtonDisabled } = props;
   const [categoryChecked, setCategoryChecked] = useState("");
   const [cars, setCar] = useState([]);
   const [category, setCategory] = useState("Все модели");
@@ -24,11 +22,7 @@ const Model = (props) => {
 
   useEffect(() => {
     setButtonDisabled(true);
-    setActiveAdditionally(false);
-    setActiveTotal(false);
-    dispatch(goToModel());
-  }, [setButtonDisabled, setActiveAdditionally, setActiveTotal, dispatch]);
-
+  }, [setButtonDisabled]);
   useEffect(() => {
     if (order.model) setButtonDisabled(false);
   }, [order, setButtonDisabled]);

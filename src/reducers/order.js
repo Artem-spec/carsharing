@@ -14,7 +14,7 @@ const order = (state = orderState, action) => {
         ...state,
         squeezePoint: action.payload,
       };
-    case "GO_TO_GEOLOCATION":
+    case "RESET_DATA_FOR_GEOLOCATION":
       return {
         ...state,
         model: "",
@@ -34,7 +34,7 @@ const order = (state = orderState, action) => {
         ...state,
         price: action.payload,
       };
-    case "GO_TO_MODEL":
+    case "RESET_DATA_FOR_MODEL":
       return {
         ...state,
         color: "",

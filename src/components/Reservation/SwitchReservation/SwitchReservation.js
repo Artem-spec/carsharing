@@ -9,9 +9,6 @@ const SwitchReservation = (props) => {
   const { id } = useParams();
   const {
     setDisabled,
-    setActiveModel,
-    setActiveAdditionally,
-    setActiveTotal,
     setParams,
   } = props;
 
@@ -24,24 +21,18 @@ const SwitchReservation = (props) => {
       return (
         <Geolocation
           setButtonDisabled={setDisabled}
-          setActiveModel={setActiveModel}
-          setActiveAdditionally={setActiveAdditionally}
-          setActiveTotal={setActiveTotal}
         />
       );
     case `model`:
       return (
         <Model
           setButtonDisabled={setDisabled}
-          setActiveAdditionally={setActiveAdditionally}
-          setActiveTotal={setActiveTotal}
         />
       );
     case `additionally`:
       return (
         <Additionally
           setButtonDisabled={setDisabled}
-          setActiveTotal={setActiveTotal}
         />
       );
     case `total`:

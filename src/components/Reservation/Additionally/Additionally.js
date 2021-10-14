@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 
 const Additionally = (props) => {
-  const { setButtonDisabled, setActiveTotal } = props;
+  const { setButtonDisabled } = props;
 
   useEffect(() => {
     setButtonDisabled(true);
-    setActiveTotal(false);
   });
   return <h1>Здась будет "Дополнительно"</h1>;
 };

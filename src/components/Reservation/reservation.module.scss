@@ -40,6 +40,9 @@
   .reservation__link-active {
     color: $color-green;
   }
+  .reservation__link-selected {
+    color: $color-black-basic;
+  }
   .reservation__link-disabled {
     pointer-events: none;
   }

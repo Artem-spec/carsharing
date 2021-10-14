@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import classnamesBind from "classnames/bind";
 import styles from "./car.module.scss";
 import { changeModel, changePrice } from "../../../../actions/actionOrder";
@@ -6,33 +6,32 @@ import { changeModel, changePrice } from "../../../../actions/actionOrder";
 const Car = (props) => {
   const { car, setButtonDisabled } = props;
   const classnames = classnamesBind.bind(styles);
-
   const dispatch = useDispatch();
-
-  const handleClick = (model, priceMin, priceMax) => {
+  const { order } = useSelector((state) => state);
+  const handleClickCar = (model, priceMin, priceMax) => {
     const price = `от ${priceMin} до ${priceMax}`;
     dispatch(changeModel(model));
     dispatch(changePrice(price));
     setButtonDisabled(false);
   };
 
-  let styleImg;
-  if (car.thumbnail.path.startsWith("/files/")) styleImg = {};
-  else
-    styleImg = {
-      width: "100%",
-      height: "100%",
-      backgroundImage: "url(" + car.thumbnail.path + ")",
-      backgroundPosition: "center",
-      backgroundSize: "100% auto",
-      backgroundRepeat: "no-repeat",
-    };
-
+  const styleImg = car.thumbnail.path.startsWith("/files/")
+    ? {}
+    : {
+        width: "100%",
+        height: "100%",
+        backgroundImage: "url(" + car.thumbnail.path + ")",
+        backgroundPosition: "center",
+        backgroundSize: "100% auto",
+        backgroundRepeat: "no-repeat",
+      };
   return (
     <div
-      className={classnames("car")}
+      className={classnames("car", {
+        "car-active": order.model === car.name,
+      })}
       onClick={() => {
-        handleClick(car.name, car.priceMin, car.priceMax);
+        handleClickCar(car.name, car.priceMin, car.priceMax);
       }}
     >
       <div className={classnames("car__wrap")}>

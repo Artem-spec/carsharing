@@ -11,7 +11,6 @@ import { changeDefCoords } from "../../../actions/actionDefCoords";
 import {
   changeGeolocation,
   resetGeolocation,
-  goToGeolocation,
 } from "../../../actions/actionOrder";
 
 const filterCastom = (value, array, setArray, field) => {
@@ -26,9 +25,6 @@ const filterCastom = (value, array, setArray, field) => {
 const Geolocation = (props) => {
   const {
     setButtonDisabled,
-    setActiveModel,
-    setActiveAdditionally,
-    setActiveTotal,
   } = props;
 
   const dispatch = useDispatch();
@@ -50,15 +46,8 @@ const Geolocation = (props) => {
 
   useEffect(() => {
     setButtonDisabled(true);
-    setActiveModel(false);
-    setActiveAdditionally(false);
-    setActiveTotal(false);
-    dispatch(goToGeolocation());
   }, [
     setButtonDisabled,
-    setActiveModel,
-    setActiveAdditionally,
-    setActiveTotal,
     dispatch,
   ]);
 

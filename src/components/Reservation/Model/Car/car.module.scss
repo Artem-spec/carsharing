@@ -40,9 +40,10 @@
   }
 }
 .car:hover {
-  position: relative;
-  z-index: 1;
   // box-shadow: 1px 0 0 0 $color-green, 0 1px 0 0 $color-green, 1px 1px 0 0 $color-green,
   //   1px 0 0 0 $color-green inset, 0 1px 0 0 $color-green inset;
+  border: 1px solid $color-green;
+}
+.car-active {
   border: 1px solid $color-green;
 }
