@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Route, useRouteMatch, Redirect, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import classnamesBind from "classnames/bind";
 import Header from "../Header/Header";
 import SelectCity from "../Header/SelectCity/SelectCity";
@@ -10,7 +10,7 @@ import Menu from "../Menu/Menu";
 import SwitchReservation from "./SwitchReservation/SwitchReservation";
 import OrderItem from "./OrderItem/OrderItem";
 import styles from "./reservation.module.scss";
-
+import { resetDataForGeolocation, resetDataForModel } from "../../actions/actionOrder";
 //-----------------------------------------------------------------
 // Изменение текста кнопки
 //-----------------------------------------------------------------
@@ -36,6 +36,7 @@ const changeButtonText = (params, setButtonText) => {
 const Reservation = () => {
   const { url, path } = useRouteMatch();
   const history = useHistory();
+  const dispatch = useDispatch();
   const classnames = classnamesBind.bind(styles);
   const { order } = useSelector((state) => state);
   const [burgerActive, setBurgerActive] = useState(false);
@@ -43,6 +44,11 @@ const Reservation = () => {
   const [activeModel, setActiveModel] = useState(false);
   const [activeAdditionally, setActiveAdditionally] = useState(false);
   const [activeTotal, setActiveTotal] = useState(false);
+
+  const [selectedGeolocatinon, setSelectedGeolocation] = useState(false);
+  const [selectedModel, setSelectedModel] = useState(false);
+  const [selectedAdditionally, setSelectedAdditionally] = useState(false);
+
   const [buttonDisabled, setDisabled] = useState(true);
   const [params, setParams] = useState("");
   const [buttonText, setButtonText] = useState("Выбрать модель");
@@ -52,12 +58,17 @@ const Reservation = () => {
   const handleClickButton = () => {
     switch (params) {
       case `geolocation`:
+        setActiveModel(true);
+        setSelectedGeolocation(true);
         history.push(`${path}/model`);
         break;
       case `model`:
+        setActiveAdditionally(true);
+        setSelectedModel(true);
         history.push(`${path}/additionally`);
         break;
       case `additionally`:
+        setSelectedAdditionally(true);
         history.push(`${path}/total`);
         break;
       case `total`:
@@ -70,6 +81,22 @@ const Reservation = () => {
   useEffect(() => {
     changeButtonText(params, setButtonText);
   }, [params]);
+
+  useEffect(() => {
+    setSelectedGeolocation(false);
+    dispatch(resetDataForGeolocation());
+    setActiveModel(false);
+    setActiveAdditionally(false);
+    setActiveTotal(false);
+   
+  }, [order.squeezePoint, dispatch]);
+
+  useEffect(() => {
+    setSelectedModel(false);
+    dispatch(resetDataForModel());
+    setActiveAdditionally(false);
+    setActiveTotal(false);
+  }, [order.model, dispatch]);
 
   return (
     <section className={classnames("reservation")}>
@@ -96,6 +123,7 @@ const Reservation = () => {
               to={`${url}/geolocation`}
               className={classnames("reservation__link", {
                 "reservation__link-active": true,
+                "reservation__link-selected": selectedGeolocatinon,
               })}
             >
               Местоположение
@@ -113,6 +141,7 @@ const Reservation = () => {
               className={classnames("reservation__link", {
                 "reservation__link-active": activeModel,
                 "reservation__link-disabled": !activeModel,
+                "reservation__link-selected": selectedModel,
               })}
             >
               Модель
@@ -129,6 +158,7 @@ const Reservation = () => {
               className={classnames("reservation__link", {
                 "reservation__link-active": activeAdditionally,
                 "reservation__link-disabled": !activeAdditionally,
+                "reservation__link-selected": selectedAdditionally,
               })}
               id="additionally"
             >
@@ -164,9 +194,6 @@ const Reservation = () => {
             children={
               <SwitchReservation
                 setDisabled={setDisabled}
-                setActiveModel={setActiveModel}
-                setActiveAdditionally={setActiveAdditionally}
-                setActiveTotal={setActiveTotal}
                 setParams={setParams}
               />
             }
@@ -195,7 +222,7 @@ const Reservation = () => {
                 "reservation_button_margin"
               )}
               disabled={buttonDisabled}
-              onClick={() => handleClickButton()}
+              onClick={handleClickButton}
             >
               {buttonText}
             </button>

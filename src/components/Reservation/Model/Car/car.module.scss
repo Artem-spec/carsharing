@@ -1,0 +1,63 @@
+@import "../../../../styles/global.scss";
+.car {
+  width: 368px;
+  height: 224px;
+  border: 1px solid $color-gray-light;
+  margin-top: -1px;
+  margin-left: -1px;
+  // box-shadow: 1px 0 0 0 $color-gray-light, 0 1px 0 0 $color-gray-light, 1px 1px 0 0 $color-gray-light,
+  //   1px 0 0 0 $color-gray-light inset, 0 1px 0 0 $color-gray-light inset;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  .car__wrap {
+    padding: 16px;
+    height: inherit;
+    position: relative;
+    box-sizing: border-box;
+    .car__heading {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 21px;
+      color: $color-black-basic;
+    }
+    .car__price {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 16px;
+      color: $color-gray-dark;
+    }
+    .car__img-wrap {
+      width: 269px;
+      height: 146px;
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+    }
+    .car__image {
+      width: 100%;
+    }
+  }
+}
+// .car:not(:first-child){
+  
+// }
+.car:hover {
+  position: relative;
+  z-index: 1;
+  margin-top: -1px;
+  margin-left: -1px;
+  // box-shadow: 1px 0 0 0 $color-green, 0 1px 0 0 $color-green, 1px 1px 0 0 $color-green,
+  //   1px 0 0 0 $color-green inset, 0 1px 0 0 $color-green inset;
+  border: 1px solid $color-green;
+}
+.car-active {
+  position: relative;
+  z-index: 1;
+  margin-top: -1px;
+  margin-left: -1px;
+  border: 1px solid $color-green;
+}
+
