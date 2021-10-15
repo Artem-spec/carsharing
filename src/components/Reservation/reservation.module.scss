@@ -40,6 +40,9 @@
   .reservation__link-active {
     color: $color-green;
   }
+  .reservation__link-selected {
+    color: $color-black-basic;
+  }
   .reservation__link-disabled {
     pointer-events: none;
   }
@@ -62,7 +65,7 @@
   max-height: max-content;
 }
 .reservation__order {
-  width: 300px;
+  min-width: 300px;
   border-left: 1px solid $color-gray-light;
 }
 .reservation__order_padding {

@@ -57,7 +57,7 @@ li {
   list-style-type: none;
 }
 a {
-  text-decoration: initial;
+  text-decoration: none;
 }
 h1,
 h2,

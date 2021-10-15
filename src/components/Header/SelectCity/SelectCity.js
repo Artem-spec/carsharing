@@ -29,9 +29,9 @@ const SelectCity = (props) => {
     setActive(false);
   };
 
-  const handleChange = (event) => {
+  const handleChange = (e) => {
     const filterCity = citysList.filter((item) => {
-      const value = event.target.value.toLowerCase().trim();
+      const value = e.target.value.toLowerCase().trim();
       const city = item.name.toLowerCase().trim();
       return !!city.startsWith(value);
     });
@@ -63,7 +63,7 @@ const SelectCity = (props) => {
           id="modalCity__input"
           type="search"
           placeholder={t("City.2")}
-          onChange={(event) => handleChange(event)}
+          onChange={handleChange}
         ></input>
         <ul className={classnames("modal-city__list")}>
           <SimpleBar style={{ height: "100%" }}>
@@ -71,7 +71,7 @@ const SelectCity = (props) => {
               <li
                 key={city.name}
                 className={classnames("modal-city__item")}
-                onClick={(e) => handleClick(e)}
+                onClick={handleClick}
               >
                 {city.name}
               </li>

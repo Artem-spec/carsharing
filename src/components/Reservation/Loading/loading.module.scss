@@ -1,0 +1,14 @@
+.loading {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none; //Для того чтобы не мешал opacity
+  transition: 0.5s;
+  z-index: 5;
+}

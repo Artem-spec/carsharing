@@ -89,7 +89,7 @@ const Slider = () => {
       <div className={classnames("slider__turn-over")}>
         <div
           className={classnames("slider__slide-prev")}
-          onClick={() => handleClickDef()}
+          onClick={handleClickDef}
         >
           <svg width="10" height="20" viewBox="0 0 10 20" fill="none">
             <path
@@ -103,7 +103,7 @@ const Slider = () => {
         </div>
         <div
           className={classnames("slider__slide-next")}
-          onClick={() => handleClickInc()}
+          onClick={handleClickInc}
         >
           <svg width="10" height="20" viewBox="0 0 10 20" fill="none">
             <path
