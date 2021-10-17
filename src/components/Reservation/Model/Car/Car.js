@@ -9,7 +9,7 @@ const Car = (props) => {
   const dispatch = useDispatch();
   const { order } = useSelector((state) => state);
   const handleClickCar = (model, priceMin, priceMax) => {
-    const price = `от ${priceMin} до ${priceMax}`;
+    const price = `${priceMin}`;
     dispatch(changeModel(model));
     dispatch(changePrice(price));
     setButtonDisabled(false);

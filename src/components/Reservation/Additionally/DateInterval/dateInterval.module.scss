@@ -1,0 +1,46 @@
+@import "../../../../styles/global.scss";
+.wrap {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 16px;
+}
+.date-input-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+.date-input {
+  border: none;
+  border-bottom: 1px solid $color-gray-light;
+}
+.date-input-wrap_margin {
+  margin-top: 15px;
+}
+.date-input-label {
+  width: 30px;
+  text-align: right;
+  padding-right: 10px;
+  color: $color-black-basic;
+}
+.date-input-active {
+  pointer-events: none;
+  color: $color-gray-dark;
+}
+
+.date-input-error {
+  margin-left: 15px;
+  color: red;
+  display: none;
+}
+
+.date-input-error-active {
+  display: inline;
+}
+@media (max-width: 527px) {
+  .date-input-error {
+    margin-top: 5px;
+    margin-left: 0;
+  }
+}

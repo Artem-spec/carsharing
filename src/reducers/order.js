@@ -3,8 +3,12 @@ const orderState = {
   model: "",
   color: "",
   duration: "",
+  dateFrom: "",
+  dateTo: "",
   rate: "",
   fuel: "",
+  babyChair: "",
+  rightHandDrive: "",
   price: "",
 };
 const order = (state = orderState, action) => {
@@ -33,6 +37,36 @@ const order = (state = orderState, action) => {
       return {
         ...state,
         price: action.payload,
+      };
+    case "CHANGE_COLOR":
+      return {
+        ...state,
+        color: action.payload,
+      };
+    case "CHANGE_DURATION":
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case "CHANGE_RATE":
+      return {
+        ...state,
+        rate: action.payload,
+      };
+    case "CHANGE_FUEL":
+      return {
+        ...state,
+        fuel: action.payload,
+      };
+    case "CHANGE_BABY_CHAIR":
+      return {
+        ...state,
+        babyChair: action.payload,
+      };
+    case "CHANGE_RIGHT_HAND_DRIVE":
+      return {
+        ...state,
+        rightHandDrive: action.payload,
       };
     case "RESET_DATA_FOR_MODEL":
       return {

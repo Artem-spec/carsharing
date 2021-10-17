@@ -68,10 +68,12 @@ const Reservation = () => {
         history.push(`${path}/additionally`);
         break;
       case `additionally`:
+        setActiveTotal(true);
         setSelectedAdditionally(true);
         history.push(`${path}/total`);
         break;
       case `total`:
+        
         break;
       default:
         break;
@@ -212,7 +214,13 @@ const Reservation = () => {
               <OrderItem item={order.duration} descr="Длительность аренды" />
               <OrderItem item={order.rate} descr="Тариф" />
               <OrderItem item={order.fuel} descr="Полный бак" />
-              {/* Цена */}
+              <OrderItem item={order.babyChair} descr="Детское кресло" />
+              <OrderItem item={order.rightHandDrive} descr="Правый руль" />
+              {order.price && (
+                <p className={classnames("reservation__price")}>
+                  Цена: {order.price}  &#x20bd;
+                </p>
+              )}
             </div>
             <button
               className={classnames(
