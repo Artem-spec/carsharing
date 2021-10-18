@@ -20,7 +20,7 @@ const Additionally = (props) => {
   const [car, setCar] = useState({});
   const [rate, setRate] = useState([]);
   const [colorChecked, setColorChecked] = useState("");
-  const [rateChecked, setRateChecked] = useState("");
+  const [rateChecked, setRateChecked] = useState(null);
 
   useEffect(() => {
     if (order.duration) setButtonDisabled(false)
@@ -44,7 +44,7 @@ const Additionally = (props) => {
           setColorChecked(responseCar.colors[0]);
         }
         setRate(responseRate);
-        setRateChecked(responseRate[0].rateTypeId.name);
+        setRateChecked(responseRate[0]);
         setLoading(false);
       }
     };
@@ -58,7 +58,7 @@ const Additionally = (props) => {
   }, [colorChecked, dispatch]);
 
   useEffect(() => {
-    dispatch(changeRate(rateChecked));
+    if (rateChecked) dispatch(changeRate(rateChecked.rateTypeId.name));
   }, [rateChecked, dispatch]);
 
   if (loading) {
@@ -104,7 +104,7 @@ const Additionally = (props) => {
           <h5 className={classnames("additionally__heading-h5")}>
             Дата аренды
           </h5>
-          <DateInterval order={order} setButtonDisabled={setButtonDisabled} />
+          <DateInterval order={order} setButtonDisabled={setButtonDisabled} rate={rateChecked} price={car.priceMin}/>
         </div>
         <div className={classnames("additionally__content-wrap")}>
           <h5 className={classnames("additionally__heading-h5")}>Тариф</h5>
@@ -127,7 +127,7 @@ const Additionally = (props) => {
                       "form-check-inline",
                       "additionally__rate-item"
                     )}
-                    onClick={() => setRateChecked(rate.rateTypeId.name)}
+                    onClick={() => setRateChecked(rate)}
                   >
                     <RadioButton
                       item={item}
@@ -144,7 +144,7 @@ const Additionally = (props) => {
         </div>
         <div className={classnames("additionally__content-wrap")}>
           <h5 className={classnames("additionally__heading-h5")}>Доп услуги</h5>
-          <Servises />
+          <Servises order={order} />
         </div>
       </section>
     );

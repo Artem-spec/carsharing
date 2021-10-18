@@ -8,9 +8,10 @@ import {
   changeBabyChair,
 } from "../../../../actions/actionOrder";
 
-const Servises = () => {
+const Servises = (props) => {
   const classnames = classnamesBind.bind(styles);
   const dispatch = useDispatch();
+  const { order } = props;
 
   const [fuel, setFuel] = useState("");
   const [babyChair, setBabyChair] = useState("");
@@ -29,18 +30,20 @@ const Servises = () => {
   }, [rightHand, dispatch]);
 
   const handleChangeCheckbox = (e, setParam) => {
-    if (e.target.checked) setParam("Да");
-    else setParam("");
+    if (e.target.checked) {
+      setParam("Да");
+      order.price += 500; 
+    } else {
+      setParam("");
+      order.price -= 500; 
+    }
   };
 
   return (
     <div className={classnames("checkboxs-wrap")}>
       <div className={classnames("form-check")}>
         <label
-          className={classnames(
-            "form-check-label",
-            "checkboxs-label"
-          )}
+          className={classnames("form-check-label", "checkboxs-label")}
           htmlFor="checkboxFuel"
         >
           Полный бак, 500р
@@ -54,13 +57,10 @@ const Servises = () => {
       </div>
       <div className={classnames("form-check")}>
         <label
-          className={classnames(
-            "form-check-label",
-            "checkboxs-label"
-          )}
+          className={classnames("form-check-label", "checkboxs-label")}
           htmlFor="checkboxBabyChain"
         >
-          Детское кресло, 200р"
+          Детское кресло, 500р"
         </label>
         <input
           className={classnames("form-check-input")}
@@ -71,13 +71,10 @@ const Servises = () => {
       </div>
       <div className={classnames("form-check")}>
         <label
-          className={classnames(
-            "form-check-label",
-            "checkboxs-label"
-          )}
+          className={classnames("form-check-label", "checkboxs-label")}
           htmlFor="checkboxRightHand"
         >
-          Правый руль, 1600р
+          Правый руль, 500р
         </label>
         <input
           className={classnames("form-check-input")}
