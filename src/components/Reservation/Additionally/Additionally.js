@@ -72,7 +72,8 @@ const Additionally = (props) => {
           rateChecked.price,
           "мин"
         );
-        if (price) dispatch(changePrice(parseInt(order.model.carPrice) + price));
+        if (price)
+          dispatch(changePrice(parseInt(order.model.carPrice) + price));
       }
       if (order.rate.rateId !== rateChecked.id) {
         dispatch(
@@ -86,6 +87,18 @@ const Additionally = (props) => {
       }
     }
   }, [rateChecked, dispatch]);
+
+  useEffect(() => {
+    if (order.dateFrom && order.dateTo && order.rate.description) {
+      const price = calcPrice(
+        order.dateFrom,
+        order.dateTo,
+        order.rate.price,
+        "мин"
+      );
+      if (price) dispatch(changePrice(parseInt(order.model.carPrice) + price));
+    }
+  }, [order.dateFrom, order.dateTo]);
 
   return (
     <>
