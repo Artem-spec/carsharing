@@ -1,16 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import classnamesBind from "classnames/bind";
 import styles from "./car.module.scss";
-import { changeModel, changePrice } from "../../../../actions/actionOrder";
+import { changeModel, changePrice } from "../../../../store/actions/actionOrder";
 
 const Car = (props) => {
   const { car, setButtonDisabled } = props;
   const classnames = classnamesBind.bind(styles);
   const dispatch = useDispatch();
   const { order } = useSelector((state) => state);
-  const handleClickCar = (model, priceMin, priceMax) => {
+  const handleClickCar = (model, priceMin, priceMax, carId) => {
     const price = `${priceMin}`;
-    dispatch(changeModel(model));
+    dispatch(changeModel({
+      description: model,
+      carId,
+    }));
     dispatch(changePrice(price));
     setButtonDisabled(false);
   };
@@ -28,10 +31,10 @@ const Car = (props) => {
   return (
     <div
       className={classnames("car", {
-        "car-active": order.model === car.name,
+        "car-active": order.model.carId === car.id,
       })}
       onClick={() => {
-        handleClickCar(car.name, car.priceMin, car.priceMax);
+        handleClickCar(car.name, car.priceMin, car.priceMax, car.id);
       }}
     >
       <div className={classnames("car__wrap")}>

@@ -28,7 +28,7 @@ const Model = (props) => {
   }, [order, setButtonDisabled]);
 
   useEffect(() => {
-    let cleanupFunction = false;
+    let cleanup = false;
     const getAPI = async () => {
       const responseCar = await axiosConfig.get("/car").then((response) => {
         return response.data.data;
@@ -38,7 +38,7 @@ const Model = (props) => {
         .then((response) => {
           return response.data.data;
         });
-      if (!cleanupFunction) {
+      if (!cleanup) {
         setCategory(responseCategory);
         setCar(responseCar);
         carsAPI.current = responseCar;
@@ -47,7 +47,7 @@ const Model = (props) => {
     };
     getAPI();
     // функция очистки useEffect
-    return () => (cleanupFunction = true);
+    return () => (cleanup = true);
   }, []);
 
   useEffect(() => {
@@ -65,76 +65,77 @@ const Model = (props) => {
     }
   }, [categoryChecked]);
 
-  if (loading) {
-    return (
-      <section className={classnames("model")}>
-        <Loading />
-      </section>
-    );
-  } else {
-    return (
-      <section className={classnames("model")}>
-        <div className={classnames("model__category")}>
-          <div
-            className={classnames(
-              "form-check",
-              "form-check-inline",
-              "model__category-item"
-            )}
-          >
-            <RadioButton
-              item="Все модели"
-              setChecked={setCategoryChecked}
-              inputId="inputRadioCategoryDef"
-              defaultCheck={true}
-              name="category"
-              type="radio"
-            />
-          </div>
-          {Boolean(category.length) &&
-            category.map((item, index) => {
-              const inputId = `inputRadioCategory${index}`;
-              return (
-                <div
-                  key={item.id}
-                  className={classnames(
-                    "form-check",
-                    "form-check-inline",
-                    "model__category-item"
-                  )}
-                >
-                  <RadioButton
-                    item={item.name}
-                    setChecked={setCategoryChecked}
-                    inputId={inputId}
-                    defaultCheck={false}
-                    name="category"
-                    type="radio"
-                  />
-                </div>
-              );
-            })}
-        </div>
-        <div className={classnames("model__cars")}>
-          {Boolean(cars.length) && (
-            <SimpleBar
-              style={{ width: "100%", height: "101%", maxHeight: "57vh" }}
+  return (
+    <>
+      {loading && (
+        <section className={classnames("additionally")}>
+          <Loading />
+        </section>
+      )}
+      {!loading && (
+        <section className={classnames("model")}>
+          <div className={classnames("model__category")}>
+            <div
+              className={classnames(
+                "form-check",
+                "form-check-inline",
+                "model__category-item"
+              )}
             >
-              <div className={classnames("model__car-item")}>
-                {cars.map((car) => (
-                  <Car
-                    key={car.id}
-                    car={car}
-                    setButtonDisabled={setButtonDisabled}
-                  />
-                ))}
-              </div>
-            </SimpleBar>
-          )}
-          {Boolean(!cars.length) && <h1>К сожалению таких машин нет...</h1>}
-        </div>
-      </section>
-    );
-  }
+              <RadioButton
+                item="Все модели"
+                setChecked={setCategoryChecked}
+                inputId="inputRadioCategoryDef"
+                defaultCheck={true}
+                name="category"
+                type="radio"
+              />
+            </div>
+            {Boolean(category.length) &&
+              category.map((item, index) => {
+                const inputId = `inputRadioCategory${index}`;
+                return (
+                  <div
+                    key={item.id}
+                    className={classnames(
+                      "form-check",
+                      "form-check-inline",
+                      "model__category-item"
+                    )}
+                  >
+                    <RadioButton
+                      item={item.name}
+                      setChecked={setCategoryChecked}
+                      inputId={inputId}
+                      defaultCheck={false}
+                      name="category"
+                      type="radio"
+                    />
+                  </div>
+                );
+              })}
+          </div>
+          <div className={classnames("model__cars")}>
+            {Boolean(cars.length) && (
+              <SimpleBar
+                style={{ width: "100%", height: "101%", maxHeight: "57vh" }}
+              >
+                <div className={classnames("model__car-item")}>
+                  {cars.map((car) => (
+                    <Car
+                      key={car.id}
+                      car={car}
+                      setButtonDisabled={setButtonDisabled}
+                    />
+                  ))}
+                </div>
+              </SimpleBar>
+            )}
+            {Boolean(!cars.length) && <h1>К сожалению таких машин нет...</h1>}
+          </div>
+        </section>
+      )}
+    </>
+  );
 };
 export default Model;

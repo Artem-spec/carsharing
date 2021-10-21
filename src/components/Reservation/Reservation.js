@@ -10,7 +10,10 @@ import Menu from "../Menu/Menu";
 import SwitchReservation from "./SwitchReservation/SwitchReservation";
 import OrderItem from "./OrderItem/OrderItem";
 import styles from "./reservation.module.scss";
-import { resetDataForGeolocation, resetDataForModel } from "../../actions/actionOrder";
+import {
+  resetDataForGeolocation,
+  resetDataForModel,
+} from "../../store/actions/actionOrder";
 //-----------------------------------------------------------------
 // Изменение текста кнопки
 //-----------------------------------------------------------------
@@ -73,7 +76,6 @@ const Reservation = () => {
         history.push(`${path}/total`);
         break;
       case `total`:
-        
         break;
       default:
         break;
@@ -90,15 +92,28 @@ const Reservation = () => {
     setActiveModel(false);
     setActiveAdditionally(false);
     setActiveTotal(false);
-   
   }, [order.squeezePoint, dispatch]);
 
   useEffect(() => {
     setSelectedModel(false);
+    setSelectedAdditionally(false);
     dispatch(resetDataForModel());
     setActiveAdditionally(false);
     setActiveTotal(false);
   }, [order.model, dispatch]);
+
+  useEffect(() => {
+    setSelectedAdditionally(false);
+    setActiveTotal(false);
+  }, [
+    order.color,
+    order.duration,
+    order.rate.description,
+    order.fuel,
+    order.babyChair,
+    order.rightHandDrive,
+    dispatch,
+  ]);
 
   return (
     <section className={classnames("reservation")}>
@@ -208,17 +223,25 @@ const Reservation = () => {
           >
             <h4 className={classnames("reservation__heading-h4")}>Ваш заказ</h4>
             <div className={classnames("reservation_list-order-items")}>
-              <OrderItem item={order.squeezePoint} descr="Пункт выдачи" />
-              <OrderItem item={order.model} descr="Модель" />
+              <OrderItem
+                item={order.squeezePoint.description}
+                descr="Пункт выдачи"
+              />
+              <OrderItem item={order.model.description} descr="Модель" />
               <OrderItem item={order.color} descr="Цвет" />
               <OrderItem item={order.duration} descr="Длительность аренды" />
-              <OrderItem item={order.rate} descr="Тариф" />
-              <OrderItem item={order.fuel} descr="Полный бак" />
-              <OrderItem item={order.babyChair} descr="Детское кресло" />
-              <OrderItem item={order.rightHandDrive} descr="Правый руль" />
+              <OrderItem item={order.rate.description} descr="Тариф" />
+              {order.fuel && <OrderItem item="Да" descr="Полный бак" />}
+              {order.babyChair && (
+                <OrderItem item="Да" descr="Детское кресло" />
+              )}
+              {order.rightHandDrive && (
+                <OrderItem item="Да" descr="Правый руль" />
+              )}
               {order.price && (
                 <p className={classnames("reservation__price")}>
-                  Цена: {order.price}  &#x20bd;
+                  Цена: {order.price} &#x20bd;
+                  {}
                 </p>
               )}
             </div>

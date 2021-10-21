@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import classnamesBind from "classnames/bind";
 import styles from "./servises.module.scss";
@@ -6,39 +5,18 @@ import {
   changeFuel,
   changeRightHandDrive,
   changeBabyChair,
-} from "../../../../actions/actionOrder";
+  changePrice,
+} from "../../../../store/actions/actionOrder";
 
 const Servises = (props) => {
   const classnames = classnamesBind.bind(styles);
   const dispatch = useDispatch();
   const { order } = props;
 
-  const [fuel, setFuel] = useState("");
-  const [babyChair, setBabyChair] = useState("");
-  const [rightHand, setRightHand] = useState("");
-
-  useEffect(() => {
-    dispatch(changeFuel(fuel));
-  }, [fuel, dispatch]);
-
-  useEffect(() => {
-    dispatch(changeBabyChair(babyChair));
-  }, [babyChair, dispatch]);
-
-  useEffect(() => {
-    dispatch(changeRightHandDrive(rightHand));
-  }, [rightHand, dispatch]);
-
-  const handleChangeCheckbox = (e, setParam) => {
-    if (e.target.checked) {
-      setParam("Да");
-      order.price += 500; 
-    } else {
-      setParam("");
-      order.price -= 500; 
-    }
+  const calcPrice = (value) => {
+    const calcValue = value ? parseInt(order.price) + 500 :  parseInt(order.price) - 500;
+    dispatch(changePrice(calcValue));
   };
-
   return (
     <div className={classnames("checkboxs-wrap")}>
       <div className={classnames("form-check")}>
@@ -52,7 +30,11 @@ const Servises = (props) => {
           className={classnames("form-check-input")}
           type="checkbox"
           id="checkboxFuel"
-          onChange={(e) => handleChangeCheckbox(e, setFuel)}
+          checked={order.fuel}
+          onChange={(e) => {
+            calcPrice(e.target.checked);
+            dispatch(changeFuel(e.target.checked));
+          }}
         />
       </div>
       <div className={classnames("form-check")}>
@@ -66,7 +48,11 @@ const Servises = (props) => {
           className={classnames("form-check-input")}
           type="checkbox"
           id="checkboxBabyChain"
-          onChange={(e) => handleChangeCheckbox(e, setBabyChair)}
+          checked={order.babyChair}
+          onChange={(e) => {
+            calcPrice(e.target.checked);
+            dispatch(changeBabyChair(e.target.checked));
+          }}
         />
       </div>
       <div className={classnames("form-check")}>
@@ -80,7 +66,11 @@ const Servises = (props) => {
           className={classnames("form-check-input")}
           type="checkbox"
           id="checkboxRightHand"
-          onChange={(e) => handleChangeCheckbox(e, setRightHand)}
+          checked={order.rightHandDrive}
+          onChange={(e) => {
+            calcPrice(e.target.checked);
+            dispatch(changeRightHandDrive(e.target.checked));
+          }}
         />
       </div>
     </div>

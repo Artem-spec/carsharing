@@ -1,37 +1,42 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { setHours, setMinutes } from "date-fns";
+import ReactDatePicker, { registerLocale } from "react-datepicker";
+import { ru } from "date-fns/locale";
 import classnamesBind from "classnames/bind";
+import "react-datepicker/dist/react-datepicker.css";
 import styles from "./dateInterval.module.scss";
-import { changeDuration, changePrice } from "../../../../actions/actionOrder";
-import { format } from "date-fns";
+import {
+  changeDuration,
+} from "../../../../store/actions/actionOrder";
 
 const DateInterval = (props) => {
-  const { order, setButtonDisabled, rate, price } = props;
+  const { order, rate, price } = props;
   const classnames = classnamesBind.bind(styles);
   const dispatch = useDispatch();
+  registerLocale("ru", ru);
 
-  const [dateFrom, setDateFrom] = useState("");
-  const [dateTo, setDateTo] = useState("");
-  const [errorDateFrom, setErrorDateFrom] = useState({
-    error: false,
-    description: "",
-  });
-  const [errorDateTo, setErrorDateTo] = useState({
-    error: false,
-    description: "",
-  });
+  const [dateFrom, setDateFrom] = useState(null);
+  const [dateTo, setDateTo] = useState(null);
+
+  const [minTime, setMinTime] = useState(null);
 
   useEffect(() => {
     if (order.dateTo && order.dateFrom) {
-      setDateFrom(format(order.dateFrom, "yyyy-MM-dd'T'HH:mm"));
-      setDateTo(format(order.dateTo, "yyyy-MM-dd'T'HH:mm"));
+      setDateFrom(order.dateFrom);
+      setDateTo(order.dateTo);
+      checkDate(order.dateFrom, order.dateTo);
     }
   }, []);
 
   useEffect(() => {
     if (dateFrom && dateTo) {
       const intervalObj = getInterval(dateFrom, dateTo);
-      if (intervalObj)
+      if (
+        intervalObj &&
+        order.dateTo !== intervalObj.dateToFormat &&
+        order.dateFrom !== intervalObj.dateFromFormat
+      )
         dispatch(
           changeDuration({
             duration: intervalObj.interval,
@@ -39,124 +44,106 @@ const DateInterval = (props) => {
             dateTo: intervalObj.dateToFormat,
           })
         );
-      dispatch(changePrice(intervalObj.calcPrice));
     }
-  }, [dateFrom, dateTo, dispatch]);
-
-  useEffect(() => {
-    const intervalObj = getInterval(dateFrom, dateTo);
-    if (intervalObj) dispatch(changePrice(intervalObj.calcPrice));
-  }, [rate, dispatch]);
+  }, [dateFrom, dateTo, rate, dispatch]);
 
   const getInterval = (dateFrom, dateTo) => {
     const dateFromFormat = new Date(dateFrom);
     const dateToFormat = new Date(dateTo);
     const timeDiff = dateToFormat.getTime() - dateFromFormat.getTime();
-    if (timeDiff < 0) {
-      setErrorDateTo({
-        error: true,
-        description: 'Дата "С" не может быть больше даты "По"',
-      });
-      setDateTo("");
-      setButtonDisabled(true);
-      return null;
-    } else {
-      const diffDays = Math.trunc(timeDiff / (1000 * 3600 * 24));
-      const hours = Math.abs(
-        dateToFormat.getHours() - dateFromFormat.getHours()
-      );
-      const minuts = Math.abs(
-        dateToFormat.getMinutes() - dateFromFormat.getMinutes()
-      );
-      let calcPrice;
-      switch (rate.rateTypeId.unit) {
-        case "мин":
-          calcPrice = price + diffDays * 24 * 60 * rate.price;
-          break;
-        case "7 дней":
-        case "сутки":
-        case "30 дней":
-          calcPrice = price + diffDays * rate.price;
-          break;
-        case "час":
-          calcPrice = price + diffDays * 24 * rate.price;
-          break;
-        default:
-          calcPrice = price;
-          break;
-      }
+    const diffDays = Math.trunc(timeDiff / (1000 * 3600 * 24));
+    const hours = Math.abs(dateToFormat.getHours() - dateFromFormat.getHours());
+    const minuts = Math.abs(
+      dateToFormat.getMinutes() - dateFromFormat.getMinutes()
+    );
 
-      return {
-        interval: `${diffDays} д., ${hours} ч., ${minuts} мин.`,
-        dateFromFormat,
-        dateToFormat,
-        calcPrice,
-      };
-    }
+    return {
+      interval: `${diffDays} д., ${hours} ч., ${minuts} мин.`,
+      dateFromFormat,
+      dateToFormat,
+    };
+  };
+  const checkDate = (dateFrom, dateTo) => {
+    if (
+      dateFrom.getFullYear() >= dateTo.getFullYear() &&
+      dateFrom.getMonth() >= dateTo.getMonth() &&
+      dateFrom.getDate() >= dateTo.getDate()
+    ) {
+      setMinTime(
+        new Date(
+          dateFrom.getFullYear(),
+          dateFrom.getMonth(),
+          dateFrom.getDate(),
+          dateFrom.getHours() + 1,
+          dateFrom.getMinutes()
+        )
+      );
+    } else setMinTime(setHours(setMinutes(dateFrom, 0), 0));
   };
 
-  const handleChangeDate = (value, setDate, setError) => {
-    const date = new Date(value);
-    if (!isNaN(Date.parse(date))) {
-      setDate(value);
-      setError({
-        error: false,
-        description: "",
-      });
-    } else {
-      setError({
-        error: true,
-        description: "Укажите правильную дату",
-      });
-      setButtonDisabled(true);
-    }
+  const handleChangeDateFrom = (date) => {
+    setDateFrom(date);
+    setDateTo(null);
+    setMinTime(
+      new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        date.getHours() + 1,
+        date.getMinutes()
+      )
+    );
+  };
+
+  const handleChangeDateTo = (date) => {
+    if (dateFrom >= date) {
+      setDateTo(
+        new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          dateFrom.getHours() + 1,
+          dateFrom.getMinutes()
+        )
+      );
+    } else setDateTo(date);
+    checkDate(dateFrom, date);
   };
 
   return (
     <div className={classnames("wrap")}>
-      <div className={classnames("date-input-wrap")}>
+      <div className={classnames("date-input-wrap",{
+        // "date-input-active": !order.rate.description
+      })}>
         <label className={classnames("date-input-label")} htmlFor="dateFrom">
           С
         </label>
-        <input
-          type="datetime-local"
-          className={classnames("date-input")}
-          id="dateFrom"
-          value={dateFrom}
-          onChange={(e) => {
-            handleChangeDate(e.target.value, setDateFrom, setErrorDateFrom);
-          }}
+        <ReactDatePicker
+          selected={dateFrom}
+          onChange={(date) => handleChangeDateFrom(date)}
+          showTimeSelect
+          dateFormat="MMMM d, yyyy hh:mm aa"
+          locale="ru"
         />
-        <span
-          className={classnames("date-input-error", {
-            "date-input-error-active": errorDateFrom.error,
-          })}
-        >
-          {errorDateFrom.description}
-        </span>
       </div>
-      <div className={classnames("date-input-wrap", "date-input-wrap_margin")}>
+      <div
+        className={classnames("date-input-wrap", "date-input-wrap_margin", {
+          "date-input-active": !dateFrom,
+        })}
+      >
         <label className={classnames("date-input-label")} htmlFor="dateTo">
           По
         </label>
-        <input
-          type="datetime-local"
-          className={classnames("date-input", {
-            "date-input-active": dateFrom === "",
-          })}
-          id="dateTo"
-          value={dateTo}
-          onChange={(e) => {
-            handleChangeDate(e.target.value, setDateTo, setErrorDateTo);
-          }}
+        <ReactDatePicker
+          selected={dateTo}
+          onChange={(date) => handleChangeDateTo(date)}
+          minDate={dateFrom}
+          minTime={minTime}
+          maxTime={setHours(setMinutes(dateFrom, 30), 23)}
+          showTimeSelect
+          dateFormat="MMMM d, yyyy hh:mm aa"
+          locale="ru"
         />
-        <span
-          className={classnames("date-input-error", {
-            "date-input-error-active": errorDateTo.error,
-          })}
-        >
-          {errorDateTo.description}
-        </span>
       </div>
     </div>
   );

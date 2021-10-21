@@ -1,14 +1,26 @@
 const orderState = {
-  squeezePoint: "",
-  model: "",
+  squeezePoint: {
+    description: "",
+    cityId: null,
+    pointId: null,
+  },
+  model: {
+    description: "",
+    carId: null,
+  },
   color: "",
   duration: "",
   dateFrom: "",
   dateTo: "",
-  rate: "",
-  fuel: "",
-  babyChair: "",
-  rightHandDrive: "",
+  rate: {
+    description: "",
+    rateId: null,
+    unit: "",
+    price: "",
+  },
+  fuel: false,
+  babyChair: false,
+  rightHandDrive: false,
   price: "",
 };
 const order = (state = orderState, action) => {
@@ -16,22 +28,33 @@ const order = (state = orderState, action) => {
     case "CHANGE_GEOLOCATION" || "RESET_GEOLOCATION":
       return {
         ...state,
-        squeezePoint: action.payload,
+        squeezePoint: { ...action.payload },
       };
     case "RESET_DATA_FOR_GEOLOCATION":
       return {
         ...state,
-        model: "",
+        model: {
+          description: "",
+          carId: null,
+        },
         color: "",
         duration: "",
-        rate: "",
-        fuel: "",
-        price: "",
+        dateFrom: "",
+        dateTo: "",
+        rate: {
+          description: "",
+          rateId: null,
+          unit: "",
+          price: "",
+        },
+        fuel: false,
+        babyChair: false,
+        rightHandDrive: false,
       };
     case "CHANGE_MODEL":
       return {
         ...state,
-        model: action.payload,
+        model: { ...action.payload },
       };
     case "CHANGE_PRICE":
       return {
@@ -51,7 +74,7 @@ const order = (state = orderState, action) => {
     case "CHANGE_RATE":
       return {
         ...state,
-        rate: action.payload,
+        rate: { ...action.payload },
       };
     case "CHANGE_FUEL":
       return {
@@ -73,8 +96,17 @@ const order = (state = orderState, action) => {
         ...state,
         color: "",
         duration: "",
-        rate: "",
-        fuel: "",
+        dateFrom: "",
+        dateTo: "",
+        rate: {
+          description: "",
+          rateId: null,
+          unit: "",
+          price: "",
+        },
+        fuel: false,
+        babyChair: false,
+        rightHandDrive: false,
       };
     default:
       return state;

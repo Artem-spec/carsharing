@@ -2,8 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import classnamesBind from "classnames/bind";
 import styles from "./language.module.scss";
-import { changeLanguage } from "../../actions/actionLanguage";
-
+import { changeLanguage } from "../../store/actions/actionLanguage";
 const Language = () => {
   const dispatch = useDispatch();
 
