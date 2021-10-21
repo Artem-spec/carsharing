@@ -7,7 +7,12 @@ import RadioButton from "../RadioButton/RadioButton";
 import Loading from "../Loading/Loading";
 import Servises from "./Servises/Servises";
 import DateInterval from "./DateInterval/DateInterval";
-import { changeColor, changeRate } from "../../../store/actions/actionOrder";
+import {
+  changeColor,
+  changeRate,
+  changePrice,
+} from "../../../store/actions/actionOrder";
+import calcPrice from "./util/calcPrice";
 
 const Additionally = (props) => {
   const classnames = classnamesBind.bind(styles);
@@ -59,15 +64,26 @@ const Additionally = (props) => {
   }, [colorChecked, dispatch]);
 
   useEffect(() => {
-    if (rateChecked && order.rate.rateId !== rateChecked.id) {
-      dispatch(
-        changeRate({
-          ...rateChecked,
-          description: rateChecked.description,
-          rateId: rateChecked.rateId,
-          unit: rateChecked.unit,
-        })
-      );
+    if (rateChecked) {
+      if (order.dateFrom && order.dateTo) {
+        const price = calcPrice(
+          order.dateFrom,
+          order.dateTo,
+          rateChecked.price,
+          "мин"
+        );
+        if (price) dispatch(changePrice(parseInt(order.model.carPrice) + price));
+      }
+      if (order.rate.rateId !== rateChecked.id) {
+        dispatch(
+          changeRate({
+            ...rateChecked,
+            description: rateChecked.description,
+            rateId: rateChecked.rateId,
+            unit: rateChecked.unit,
+          })
+        );
+      }
     }
   }, [rateChecked, dispatch]);
 
@@ -86,7 +102,7 @@ const Additionally = (props) => {
               {Boolean(car.colors.length) &&
                 car.colors.map((color, index) => {
                   const inputId = `inputRadioColor${index}`;
-                  const defaultCheck = color === order.color ? true : false;
+                  const defaultCheck = color === order.color;
                   return (
                     <div
                       key={index}
@@ -131,8 +147,7 @@ const Additionally = (props) => {
                     <span key={index}>&#x20bd;</span>,
                     `/${rate.rateTypeId.unit}`,
                   ];
-                  const defaultCheck =
-                    order.rate.rateId === rate.id ? true : false;
+                  const defaultCheck = order.rate.rateId === rate.id;
 
                   return (
                     <div
@@ -153,7 +168,7 @@ const Additionally = (props) => {
                     >
                       <RadioButton
                         item={item}
-                        setChecked={() => {}}
+                        // setChecked={() => {}}
                         inputId={inputId}
                         defaultCheck={defaultCheck}
                         name="rate"

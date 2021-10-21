@@ -13,6 +13,7 @@ const Car = (props) => {
     dispatch(changeModel({
       description: model,
       carId,
+      carPrice: priceMin
     }));
     dispatch(changePrice(price));
     setButtonDisabled(false);

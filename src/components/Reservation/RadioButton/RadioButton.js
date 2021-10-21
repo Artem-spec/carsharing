@@ -15,7 +15,7 @@ const RadioButton = (props) => {
           id={inputId}
           defaultChecked={defaultCheck}
           onClick={() => {
-            setChecked(item);
+            setChecked && setChecked(item);
           }}
         />
         <label className={cn("form-check-label", classnames("label-color") )} htmlFor={inputId}>

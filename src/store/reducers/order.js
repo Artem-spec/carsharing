@@ -7,6 +7,7 @@ const orderState = {
   model: {
     description: "",
     carId: null,
+    carPrice: "",
   },
   color: "",
   duration: "",

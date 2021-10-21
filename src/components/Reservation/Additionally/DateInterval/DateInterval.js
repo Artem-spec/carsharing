@@ -70,13 +70,7 @@ const DateInterval = (props) => {
       dateFrom.getDate() >= dateTo.getDate()
     ) {
       setMinTime(
-        new Date(
-          dateFrom.getFullYear(),
-          dateFrom.getMonth(),
-          dateFrom.getDate(),
-          dateFrom.getHours() + 1,
-          dateFrom.getMinutes()
-        )
+        dateFrom
       );
     } else setMinTime(setHours(setMinutes(dateFrom, 0), 0));
   };
@@ -113,7 +107,6 @@ const DateInterval = (props) => {
   return (
     <div className={classnames("wrap")}>
       <div className={classnames("date-input-wrap",{
-        // "date-input-active": !order.rate.description
       })}>
         <label className={classnames("date-input-label")} htmlFor="dateFrom">
           С
@@ -122,7 +115,7 @@ const DateInterval = (props) => {
           selected={dateFrom}
           onChange={(date) => handleChangeDateFrom(date)}
           showTimeSelect
-          dateFormat="MMMM d, yyyy hh:mm aa"
+          dateFormat="MMMM d, yyyy p"
           locale="ru"
         />
       </div>
@@ -141,7 +134,7 @@ const DateInterval = (props) => {
           minTime={minTime}
           maxTime={setHours(setMinutes(dateFrom, 30), 23)}
           showTimeSelect
-          dateFormat="MMMM d, yyyy hh:mm aa"
+          dateFormat="MMMM d, yyyy p"
           locale="ru"
         />
       </div>
