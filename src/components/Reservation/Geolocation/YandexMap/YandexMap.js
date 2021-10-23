@@ -61,14 +61,14 @@ const YandexMap = (props) => {
   useEffect(() => {
     const getCenter = async () => {
       if (ymaps) {
-        if (!order.squeezePoint) {
+        if (!order.squeezePoint.description) {
           const center = await getCoords(ymaps, defCoords.name);
           setStateCoords({
             ...defCoords,
             center,
           });
         } else {
-          const center = await getCoords(ymaps, order.squeezePoint);
+          const center = await getCoords(ymaps, order.squeezePoint.description);
           setStateCoords({
             ...defCoords,
             center,

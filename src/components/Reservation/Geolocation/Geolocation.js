@@ -5,13 +5,13 @@ import classnamesBind from "classnames/bind";
 import styles from "./geolocation.module.scss";
 import axiosConfig from "../../../utils/axiosConfig";
 import YandexMap from "./YandexMap/YandexMap";
-import { addAddressAPI } from "../../../actions/actionAddressAPI";
-import { addCityAPI } from "../../../actions/actionCitysAPI";
-import { changeDefCoords } from "../../../actions/actionDefCoords";
+import { addAddressAPI } from "../../../store/actions/actionAddressAPI";
+import { addCityAPI } from "../../../store/actions/actionCitysAPI";
+import { changeDefCoords } from "../../../store/actions/actionDefCoords";
 import {
   changeGeolocation,
   resetGeolocation,
-} from "../../../actions/actionOrder";
+} from "../../../store/actions/actionOrder";
 
 const filterCastom = (value, array, setArray, field) => {
   const filterCity = array.filter((item) => {
@@ -23,9 +23,7 @@ const filterCastom = (value, array, setArray, field) => {
 };
 
 const Geolocation = (props) => {
-  const {
-    setButtonDisabled,
-  } = props;
+  const { setButtonDisabled } = props;
 
   const dispatch = useDispatch();
 
@@ -46,10 +44,7 @@ const Geolocation = (props) => {
 
   useEffect(() => {
     setButtonDisabled(true);
-  }, [
-    setButtonDisabled,
-    dispatch,
-  ]);
+  }, [setButtonDisabled, dispatch]);
 
   useEffect(() => {
     const getAPI = async () => {
@@ -71,13 +66,13 @@ const Geolocation = (props) => {
     };
     getAPI();
 
-    if (order.squeezePoint) {
+    if (order.squeezePoint.description) {
       let nameCoord = "";
       for (const city of citysAPI) {
-        if (order.squeezePoint.startsWith(city.name)) {
+        if (city.id === order.squeezePoint.cityId) {
           setCityInput(city.name);
           for (const address of addressAPI) {
-            if (order.squeezePoint.endsWith(address.address)) {
+            if (address.id === order.squeezePoint.pointId) {
               setAddressInput(address.address);
               nameCoord = `${city.name}, ${address.address}`;
             }
@@ -106,8 +101,18 @@ const Geolocation = (props) => {
       for (const city of citysAPI) {
         if (city.name === cityInput) {
           for (const address of addressAPI) {
-            if (address.address === addressInput) {
-              dispatch(changeGeolocation(cityInput + ", " + addressInput));
+            if (
+              address.address === addressInput &&
+              order.squeezePoint.cityId !== city.id &&
+              order.squeezePoint.pointId !== address.id
+            ) {
+              dispatch(
+                changeGeolocation({
+                  description: cityInput + ", " + addressInput,
+                  cityId: city.id,
+                  pointId: address.id,
+                })
+              );
               setButtonDisabled(false);
             }
           }
