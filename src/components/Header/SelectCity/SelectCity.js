@@ -5,7 +5,7 @@ import SimpleBar from "simplebar-react";
 import classnamesBind from "classnames/bind";
 import "simplebar/dist/simplebar.min.css";
 import styles from "./selectCity.module.scss";
-import { changeCity } from "../../../actions/actionCity";
+import { changeCity } from "../../../store/actions/actionCity";
 
 const SelectCity = (props) => {
   const { active, setActive } = props;

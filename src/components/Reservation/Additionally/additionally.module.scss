@@ -1,0 +1,43 @@
+@import "../../../styles/global.scss";
+
+.additionally {
+  width: 100%;
+  margin: 0;
+}
+.additionally__heading-h5 {
+  margin: 0 0 16px 0;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 16px;
+  color: $color-black-basic;
+}
+.additionally__content-wrap {
+  margin: 32px 0;
+}
+
+.additionally__color {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.additionally__color-item {
+  word-wrap: normal;
+  height: max-content;
+}
+
+.additionally__rate {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 767px) {
+  .additionally__color-item {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 20%;
+  }
+}
