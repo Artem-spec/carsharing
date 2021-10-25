@@ -9,9 +9,10 @@ import styles from "./dateInterval.module.scss";
 import {
   changeDuration,
 } from "../../../../store/actions/actionOrder";
+import getIntervalDate from "../../../../utils/getIntervalDate";
 
 const DateInterval = (props) => {
-  const { order, rate, price } = props;
+  const { order, rate } = props;
   const classnames = classnamesBind.bind(styles);
   const dispatch = useDispatch();
   registerLocale("ru", ru);
@@ -31,38 +32,38 @@ const DateInterval = (props) => {
 
   useEffect(() => {
     if (dateFrom && dateTo) {
-      const intervalObj = getInterval(dateFrom, dateTo);
+      const interval = getIntervalDate(dateFrom, dateTo);
       if (
-        intervalObj &&
-        order.dateTo !== intervalObj.dateToFormat &&
-        order.dateFrom !== intervalObj.dateFromFormat
+        interval
+        // order.dateTo !== intervalObj.dateToFormat &&
+        // order.dateFrom !== intervalObj.dateFromFormat
       )
         dispatch(
           changeDuration({
-            duration: intervalObj.interval,
-            dateFrom: intervalObj.dateFromFormat,
-            dateTo: intervalObj.dateToFormat,
+            duration: interval,
+            dateFrom,
+            dateTo,
           })
         );
     }
   }, [dateFrom, dateTo, rate, dispatch]);
 
-  const getInterval = (dateFrom, dateTo) => {
-    const dateFromFormat = new Date(dateFrom);
-    const dateToFormat = new Date(dateTo);
-    const timeDiff = dateToFormat.getTime() - dateFromFormat.getTime();
-    const diffDays = Math.trunc(timeDiff / (1000 * 3600 * 24));
-    const hours = Math.abs(dateToFormat.getHours() - dateFromFormat.getHours());
-    const minuts = Math.abs(
-      dateToFormat.getMinutes() - dateFromFormat.getMinutes()
-    );
+  // const getInterval = (dateFrom, dateTo) => {
+  //   const dateFromFormat = new Date(dateFrom);
+  //   const dateToFormat = new Date(dateTo);
+  //   const timeDiff = dateToFormat.getTime() - dateFromFormat.getTime();
+  //   const diffDays = Math.trunc(timeDiff / (1000 * 3600 * 24));
+  //   const hours = Math.abs(dateToFormat.getHours() - dateFromFormat.getHours());
+  //   const minuts = Math.abs(
+  //     dateToFormat.getMinutes() - dateFromFormat.getMinutes()
+  //   );
 
-    return {
-      interval: `${diffDays} д., ${hours} ч., ${minuts} мин.`,
-      dateFromFormat,
-      dateToFormat,
-    };
-  };
+  //   return {
+  //     interval: `${diffDays} д., ${hours} ч., ${minuts} мин.`,
+  //     dateFromFormat,
+  //     dateToFormat,
+  //   };
+  // };
   const checkDate = (dateFrom, dateTo) => {
     if (
       dateFrom.getFullYear() >= dateTo.getFullYear() &&

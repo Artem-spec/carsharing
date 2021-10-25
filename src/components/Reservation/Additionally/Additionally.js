@@ -12,7 +12,7 @@ import {
   changeRate,
   changePrice,
 } from "../../../store/actions/actionOrder";
-import calcPrice from "./util/calcPrice";
+import calcPrice from "./utils/calcPrice";
 
 const Additionally = (props) => {
   const classnames = classnamesBind.bind(styles);

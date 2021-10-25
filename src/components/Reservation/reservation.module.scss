@@ -114,6 +114,16 @@
 .reservation_list-order-items {
   margin: 10px 0;
 }
+
+.reservation__button_red {
+  background: $background-btn-red;
+}
+.reservation__button_red:hover {
+  background: $background-btn-red-hover;
+}
+.reservation__button_red:active {
+  background: $background-btn-red-active;
+}
 .reservation__price {
   margin-top: 32px;
   font-style: normal;

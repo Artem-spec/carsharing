@@ -1,0 +1,60 @@
+@import "../../../../styles/global.scss";
+button {
+  width: 164px;
+  height: 48px;
+  margin: 0 16px;
+  color: $color-white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.modal {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none; //Для того чтобы не мешал opacity
+  transition: 0.5s;
+  z-index: 5;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+}
+.modal-heading {
+  font-size: 24px;
+  line-height: 28px;
+}
+.active {
+  opacity: 1;
+  pointer-events: all;
+}
+.modal-btn-wrap{
+    margin: 32px 0;
+}
+.modal-btn-confirmation {
+  background: $background-btn-green;
+}
+.modal-btn-confirmation:hover {
+  background: $background-btn-green-hover;
+}
+.modal-btn-confirmation:active {
+  background: $background-btn-green-active;
+}
+
+.modal-btn-return {
+  background: $background-btn-red;
+}
+.modal-btn-return:hover {
+  background: $background-btn-red-hover;
+}
+.modal-btn-return:active {
+  background: $background-btn-red-active;
+}

@@ -13,6 +13,9 @@ export const CHANGE_RIGHT_HAND_DRIVE = "CHANGE_RIGHT_HAND_DRIVE";
 
 export const RESET_DATA_FOR_MODEL = "RESET_DATA_FOR_MODEL";
 export const RESET_DATA_FOR_GEOLOCATION = "RESET_DATA_FOR_GEOLOCATION";
+
+export const RESET_ORDER = "RESET_ORDER";
+export const MODIFY_ORDER = "MODIFY_ORDER";
 //-----------------------------------------------------------
 // Экшены для "геолокации"
 //-----------------------------------------------------------
@@ -92,3 +95,11 @@ export const resetDataForGeolocation = () => {
 export const resetDataForModel = () => {
   return { type: RESET_DATA_FOR_MODEL, payload: null };
 };
+
+export const resetOrder = () => {
+  return { type: RESET_ORDER, payload: null };
+};
+
+export const modifyOrder = (order)=>{
+  return { type: MODIFY_ORDER, payload: order };
+}
