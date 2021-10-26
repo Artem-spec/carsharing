@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/carsharing/static/css/main.259f0bcb.chunk.css",
-    "main.js": "/carsharing/static/js/main.a0bd7e09.chunk.js",
-    "main.js.map": "/carsharing/static/js/main.a0bd7e09.chunk.js.map",
+    "main.css": "/carsharing/static/css/main.c993e5a4.chunk.css",
+    "main.js": "/carsharing/static/js/main.39509295.chunk.js",
+    "main.js.map": "/carsharing/static/js/main.39509295.chunk.js.map",
     "runtime-main.js": "/carsharing/static/js/runtime-main.f54867d5.js",
     "runtime-main.js.map": "/carsharing/static/js/runtime-main.f54867d5.js.map",
     "static/css/2.65db82f7.chunk.css": "/carsharing/static/css/2.65db82f7.chunk.css",
-    "static/js/2.52a6303b.chunk.js": "/carsharing/static/js/2.52a6303b.chunk.js",
-    "static/js/2.52a6303b.chunk.js.map": "/carsharing/static/js/2.52a6303b.chunk.js.map",
+    "static/js/2.6c3db69d.chunk.js": "/carsharing/static/js/2.6c3db69d.chunk.js",
+    "static/js/2.6c3db69d.chunk.js.map": "/carsharing/static/js/2.6c3db69d.chunk.js.map",
     "index.html": "/carsharing/index.html",
     "static/css/2.65db82f7.chunk.css.map": "/carsharing/static/css/2.65db82f7.chunk.css.map",
-    "static/css/main.259f0bcb.chunk.css.map": "/carsharing/static/css/main.259f0bcb.chunk.css.map",
-    "static/js/2.52a6303b.chunk.js.LICENSE.txt": "/carsharing/static/js/2.52a6303b.chunk.js.LICENSE.txt",
+    "static/css/main.c993e5a4.chunk.css.map": "/carsharing/static/css/main.c993e5a4.chunk.css.map",
+    "static/js/2.6c3db69d.chunk.js.LICENSE.txt": "/carsharing/static/js/2.6c3db69d.chunk.js.LICENSE.txt",
     "static/media/index.css": "/carsharing/static/media/Roboto-Regular.d255c3ec.woff",
     "static/media/insurance.ea68d8b3.png": "/carsharing/static/media/insurance.ea68d8b3.png",
     "static/media/parking.9369f2aa.png": "/carsharing/static/media/parking.9369f2aa.png",
@@ -21,8 +21,8 @@
   "entrypoints": [
     "static/js/runtime-main.f54867d5.js",
     "static/css/2.65db82f7.chunk.css",
-    "static/js/2.52a6303b.chunk.js",
-    "static/css/main.259f0bcb.chunk.css",
-    "static/js/main.a0bd7e09.chunk.js"
+    "static/js/2.6c3db69d.chunk.js",
+    "static/css/main.c993e5a4.chunk.css",
+    "static/js/main.39509295.chunk.js"
   ]
 }
