@@ -8,7 +8,7 @@ import Order from "../../Order/Order";
 
 const SwitchReservation = (props) => {
   const { id } = useParams();
-  const { setDisabled, setParams } = props;
+  const { setDisabled, setParams, setСonfirmationOrder } = props;
 
   useEffect(() => {
     setParams(id);
@@ -25,12 +25,17 @@ const SwitchReservation = (props) => {
       return (
         <Total
           setButtonDisabled={setDisabled}
+          setСonfirmationOrder={setСonfirmationOrder}
         />
       );
     default:
-      console.log("fff");
-      return <Order orderId={id}/>
-      break;
+      return (
+        <Order
+          orderId={id}
+          setButtonDisabled={setDisabled}
+          setСonfirmationOrder={setСonfirmationOrder}
+        />
+      );
   }
 };
 export default SwitchReservation;

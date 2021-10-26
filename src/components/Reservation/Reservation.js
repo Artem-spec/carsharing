@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Route, useRouteMatch, Redirect, useHistory } from "react-router-dom";
+import { Route, useRouteMatch, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import classnamesBind from "classnames/bind";
 import Header from "../Header/Header";
@@ -18,7 +18,6 @@ import {
   resetOrder,
 } from "../../store/actions/actionOrder";
 import parseDateToNumber from "../../utils/parseDateToNumber";
-import parseNumberToDate from "../../utils/parseNumberToDate";
 //-----------------------------------------------------------------
 // Изменение текста кнопки
 //-----------------------------------------------------------------
@@ -37,7 +36,7 @@ const changeButtonText = (params, setButtonText, confirmationOrder) => {
       setButtonText("Заказать");
       break;
     default:
-      if (confirmationOrder) setButtonText("Отменить");
+      setButtonText("Отменить");
       break;
   }
 };
@@ -93,20 +92,34 @@ const Reservation = () => {
       default:
         if (confirmationOrder) {
           setDeleteOrder(true);
-          history.push(`${path}/geolocation`);
         }
         setСonfirmationOrder(false);
         break;
     }
   };
-
-  useEffect(() => {
-    if (!params) {
-      history.push(`${path}/geolocation`);
-    }
-  }, [params]);
-
-
+  //-----------------------------------------------------------------
+  // Данные для запроса
+  //-----------------------------------------------------------------
+  const getBodyRequest = (orderStatus) => {
+    // {name: 'Новые', id: '5e26a191099b810b946c5d89'}
+    // {name: 'Подтвержденные', id: '5e26a1f0099b810b946c5d8b'}
+    // {name: 'Отмененые', id: '5e26a1f5099b810b946c5d8c'}
+    // {name: 'Временные ', id: '6114e4502aed9a0b9b850846'}
+    return {
+      orderStatusId: orderStatus,
+      cityId: { id: order.squeezePoint.cityId },
+      pointId: { id: order.squeezePoint.pointId },
+      carId: { id: order.model.carId },
+      color: order.color,
+      dateFrom: parseDateToNumber(order.dateFrom),
+      dateTo: parseDateToNumber(order.dateTo),
+      rateId: { id: order.rate.rateId },
+      price: order.price,
+      isFullTank: order.fuel,
+      isNeedChildChair: order.babyChair,
+      isRightWheel: order.rightHandDrive,
+    };
+  };
   useEffect(() => {
     changeButtonText(params, setButtonText, confirmationOrder);
   }, [params]);
@@ -160,34 +173,11 @@ const Reservation = () => {
     order.rightHandDrive,
     dispatch,
   ]);
-  useEffect(() => {
-    if (
-      params === "geolocation" ||
-      params === "model" ||
-      params === "total" ||
-      params === "additionally"
-    ) {
-      setСonfirmationOrder(false);
-    }
-  }, [params]);
 
   useEffect(() => {
     if (createOrder) {
       const orderPost = async () => {
-        const requestPost = {
-          orderStatusId: { id: "5e26a1f0099b810b946c5d8b" },
-          cityId: { id: order.squeezePoint.cityId },
-          pointId: { id: order.squeezePoint.pointId },
-          carId: { id: order.model.carId },
-          color: order.color,
-          dateFrom: parseDateToNumber(order.dateFrom),
-          dateTo: parseDateToNumber(order.dateTo),
-          rateId: { id: order.rate.rateId },
-          price: order.price,
-          isFullTank: order.fuel,
-          isNeedChildChair: order.babyChair,
-          isRightWheel: order.rightHandDrive,
-        };
+        const requestPost = getBodyRequest({ id: "5e26a1f0099b810b946c5d8b" });
         const response = await axiosConfig
           .post("/order", requestPost)
           .then((response) => {
@@ -199,19 +189,17 @@ const Reservation = () => {
       orderPost();
       setDisabled(false);
     }
-    // setCreateOrder(false);
   }, [createOrder]);
   useEffect(() => {
-    if (deleteOrder) {
-      // const orderDelete = async ()=>{
-      //    await axiosConfig
-      //     .delete(`/order/${order.id}`)
-      // }
-      // orderDelete();
+    if (deleteOrder && order.id) {
+      const requestPut = getBodyRequest({ id: "5e26a191099b810b946c5d89" });
+      const orderPut = async () => {
+        await axiosConfig.put(`/order/${order.id}`, requestPut);
+      };
+      orderPut();
       dispatch(resetOrder());
       setDeleteOrder(false);
       setCreateOrder(false);
-      setСonfirmationOrder(false);
       setSelectedGeolocation(false);
       setActiveModel(false);
       setActiveAdditionally(false);
@@ -221,9 +209,9 @@ const Reservation = () => {
       history.push(`${path}/geolocation`);
     }
   }, [deleteOrder]);
+
   return (
     <section className={classnames("reservation")}>
-      {/* <Redirect to={`${path}/geolocation`} /> */}
       <Menu setBurgerActive={setBurgerActive} />
       <div className={classnames("reservation__wrap")}>
         <div
@@ -249,6 +237,7 @@ const Reservation = () => {
           >
             <div className={classnames("reservation__iteration-wrap")}>
               <Link
+                id="rrr"
                 to={`${url}/geolocation`}
                 className={classnames("reservation__link", {
                   "reservation__link-active": true,
@@ -326,8 +315,7 @@ const Reservation = () => {
               <SwitchReservation
                 setDisabled={setDisabled}
                 setParams={setParams}
-                // createOrder={createOrder}
-                // setCreateOrder={setCreateOrder}
+                setСonfirmationOrder={setСonfirmationOrder}
               />
             }
           />

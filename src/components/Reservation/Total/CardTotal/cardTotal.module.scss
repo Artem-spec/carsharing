@@ -1,0 +1,40 @@
+.card-total__order {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card-total__order-description {
+    display: flex;
+    flex-direction: column;
+  }
+  .card-total__order-car-name {
+    font-size: 18px;
+    line-height: 21px;
+  }
+  .card-total__order-car-numder {
+    width: max-content;
+    padding: 4px 8px;
+    border: 1px solid #999999;
+    border-radius: 4px;
+    text-align: center;
+  }
+  .card-total__order-item_margin {
+    margin-top: 8px;
+  }
+  .card-total__order-car-image {
+    width: 269px;
+    height: 146px;
+    margin: 0 100px 0 20px;
+  }
+  .card-total__order-create{
+    margin: 16px 0;
+  }
+  @media (max-width: 1439px) {
+    .card-total__order-car-image {
+      margin: 0 20px 0 20px;
+    }
+  }

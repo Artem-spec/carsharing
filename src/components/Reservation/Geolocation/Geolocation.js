@@ -12,6 +12,7 @@ import {
   changeGeolocation,
   resetGeolocation,
 } from "../../../store/actions/actionOrder";
+import { resetOrder } from "../../../store/actions/actionOrder";
 
 const filterCastom = (value, array, setArray, field) => {
   const filterCity = array.filter((item) => {
@@ -43,8 +44,10 @@ const Geolocation = (props) => {
   const [addressInput, setAddressInput] = useState("");
 
   useEffect(() => {
-    setButtonDisabled(true);
-  }, [setButtonDisabled, dispatch]);
+    if (order.id) {
+      dispatch(resetOrder());
+    }
+  }, []);
 
   useEffect(() => {
     const getAPI = async () => {
@@ -96,7 +99,7 @@ const Geolocation = (props) => {
   }, []);
 
   useEffect(() => {
-    setButtonDisabled(true);
+    if (order.id) setButtonDisabled(true);
     if (cityInput && addressInput) {
       for (const city of citysAPI) {
         if (city.name === cityInput) {
@@ -122,10 +125,10 @@ const Geolocation = (props) => {
   }, [
     cityInput,
     addressInput,
-    dispatch,
-    setButtonDisabled,
-    addressAPI,
-    citysAPI,
+    // dispatch,
+    // setButtonDisabled,
+    // addressAPI,
+    // citysAPI,
   ]);
   // ------------------------------------------------------------------
   // Изменение списка адресов в зависимости от города

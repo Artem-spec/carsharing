@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import classnamesBind from "classnames/bind";
 import axiosConfig from "../../../utils/axiosConfig";
 import styles from "./additionally.module.scss";
@@ -15,6 +16,7 @@ import {
 import calcPrice from "./utils/calcPrice";
 
 const Additionally = (props) => {
+  const history = useHistory();
   const classnames = classnamesBind.bind(styles);
   const dispatch = useDispatch();
 
@@ -26,6 +28,12 @@ const Additionally = (props) => {
   const [rate, setRate] = useState([]);
   const [colorChecked, setColorChecked] = useState("");
   const [rateChecked, setRateChecked] = useState(null);
+
+  // На тот случай если ввели URL с id заказа и нажали назад
+  useEffect(() => {
+    if (!order.squeezePoint.description)
+      history.push("/reservation/geolocation");
+  }, []);
 
   useEffect(() => {
     if (order.duration && order.color && order.rate.description)

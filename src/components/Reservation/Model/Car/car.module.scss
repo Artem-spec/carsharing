@@ -41,9 +41,6 @@
     }
   }
 }
-// .car:not(:first-child){
-  
-// }
 .car:hover {
   position: relative;
   z-index: 1;
@@ -60,4 +57,3 @@
   margin-left: -1px;
   border: 1px solid $color-green;
 }
-

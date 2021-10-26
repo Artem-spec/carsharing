@@ -40,7 +40,7 @@ const StartPage = () => {
             </p>
             <Link
               to={{
-                pathname: `reservation`,
+                pathname: `reservation/geolocation`,
               }}
               className={classnames(
                 "button",

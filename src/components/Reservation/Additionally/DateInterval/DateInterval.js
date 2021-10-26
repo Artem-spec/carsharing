@@ -6,9 +6,7 @@ import { ru } from "date-fns/locale";
 import classnamesBind from "classnames/bind";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "./dateInterval.module.scss";
-import {
-  changeDuration,
-} from "../../../../store/actions/actionOrder";
+import { changeDuration } from "../../../../store/actions/actionOrder";
 import getIntervalDate from "../../../../utils/getIntervalDate";
 
 const DateInterval = (props) => {
@@ -33,11 +31,7 @@ const DateInterval = (props) => {
   useEffect(() => {
     if (dateFrom && dateTo) {
       const interval = getIntervalDate(dateFrom, dateTo);
-      if (
-        interval
-        // order.dateTo !== intervalObj.dateToFormat &&
-        // order.dateFrom !== intervalObj.dateFromFormat
-      )
+      if (interval)
         dispatch(
           changeDuration({
             duration: interval,
@@ -48,31 +42,13 @@ const DateInterval = (props) => {
     }
   }, [dateFrom, dateTo, rate, dispatch]);
 
-  // const getInterval = (dateFrom, dateTo) => {
-  //   const dateFromFormat = new Date(dateFrom);
-  //   const dateToFormat = new Date(dateTo);
-  //   const timeDiff = dateToFormat.getTime() - dateFromFormat.getTime();
-  //   const diffDays = Math.trunc(timeDiff / (1000 * 3600 * 24));
-  //   const hours = Math.abs(dateToFormat.getHours() - dateFromFormat.getHours());
-  //   const minuts = Math.abs(
-  //     dateToFormat.getMinutes() - dateFromFormat.getMinutes()
-  //   );
-
-  //   return {
-  //     interval: `${diffDays} д., ${hours} ч., ${minuts} мин.`,
-  //     dateFromFormat,
-  //     dateToFormat,
-  //   };
-  // };
   const checkDate = (dateFrom, dateTo) => {
     if (
       dateFrom.getFullYear() >= dateTo.getFullYear() &&
       dateFrom.getMonth() >= dateTo.getMonth() &&
       dateFrom.getDate() >= dateTo.getDate()
     ) {
-      setMinTime(
-        dateFrom
-      );
+      setMinTime(dateFrom);
     } else setMinTime(setHours(setMinutes(dateFrom, 0), 0));
   };
 
@@ -107,8 +83,7 @@ const DateInterval = (props) => {
 
   return (
     <div className={classnames("wrap")}>
-      <div className={classnames("date-input-wrap",{
-      })}>
+      <div className={classnames("date-input-wrap", {})}>
         <label className={classnames("date-input-label")} htmlFor="dateFrom">
           С
         </label>

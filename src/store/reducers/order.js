@@ -24,6 +24,7 @@ const orderState = {
   rightHandDrive: false,
   price: "",
   id : 0,
+  status: ""
 };
 const order = (state = orderState, action) => {
   switch (action.type) {

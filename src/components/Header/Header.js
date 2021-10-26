@@ -6,7 +6,7 @@ import SelectCity from "./SelectCity/SelectCity";
 import { Link } from "react-router-dom";
 
 const Header = () => {
-  const { city } = useSelector((state) => state); //language
+  const { city } = useSelector((state) => state);
   const classnames = classnamesBind.bind(styles);
   //Состояние модального окна выбора города
   const [selectCityActive, setSelectCityActive] = useState(false);

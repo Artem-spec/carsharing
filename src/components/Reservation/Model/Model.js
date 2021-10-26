@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import SimpleBar from "simplebar-react";
 import classnamesBind from "classnames/bind";
 import "simplebar/dist/simplebar.min.css";
@@ -11,7 +12,8 @@ import Loading from "../Loading/Loading";
 import styles from "./model.module.scss";
 
 const Model = (props) => {
-  const classnames = classnamesBind.bind(styles);
+  const history = useHistory();
+  const classnames = classnamesBind.bind(styles);  
   const { setButtonDisabled } = props;
   const [categoryChecked, setCategoryChecked] = useState("");
   const [cars, setCar] = useState([]);
@@ -23,11 +25,12 @@ const Model = (props) => {
   useEffect(() => {
     setButtonDisabled(true);
   }, [setButtonDisabled]);
-  useEffect(() => {
-    if (order.model) setButtonDisabled(false);
-  }, [order, setButtonDisabled]);
 
   useEffect(() => {
+    if (order.model.description) setButtonDisabled(false); 
+  }, [order, setButtonDisabled]);
+
+  useEffect(() => {    
     let cleanup = false;
     const getAPI = async () => {
       const responseCar = await axiosConfig.get("/car").then((response) => {
@@ -49,6 +52,11 @@ const Model = (props) => {
     // функция очистки useEffect
     return () => (cleanup = true);
   }, []);
+
+  // На тот случай если ввели URL с id заказа и нажали назад
+  useEffect(() => {
+    if (!order.squeezePoint.description) history.push("/reservation/geolocation")
+  }, [])
 
   useEffect(() => {
     if (carsAPI.current) {
