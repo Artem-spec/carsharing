@@ -7,6 +7,8 @@ import defCoordsReducers from "./defCoords";
 import addressAPIReducers from "./addressAPI";
 import citysAPIReducers from "./citysAPI";
 import carReducers from "./car";
+import orderFlagsReducers from "./orderFlags";
+import activeLinkReducers from "./activeLink";
 
 const allReducers = combineReducers({
   citys: citysReducers,
@@ -16,7 +18,9 @@ const allReducers = combineReducers({
   defCoords: defCoordsReducers,
   addressAPI: addressAPIReducers,
   citysAPI: citysAPIReducers,
-  car: carReducers
+  car: carReducers,
+  orderFlags: orderFlagsReducers,
+  activeLink: activeLinkReducers,
 });
 
 export default allReducers;

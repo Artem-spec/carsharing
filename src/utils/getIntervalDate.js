@@ -1,11 +1,15 @@
 const getIntervalDate = (dateFrom, dateTo) => {
-  const timeDiff = dateTo.getTime() - dateFrom.getTime();
-  const diffDays = Math.trunc(timeDiff / (1000 * 3600 * 24));
-  const hours = Math.abs(dateTo.getHours() - dateFrom.getHours());
-  const minuts = Math.abs(
-    dateTo.getMinutes() - dateFrom.getMinutes()
-  );
+  let delta = Math.abs(dateTo - dateFrom) / 1000;
 
-  return `${diffDays} д., ${hours} ч., ${minuts} мин.`;
+  const days = Math.floor(delta / 86400);
+  delta -= days * 86400;
+
+  const hours = Math.floor(delta / 3600) % 24;
+  delta -= hours * 3600;
+
+  const minutes = Math.floor(delta / 60) % 60;
+  delta -= minutes * 60;
+
+  return `${days} д., ${hours} ч., ${minutes} мин.`;
 };
 export default getIntervalDate;

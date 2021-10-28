@@ -8,7 +8,6 @@
   position: fixed;
   top: 0;
   left: 0;
-  pointer-events: none; //Для того чтобы не мешал opacity
   transition: 0.5s;
   z-index: 5;
 }

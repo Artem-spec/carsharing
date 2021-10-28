@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import SimpleBar from "simplebar-react";
 import classnamesBind from "classnames/bind";
@@ -10,10 +10,13 @@ import RadioButton from "../RadioButton/RadioButton";
 import Car from "./Car/Car";
 import Loading from "../Loading/Loading";
 import styles from "./model.module.scss";
+import { modifyOrderFlags } from "../../../store/actions/actionOrderFlags";
+import { resetOrder } from "../../../store/actions/actionOrder";
 
 const Model = (props) => {
   const history = useHistory();
-  const classnames = classnamesBind.bind(styles);  
+  const dispatch = useDispatch();
+  const classnames = classnamesBind.bind(styles);
   const { setButtonDisabled } = props;
   const [categoryChecked, setCategoryChecked] = useState("");
   const [cars, setCar] = useState([]);
@@ -23,14 +26,22 @@ const Model = (props) => {
   const carsAPI = useRef(null);
 
   useEffect(() => {
+    if (order.id) {
+      dispatch(modifyOrderFlags({ confirmationOrder: false }));
+      dispatch(resetOrder());
+      history.push("/reservation/geolocation");
+    }
+  }, []);
+
+  useEffect(() => {
     setButtonDisabled(true);
   }, [setButtonDisabled]);
 
   useEffect(() => {
-    if (order.model.description) setButtonDisabled(false); 
+    if (order.model.description) setButtonDisabled(false);
   }, [order, setButtonDisabled]);
 
-  useEffect(() => {    
+  useEffect(() => {
     let cleanup = false;
     const getAPI = async () => {
       const responseCar = await axiosConfig.get("/car").then((response) => {
@@ -52,11 +63,6 @@ const Model = (props) => {
     // функция очистки useEffect
     return () => (cleanup = true);
   }, []);
-
-  // На тот случай если ввели URL с id заказа и нажали назад
-  useEffect(() => {
-    if (!order.squeezePoint.description) history.push("/reservation/geolocation")
-  }, [])
 
   useEffect(() => {
     if (carsAPI.current) {

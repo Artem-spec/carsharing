@@ -100,6 +100,6 @@ export const resetOrder = () => {
   return { type: RESET_ORDER, payload: null };
 };
 
-export const modifyOrder = (order)=>{
+export const modifyOrder = (order) => {
   return { type: MODIFY_ORDER, payload: order };
-}
+};

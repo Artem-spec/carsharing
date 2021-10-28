@@ -13,6 +13,8 @@ import {
   resetGeolocation,
 } from "../../../store/actions/actionOrder";
 import { resetOrder } from "../../../store/actions/actionOrder";
+import { modifyOrderFlags } from "../../../store/actions/actionOrderFlags";
+import { useHistory } from "react-router";
 
 const filterCastom = (value, array, setArray, field) => {
   const filterCity = array.filter((item) => {
@@ -25,7 +27,7 @@ const filterCastom = (value, array, setArray, field) => {
 
 const Geolocation = (props) => {
   const { setButtonDisabled } = props;
-
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const classnames = classnamesBind.bind(styles);
@@ -45,8 +47,11 @@ const Geolocation = (props) => {
 
   useEffect(() => {
     if (order.id) {
+      dispatch(modifyOrderFlags({ confirmationOrder: false }));
       dispatch(resetOrder());
+      history.push("/reservation/geolocation");
     }
+    dispatch(modifyOrderFlags({ orderСancellation: false }));
   }, []);
 
   useEffect(() => {
@@ -99,37 +104,28 @@ const Geolocation = (props) => {
   }, []);
 
   useEffect(() => {
-    if (order.id) setButtonDisabled(true);
+    setButtonDisabled(true);
     if (cityInput && addressInput) {
       for (const city of citysAPI) {
         if (city.name === cityInput) {
           for (const address of addressAPI) {
-            if (
-              address.address === addressInput &&
-              order.squeezePoint.cityId !== city.id &&
-              order.squeezePoint.pointId !== address.id
-            ) {
-              dispatch(
-                changeGeolocation({
-                  description: cityInput + ", " + addressInput,
-                  cityId: city.id,
-                  pointId: address.id,
-                })
-              );
+            if (address.address === addressInput) {
+              if (order.squeezePoint.pointId !== address.id) {
+                dispatch(
+                  changeGeolocation({
+                    description: cityInput + ", " + addressInput,
+                    cityId: city.id,
+                    pointId: address.id,
+                  })
+                );
+              }
               setButtonDisabled(false);
             }
           }
         }
       }
     }
-  }, [
-    cityInput,
-    addressInput,
-    // dispatch,
-    // setButtonDisabled,
-    // addressAPI,
-    // citysAPI,
-  ]);
+  }, [cityInput, addressInput]);
   // ------------------------------------------------------------------
   // Изменение списка адресов в зависимости от города
   // ------------------------------------------------------------------

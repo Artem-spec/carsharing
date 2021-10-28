@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import axiosConfig from "../../utils/axiosConfig";
-import { modifyOrder } from "../../store/actions/actionOrder";
-import { modifyCar } from "../../store/actions/actionCar";
-import parseNumberToDate from "../../utils/parseNumberToDate";
-import getIntervalDate from "../../utils/getIntervalDate";
+import classNames from "classnames/bind";
 import Loading from "../Reservation/Loading/Loading";
 import CardTotal from "../Reservation/Total/CardTotal/CardTotal";
+import { modifyOrder } from "../../store/actions/actionOrder";
+import { modifyCar } from "../../store/actions/actionCar";
+import { modifyOrderFlags } from "../../store/actions/actionOrderFlags";
+import getObjModifyOrder from "./utils/getObjModifyOrder";
+import styles from "./order.module.scss";
+import { resetActiveLink } from "../../store/actions/actionActiveLink";
 
 const Order = (props) => {
-  const { orderId, setButtonDisabled, setСonfirmationOrder } = props;
+  const { orderId, setButtonDisabled } = props;
   const dispatch = useDispatch();
+  const classnames = classNames.bind(styles);
 
   const [orderAPI, getOrderAPI] = useState({});
   const [loading, setLoading] = useState(true);
@@ -33,46 +37,18 @@ const Order = (props) => {
           const rateDescr = response.hasOwnProperty("rateId")
             ? response.rateId.rateTypeId.name
             : "";
-          if (!rateDescr) setConfirmation(true);
-          const dateFrom = parseNumberToDate(response.dateFrom);
-          const dateTo = parseNumberToDate(response.dateTo);
-          dispatch(
-            modifyOrder({
-              squeezePoint: {
-                description: `${response.cityId.name}, ${response.pointId.address}`,
-                cityId: response.cityId.id,
-                pointId: response.pointId.id,
-              },
-              model: {
-                description: response.carId.name,
-                carId: response.carId.id,
-                carPrice: "",
-              },
-              color: response.color,
-              duration: getIntervalDate(dateFrom, dateTo),
-              dateFrom: dateFrom,
-              dateTo: dateTo,
-              rate: {
-                description: rateDescr,
-                rateId: null,
-                unit: "",
-                price: "",
-              },
-              fuel: response.isFullTank,
-              babyChair: response.isNeedChildChair,
-              rightHandDrive: response.isRightWheel,
-              price: response.price,
-              id: response.id,
-              status: response.orderStatusId.name,
-            })
-          );
+          if (!rateDescr) {
+            setConfirmation(true);
+            dispatch(modifyOrderFlags({ orderСancellation: true }));
+          }
+          dispatch(modifyOrder(getObjModifyOrder(response, rateDescr)));
           dispatch(modifyCar(response.carId));
           setButtonDisabled(false);
-          setLoading(false);
-          if (response.orderStatusId.name !== "Новые") {
-            setСonfirmationOrder(true);
-          }
+          if (response.orderStatusId.name !== "Новые")
+            dispatch(modifyOrderFlags({ confirmationOrder: true }));
+          else dispatch(resetActiveLink());
         }
+        setLoading(false);
       }
     };
     getAPI();
@@ -92,10 +68,22 @@ const Order = (props) => {
             <h3 style={{ margin: "20px 0" }}>Страница не найдена</h3>
           )}
           {orderAPI && (
-            <CardTotal
-              setButtonDisabled={setButtonDisabled}
-              confirmation={confirmation}
-            />
+            <div
+              style={{ width: "70%", display: "flex", flexDirection: "column" }}
+            >
+              {!confirmation && (
+                <h4 className={classnames("order-title")}>
+                  Ваш заказ подтвержден
+                </h4>
+              )}
+              {confirmation && (
+                <h4 className={classnames("order-title")}>Ваш заказ отменен</h4>
+              )}
+              <CardTotal
+                setButtonDisabled={setButtonDisabled}
+                confirmation={confirmation}
+              />
+            </div>
           )}
         </>
       )}

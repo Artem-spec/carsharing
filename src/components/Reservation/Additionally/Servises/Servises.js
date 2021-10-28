@@ -14,7 +14,9 @@ const Servises = (props) => {
   const { order } = props;
 
   const calcPrice = (value) => {
-    const calcValue = value ? parseInt(order.price) + 500 :  parseInt(order.price) - 500;
+    const calcValue = value
+      ? parseInt(order.price) + 500
+      : parseInt(order.price) - 500;
     dispatch(changePrice(calcValue));
   };
   return (

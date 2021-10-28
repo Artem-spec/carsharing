@@ -20,7 +20,7 @@ button {
   top: 0;
   left: 0;
   opacity: 0;
-  pointer-events: none; //Для того чтобы не мешал opacity
+  pointer-events: none;
   transition: 0.5s;
   z-index: 5;
   font-style: normal;
@@ -36,8 +36,8 @@ button {
   opacity: 1;
   pointer-events: all;
 }
-.modal-btn-wrap{
-    margin: 32px 0;
+.modal-btn-wrap {
+  margin: 32px 0;
 }
 .modal-btn-confirmation {
   background: $background-btn-green;
@@ -57,4 +57,15 @@ button {
 }
 .modal-btn-return:active {
   background: $background-btn-red-active;
+}
+
+@media (max-width: 450px) {
+  .modal-btn-wrap {
+    margin: 5px 0 15px;
+    display: flex;
+    flex-direction: column;
+  }
+  button {
+    margin: 15px;
+  }
 }

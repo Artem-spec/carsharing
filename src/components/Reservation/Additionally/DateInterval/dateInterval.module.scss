@@ -1,5 +1,5 @@
 @import "../../../../styles/global.scss";
-@import 'node_modules/react-datepicker/src/stylesheets/datepicker.scss';
+@import "node_modules/react-datepicker/src/stylesheets/datepicker.scss";
 .wrap {
   font-style: normal;
   font-weight: 300;
@@ -8,7 +8,6 @@
 }
 .date-input-wrap {
   display: flex;
-  // flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
 }
@@ -45,7 +44,7 @@
     margin-left: 0;
   }
 }
-input{
+input {
   width: 175px;
   border: none;
   border-bottom: 1px solid $color-gray-dark;

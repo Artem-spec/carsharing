@@ -4,8 +4,6 @@
   flex-direction: row;
   min-height: 100vh;
   height: max-content;
-  // height: 100vh;
-  // overflow: hidden;
 }
 .border {
   width: 100%;
@@ -132,6 +130,19 @@
   line-height: 16px;
   color: $color-black-basic;
 }
+.reservation__order-id {
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  color: #121212;
+}
+
+.reservation__button_disabled {
+  display: none;
+}
 @media (max-width: 1439px) {
   .reservation__container {
     width: 900px;
@@ -168,9 +179,8 @@
     width: initial;
     margin: 0;
   }
-  .reservation__wrap{
+  .reservation__wrap {
     padding: 15px 15px 15px 15px;
     box-sizing: border-box;
   }
 }
-

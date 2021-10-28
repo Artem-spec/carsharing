@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import classnamesBind from "classnames/bind";
 import styles from "./cardTotal.module.scss";
@@ -9,40 +9,17 @@ const CardTotal = (props) => {
   const classnames = classnamesBind.bind(styles);
   const { order, car } = useSelector((state) => state);
   const { setButtonDisabled, confirmation } = props;
-  const [styleImg, setStyleImg] = useState(null);
 
-  // На тот случай если ввели URL с id заказа и нажали назад
   useEffect(() => {
     if (!confirmation) setButtonDisabled(false);
     if (confirmation) setButtonDisabled(true);
   }, []);
-
-  useEffect(() => {
-    if (Boolean(Object.keys(car).length))
-      setStyleImg(
-        car.thumbnail.path.startsWith("/files/")
-          ? {}
-          : {
-              width: "100%",
-              height: "100%",
-              backgroundImage: "url(" + car.thumbnail.path + ")",
-              backgroundPosition: "center",
-              backgroundSize: "100% auto",
-              backgroundRepeat: "no-repeat",
-            }
-      );
-  }, [car]);
 
   return (
     <>
       {Boolean(Object.keys(car).length) && (
         <div className={classnames("card-total__order")}>
           <div className={classnames("card-total__order-description")}>
-            {!confirmation && (
-              <h4 className={classnames("card-total__order-create")}>
-                Ваш заказ подтвержден
-              </h4>
-            )}
             <span className={classnames("card-total__order-car-name")}>
               {car.name}
             </span>
@@ -75,7 +52,16 @@ const CardTotal = (props) => {
             </span>
           </div>
           <div className={classnames("card-total__order-car-image")}>
-            <div style={styleImg}></div>
+            <div
+              className={classnames("card-total__image")}
+              style={
+                car.thumbnail.path.startsWith("/files/")
+                  ? {}
+                  : {
+                      backgroundImage: "url(" + car.thumbnail.path + ")",
+                    }
+              }
+            ></div>
           </div>
         </div>
       )}

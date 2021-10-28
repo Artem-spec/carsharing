@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
 import classnamesBind from "classnames/bind";
 import axiosConfig from "../../../utils/axiosConfig";
 import styles from "./additionally.module.scss";
@@ -12,14 +11,16 @@ import {
   changeColor,
   changeRate,
   changePrice,
+  resetOrder,
 } from "../../../store/actions/actionOrder";
 import calcPrice from "./utils/calcPrice";
+import { modifyOrderFlags } from "../../../store/actions/actionOrderFlags";
+import { useHistory } from "react-router";
 
 const Additionally = (props) => {
-  const history = useHistory();
   const classnames = classnamesBind.bind(styles);
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const { setButtonDisabled } = props;
   const { order } = useSelector((state) => state);
 
@@ -29,10 +30,12 @@ const Additionally = (props) => {
   const [colorChecked, setColorChecked] = useState("");
   const [rateChecked, setRateChecked] = useState(null);
 
-  // На тот случай если ввели URL с id заказа и нажали назад
   useEffect(() => {
-    if (!order.squeezePoint.description)
+    if (order.id) {
+      dispatch(modifyOrderFlags({ confirmationOrder: false }));
+      dispatch(resetOrder());
       history.push("/reservation/geolocation");
+    }
   }, []);
 
   useEffect(() => {
@@ -108,6 +111,14 @@ const Additionally = (props) => {
     }
   }, [order.dateFrom, order.dateTo]);
 
+  const handleClickRate = (item) => {
+    setRateChecked({
+      ...item,
+      description: item.rateTypeId.name,
+      rateId: item.id,
+      unit: item.rateTypeId.unit,
+    });
+  };
   return (
     <>
       {loading && (
@@ -178,19 +189,12 @@ const Additionally = (props) => {
                         "form-check-inline",
                         "additionally__rate-item"
                       )}
-                      onClick={() =>
-                        setRateChecked({
-                          ...rate,
-                          description: rate.rateTypeId.name,
-                          rateId: rate.id,
-                          unit: rate.rateTypeId.unit,
-                        })
-                      }
                     >
                       <RadioButton
                         item={item}
-                        // setChecked={() => {}}
+                        objItem={rate} //только для тарифа
                         inputId={inputId}
+                        setChecked={handleClickRate}
                         defaultCheck={defaultCheck}
                         name="rate"
                         type="radio"

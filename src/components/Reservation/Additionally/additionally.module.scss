@@ -33,7 +33,9 @@
   width: 70%;
   flex-wrap: wrap;
 }
-
+.additionally__rate-item{
+  max-width: max-content;
+}
 @media (max-width: 767px) {
   .additionally__color-item {
     flex-grow: 1;

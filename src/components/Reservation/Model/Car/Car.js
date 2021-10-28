@@ -13,29 +13,18 @@ const Car = (props) => {
   const dispatch = useDispatch();
   const { order } = useSelector((state) => state);
   const handleClickCar = () => {
-    const price = `${car.priceMin}`;
     dispatch(
       changeModel({
         description: car.name,
         carId: car.id,
-        carPrice: car.priceMin,
+        carPrice: String(car.priceMin),
       })
     );
-    dispatch(changePrice(price));
+    dispatch(changePrice(String(car.priceMin)));
     dispatch(modifyCar(car));
     setButtonDisabled(false);
   };
 
-  const styleImg = car.thumbnail.path.startsWith("/files/")
-    ? {}
-    : {
-        width: "100%",
-        height: "100%",
-        backgroundImage: "url(" + car.thumbnail.path + ")",
-        backgroundPosition: "center",
-        backgroundSize: "100% auto",
-        backgroundRepeat: "no-repeat",
-      };
   return (
     <div
       className={classnames("car", {
@@ -49,7 +38,14 @@ const Car = (props) => {
           {car.priceMin} - {car.priceMax} &#x20bd;
         </p>
         <div className={classnames("car__img-wrap")}>
-          <div style={styleImg}></div>
+          <div
+            className={classnames("car__image")}
+            style={
+              car.thumbnail.path.startsWith("/files/")
+                ? {}
+                : { backgroundImage: "url(" + car.thumbnail.path + ")" }
+            }
+          ></div>
         </div>
       </div>
     </div>

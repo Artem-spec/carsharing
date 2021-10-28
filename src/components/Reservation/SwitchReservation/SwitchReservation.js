@@ -8,7 +8,7 @@ import Order from "../../Order/Order";
 
 const SwitchReservation = (props) => {
   const { id } = useParams();
-  const { setDisabled, setParams, setСonfirmationOrder } = props;
+  const { setDisabled, setParams } = props;
 
   useEffect(() => {
     setParams(id);
@@ -22,20 +22,9 @@ const SwitchReservation = (props) => {
     case `additionally`:
       return <Additionally setButtonDisabled={setDisabled} />;
     case `total`:
-      return (
-        <Total
-          setButtonDisabled={setDisabled}
-          setСonfirmationOrder={setСonfirmationOrder}
-        />
-      );
+      return <Total setButtonDisabled={setDisabled} />;
     default:
-      return (
-        <Order
-          orderId={id}
-          setButtonDisabled={setDisabled}
-          setСonfirmationOrder={setСonfirmationOrder}
-        />
-      );
+      return <Order orderId={id} setButtonDisabled={setDisabled} />;
   }
 };
 export default SwitchReservation;
