@@ -4,8 +4,6 @@
   flex-direction: row;
   min-height: 100vh;
   height: max-content;
-  // height: 100vh;
-  // overflow: hidden;
 }
 .border {
   width: 100%;
@@ -114,6 +112,16 @@
 .reservation_list-order-items {
   margin: 10px 0;
 }
+
+.reservation__button_red {
+  background: $background-btn-red;
+}
+.reservation__button_red:hover {
+  background: $background-btn-red-hover;
+}
+.reservation__button_red:active {
+  background: $background-btn-red-active;
+}
 .reservation__price {
   margin-top: 32px;
   font-style: normal;
@@ -121,6 +129,19 @@
   font-size: 16px;
   line-height: 16px;
   color: $color-black-basic;
+}
+.reservation__order-id {
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  color: #121212;
+}
+
+.reservation__button_disabled {
+  display: none;
 }
 @media (max-width: 1439px) {
   .reservation__container {
@@ -158,9 +179,8 @@
     width: initial;
     margin: 0;
   }
-  .reservation__wrap{
+  .reservation__wrap {
     padding: 15px 15px 15px 15px;
     box-sizing: border-box;
   }
 }
-

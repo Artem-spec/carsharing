@@ -4,13 +4,11 @@ import Geolocation from "../Geolocation/Geolocation";
 import Model from "../Model/Model";
 import Additionally from "../Additionally/Additionally";
 import Total from "../Total/Total";
+import Order from "../../Order/Order";
 
 const SwitchReservation = (props) => {
   const { id } = useParams();
-  const {
-    setDisabled,
-    setParams,
-  } = props;
+  const { setDisabled, setParams } = props;
 
   useEffect(() => {
     setParams(id);
@@ -18,27 +16,15 @@ const SwitchReservation = (props) => {
 
   switch (id) {
     case `geolocation`:
-      return (
-        <Geolocation
-          setButtonDisabled={setDisabled}
-        />
-      );
+      return <Geolocation setButtonDisabled={setDisabled} />;
     case `model`:
-      return (
-        <Model
-          setButtonDisabled={setDisabled}
-        />
-      );
+      return <Model setButtonDisabled={setDisabled} />;
     case `additionally`:
-      return (
-        <Additionally
-          setButtonDisabled={setDisabled}
-        />
-      );
+      return <Additionally setButtonDisabled={setDisabled} />;
     case `total`:
       return <Total setButtonDisabled={setDisabled} />;
     default:
-      break;
+      return <Order orderId={id} setButtonDisabled={setDisabled} />;
   }
 };
 export default SwitchReservation;

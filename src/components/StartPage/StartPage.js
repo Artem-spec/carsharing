@@ -22,7 +22,7 @@ const StartPage = () => {
         <div className={classnames("start-page__reservation")}>
           <div className={classnames("start-page__header")}>
             <Header />
-          </div>        
+          </div>
           <div className={classnames("start-page__main")}>
             <h2 className={classnames("start-page__heading-h2")}>
               {t("Carsharing.1")}
@@ -40,7 +40,7 @@ const StartPage = () => {
             </p>
             <Link
               to={{
-                pathname: `reservation`,
+                pathname: `reservation/geolocation`,
               }}
               className={classnames(
                 "button",
@@ -50,7 +50,7 @@ const StartPage = () => {
               )}
             >
               <span>{t("Button.Reservation")}</span>
-            </Link>           
+            </Link>
           </div>
           <div className={classnames("start-page__footer")}>
             <span className={classnames("start-page__date-creation")}>
@@ -66,10 +66,7 @@ const StartPage = () => {
         </div>
         <Slider />
       </div>
-      <BurgerMenu
-        active={burgerActive}
-        setActive={setBurgerActive}
-      />
+      <BurgerMenu active={burgerActive} setActive={setBurgerActive} />
     </section>
   );
 };

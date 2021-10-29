@@ -3,7 +3,7 @@ const calcPrice = (dataFrom, dateTo, price, unit) => {
   const hourDays = Math.trunc(timeDiff / (1000 * 3600));
   switch (unit) {
     case "мин":
-      return ( hourDays * 60 * price );
+      return hourDays * 60 * price;
     default:
       return null;
   }

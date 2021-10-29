@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import SimpleBar from "simplebar-react";
 import classnamesBind from "classnames/bind";
 import "simplebar/dist/simplebar.min.css";
@@ -9,8 +10,12 @@ import RadioButton from "../RadioButton/RadioButton";
 import Car from "./Car/Car";
 import Loading from "../Loading/Loading";
 import styles from "./model.module.scss";
+import { modifyOrderFlags } from "../../../store/actions/actionOrderFlags";
+import { resetOrder } from "../../../store/actions/actionOrder";
 
 const Model = (props) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const classnames = classnamesBind.bind(styles);
   const { setButtonDisabled } = props;
   const [categoryChecked, setCategoryChecked] = useState("");
@@ -21,10 +26,19 @@ const Model = (props) => {
   const carsAPI = useRef(null);
 
   useEffect(() => {
+    if (order.id || !order.squeezePoint.description) {
+      dispatch(modifyOrderFlags({ confirmationOrder: false }));
+      dispatch(resetOrder());
+      history.push("/reservation/geolocation");
+    }
+  }, []);
+
+  useEffect(() => {
     setButtonDisabled(true);
   }, [setButtonDisabled]);
+
   useEffect(() => {
-    if (order.model) setButtonDisabled(false);
+    if (order.model.description) setButtonDisabled(false);
   }, [order, setButtonDisabled]);
 
   useEffect(() => {

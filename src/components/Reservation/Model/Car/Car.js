@@ -1,42 +1,36 @@
 import { useDispatch, useSelector } from "react-redux";
 import classnamesBind from "classnames/bind";
 import styles from "./car.module.scss";
-import { changeModel, changePrice } from "../../../../store/actions/actionOrder";
+import {
+  changeModel,
+  changePrice,
+} from "../../../../store/actions/actionOrder";
+import { modifyCar } from "../../../../store/actions/actionCar";
 
 const Car = (props) => {
   const { car, setButtonDisabled } = props;
   const classnames = classnamesBind.bind(styles);
   const dispatch = useDispatch();
   const { order } = useSelector((state) => state);
-  const handleClickCar = (model, priceMin, priceMax, carId) => {
-    const price = `${priceMin}`;
-    dispatch(changeModel({
-      description: model,
-      carId,
-      carPrice: priceMin
-    }));
-    dispatch(changePrice(price));
+  const handleClickCar = () => {
+    dispatch(
+      changeModel({
+        description: car.name,
+        carId: car.id,
+        carPrice: String(car.priceMin),
+      })
+    );
+    dispatch(changePrice(String(car.priceMin)));
+    dispatch(modifyCar(car));
     setButtonDisabled(false);
   };
 
-  const styleImg = car.thumbnail.path.startsWith("/files/")
-    ? {}
-    : {
-        width: "100%",
-        height: "100%",
-        backgroundImage: "url(" + car.thumbnail.path + ")",
-        backgroundPosition: "center",
-        backgroundSize: "100% auto",
-        backgroundRepeat: "no-repeat",
-      };
   return (
     <div
       className={classnames("car", {
         "car-active": order.model.carId === car.id,
       })}
-      onClick={() => {
-        handleClickCar(car.name, car.priceMin, car.priceMax, car.id);
-      }}
+      onClick={handleClickCar}
     >
       <div className={classnames("car__wrap")}>
         <h4 className={classnames("car__heading")}>{car.name}</h4>
@@ -44,7 +38,14 @@ const Car = (props) => {
           {car.priceMin} - {car.priceMax} &#x20bd;
         </p>
         <div className={classnames("car__img-wrap")}>
-          <div style={styleImg}></div>
+          <div
+            className={classnames("car__image")}
+            style={
+              car.thumbnail.path.startsWith("/files/")
+                ? {}
+                : { backgroundImage: "url(" + car.thumbnail.path + ")" }
+            }
+          ></div>
         </div>
       </div>
     </div>

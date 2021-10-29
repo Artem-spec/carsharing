@@ -38,12 +38,13 @@
     }
     .car__image {
       width: 100%;
+      height: 100%;
+      background-position: center;
+      background-size: 100% auto;
+      background-repeat: no-repeat;
     }
   }
 }
-// .car:not(:first-child){
-  
-// }
 .car:hover {
   position: relative;
   z-index: 1;
@@ -60,4 +61,3 @@
   margin-left: -1px;
   border: 1px solid $color-green;
 }
-

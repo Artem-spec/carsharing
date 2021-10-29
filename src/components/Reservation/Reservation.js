@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Route, useRouteMatch, Redirect, useHistory } from "react-router-dom";
+import { Route, useRouteMatch, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import classnamesBind from "classnames/bind";
 import Header from "../Header/Header";
@@ -9,48 +9,32 @@ import BurgerMenu from "../Menu/BurgerMenu/BurgerMenu";
 import Menu from "../Menu/Menu";
 import SwitchReservation from "./SwitchReservation/SwitchReservation";
 import OrderItem from "./OrderItem/OrderItem";
+import СonfirmationOrder from "./Total/СonfirmationOrder/СonfirmationOrder";
 import styles from "./reservation.module.scss";
+import axiosConfig from "../../utils/axiosConfig";
 import {
   resetDataForGeolocation,
   resetDataForModel,
+  resetOrder,
 } from "../../store/actions/actionOrder";
-//-----------------------------------------------------------------
-// Изменение текста кнопки
-//-----------------------------------------------------------------
-const changeButtonText = (params, setButtonText) => {
-  switch (params) {
-    case `geolocation`:
-      setButtonText("Выбрать модель");
-      break;
-    case `model`:
-      setButtonText("Дополнительно");
-      break;
-    case `additionally`:
-      setButtonText("Итого");
-      break;
-    case `total`:
-      setButtonText("Заказать");
-      break;
-    default:
-      break;
-  }
-};
+import { modifyOrderFlags } from "../../store/actions/actionOrderFlags";
+import {
+  modifyActiveLink,
+  resetActiveLink,
+} from "../../store/actions/actionActiveLink";
+import getBodyRequest from "../../utils/getBodyRequest";
+import changeButtonText from "../../utils/changeButtonTextReservation";
 
 const Reservation = () => {
   const { url, path } = useRouteMatch();
   const history = useHistory();
   const dispatch = useDispatch();
   const classnames = classnamesBind.bind(styles);
-  const { order } = useSelector((state) => state);
+
+  const { order, orderFlags, activeLink } = useSelector((state) => state);
+
   const [burgerActive, setBurgerActive] = useState(false);
   const [selectCityActive, setSelectCityActive] = useState(false);
-  const [activeModel, setActiveModel] = useState(false);
-  const [activeAdditionally, setActiveAdditionally] = useState(false);
-  const [activeTotal, setActiveTotal] = useState(false);
-
-  const [selectedGeolocatinon, setSelectedGeolocation] = useState(false);
-  const [selectedModel, setSelectedModel] = useState(false);
-  const [selectedAdditionally, setSelectedAdditionally] = useState(false);
 
   const [buttonDisabled, setDisabled] = useState(true);
   const [params, setParams] = useState("");
@@ -61,50 +45,94 @@ const Reservation = () => {
   const handleClickButton = () => {
     switch (params) {
       case `geolocation`:
-        setActiveModel(true);
-        setSelectedGeolocation(true);
+        dispatch(
+          modifyActiveLink({
+            activeModel: true,
+            selectedGeolocation: true,
+          })
+        );
         history.push(`${path}/model`);
         break;
       case `model`:
-        setActiveAdditionally(true);
-        setSelectedModel(true);
+        dispatch(
+          modifyActiveLink({
+            activeAdditionally: true,
+            selectedModel: true,
+          })
+        );
         history.push(`${path}/additionally`);
         break;
       case `additionally`:
-        setActiveTotal(true);
-        setSelectedAdditionally(true);
+        dispatch(
+          modifyActiveLink({
+            activeTotal: true,
+            selectedAdditionally: true,
+          })
+        );
         history.push(`${path}/total`);
         break;
       case `total`:
+        dispatch(modifyOrderFlags({ modalOrder: true }));
         break;
       default:
+        dispatch(
+          modifyOrderFlags({ deleteOrder: true, confirmationOrder: false })
+        );
         break;
     }
   };
-
+  //-----------------------------------------------------------------
+  // Смена текста кнопки
+  //-----------------------------------------------------------------
   useEffect(() => {
     changeButtonText(params, setButtonText);
   }, [params]);
 
   useEffect(() => {
-    setSelectedGeolocation(false);
-    dispatch(resetDataForGeolocation());
-    setActiveModel(false);
-    setActiveAdditionally(false);
-    setActiveTotal(false);
-  }, [order.squeezePoint, dispatch]);
+    if (
+      params === "geolocation" ||
+      params === "model" ||
+      params === "total" ||
+      params === "additionally"
+    ) {
+      dispatch(resetActiveLink());
+      dispatch(resetDataForGeolocation());
+    }
+  }, [order.squeezePoint]);
 
   useEffect(() => {
-    setSelectedModel(false);
-    setSelectedAdditionally(false);
-    dispatch(resetDataForModel());
-    setActiveAdditionally(false);
-    setActiveTotal(false);
-  }, [order.model, dispatch]);
+    if (
+      params === "geolocation" ||
+      params === "model" ||
+      params === "total" ||
+      params === "additionally"
+    ) {
+      dispatch(
+        modifyActiveLink({
+          selectedModel: false,
+          selectedAdditionally: false,
+          activeAdditionally: false,
+          activeTotal: false,
+        })
+      );
+      dispatch(resetDataForModel());
+    }
+  }, [order.model]);
 
   useEffect(() => {
-    setSelectedAdditionally(false);
-    setActiveTotal(false);
+    if (
+      params === "geolocation" ||
+      params === "model" ||
+      params === "total" ||
+      params === "additionally"
+    ) {
+      dispatch(
+        modifyActiveLink({
+          selectedAdditionally: false,
+          activeTotal: false,
+        })
+      );
+    }
   }, [
     order.color,
     order.duration,
@@ -112,12 +140,27 @@ const Reservation = () => {
     order.fuel,
     order.babyChair,
     order.rightHandDrive,
-    dispatch,
   ]);
+
+  useEffect(() => {
+    if (orderFlags.deleteOrder && order.id) {
+      const requestPut = getBodyRequest(
+        { id: "5e26a191099b810b946c5d89" },
+        order
+      );
+      const orderPut = async () => {
+        await axiosConfig.put(`/order/${order.id}`, requestPut);
+      };
+      orderPut();
+      dispatch(resetOrder());
+      dispatch(modifyOrderFlags({ createOrder: false, deleteOrder: false }));
+      dispatch(resetActiveLink());
+      history.push(`${path}/geolocation`);
+    }
+  }, [orderFlags.deleteOrder]);
 
   return (
     <section className={classnames("reservation")}>
-      <Redirect to={`${path}/geolocation`} />
       <Menu setBurgerActive={setBurgerActive} />
       <div className={classnames("reservation__wrap")}>
         <div
@@ -129,75 +172,89 @@ const Reservation = () => {
           <Header />
         </div>
         <div className={classnames("border")}></div>
-        <div
-          className={classnames(
-            "reservation__iteration",
-            "reservation__container"
-          )}
-        >
-          <div className={classnames("reservation__iteration-wrap")}>
-            <Link
-              to={`${url}/geolocation`}
-              className={classnames("reservation__link", {
-                "reservation__link-active": true,
-                "reservation__link-selected": selectedGeolocatinon,
-              })}
-            >
-              Местоположение
-            </Link>
-            <span className={classnames("reservation__iteration-arrow")}>
-              <svg width="6" height="8" viewBox="0 0 6 8" fill="none">
-                <path d="M0 0L6 4.03L0 8V0Z" fill="#999999" />
-              </svg>
-            </span>
-          </div>
-          <div className={classnames("reservation__iteration-wrap")}>
-            <Link
-              to={`${url}/model`}
-              id="model"
-              className={classnames("reservation__link", {
-                "reservation__link-active": activeModel,
-                "reservation__link-disabled": !activeModel,
-                "reservation__link-selected": selectedModel,
-              })}
-            >
-              Модель
-            </Link>
-            <span className={classnames("reservation__iteration-arrow")}>
-              <svg width="6" height="8" viewBox="0 0 6 8" fill="none">
-                <path d="M0 0L6 4.03L0 8V0Z" fill="#999999" />
-              </svg>
-            </span>
-          </div>
-          <div className={classnames("reservation__iteration-wrap")}>
-            <Link
-              to={`${url}/additionally`}
-              className={classnames("reservation__link", {
-                "reservation__link-active": activeAdditionally,
-                "reservation__link-disabled": !activeAdditionally,
-                "reservation__link-selected": selectedAdditionally,
-              })}
-              id="additionally"
-            >
-              Дополнительно
-            </Link>
-            <span className={classnames("reservation__iteration-arrow")}>
-              <svg width="6" height="8" viewBox="0 0 6 8" fill="none">
-                <path d="M0 0L6 4.03L0 8V0Z" fill="#999999" />
-              </svg>
-            </span>
-          </div>
-          <Link
-            to={`${url}/total`}
-            className={classnames("reservation__link", {
-              "reservation__link-active": activeTotal,
-              "reservation__link-disabled": !activeTotal,
-            })}
-            id="total"
+        {orderFlags.confirmationOrder && (
+          <div
+            className={classnames(
+              "reservation__container",
+              "reservation__order-id"
+            )}
           >
-            Итого
-          </Link>
-        </div>
+            Заказ номер RU{order.id}
+          </div>
+        )}
+        {!orderFlags.confirmationOrder && (
+          <div
+            className={classnames(
+              "reservation__iteration",
+              "reservation__container"
+            )}
+          >
+            <div className={classnames("reservation__iteration-wrap")}>
+              <Link
+                id="rrr"
+                to={`${url}/geolocation`}
+                className={classnames("reservation__link", {
+                  "reservation__link-active": true,
+                  "reservation__link-selected": activeLink.selectedGeolocation,
+                })}
+              >
+                Местоположение
+              </Link>
+              <span className={classnames("reservation__iteration-arrow")}>
+                <svg width="6" height="8" viewBox="0 0 6 8" fill="none">
+                  <path d="M0 0L6 4.03L0 8V0Z" fill="#999999" />
+                </svg>
+              </span>
+            </div>
+            <div className={classnames("reservation__iteration-wrap")}>
+              <Link
+                to={`${url}/model`}
+                id="model"
+                className={classnames("reservation__link", {
+                  "reservation__link-active": activeLink.activeModel,
+                  "reservation__link-disabled": !activeLink.activeModel,
+                  "reservation__link-selected": activeLink.selectedModel,
+                })}
+              >
+                Модель
+              </Link>
+              <span className={classnames("reservation__iteration-arrow")}>
+                <svg width="6" height="8" viewBox="0 0 6 8" fill="none">
+                  <path d="M0 0L6 4.03L0 8V0Z" fill="#999999" />
+                </svg>
+              </span>
+            </div>
+            <div className={classnames("reservation__iteration-wrap")}>
+              <Link
+                to={`${url}/additionally`}
+                className={classnames("reservation__link", {
+                  "reservation__link-active": activeLink.activeAdditionally,
+                  "reservation__link-disabled": !activeLink.activeAdditionally,
+                  "reservation__link-selected": activeLink.selectedAdditionally,
+                })}
+                id="additionally"
+              >
+                Дополнительно
+              </Link>
+              <span className={classnames("reservation__iteration-arrow")}>
+                <svg width="6" height="8" viewBox="0 0 6 8" fill="none">
+                  <path d="M0 0L6 4.03L0 8V0Z" fill="#999999" />
+                </svg>
+              </span>
+            </div>
+            <Link
+              to={`${url}/total`}
+              className={classnames("reservation__link", {
+                "reservation__link-active": activeLink.activeTotal,
+                "reservation__link-disabled": !activeLink.activeTotal,
+              })}
+              id="total"
+            >
+              Итого
+            </Link>
+          </div>
+        )}
+
         <div className={classnames("border")}></div>
 
         <div
@@ -250,7 +307,11 @@ const Reservation = () => {
                 "button",
                 "reservation__button",
                 "reservation__button_padding",
-                "reservation_button_margin"
+                "reservation_button_margin",
+                {
+                  reservation__button_red: orderFlags.confirmationOrder,
+                  reservation__button_disabled: orderFlags.orderСancellation,
+                }
               )}
               disabled={buttonDisabled}
               onClick={handleClickButton}
@@ -263,6 +324,10 @@ const Reservation = () => {
 
       <SelectCity active={selectCityActive} setActive={setSelectCityActive} />
       <BurgerMenu active={burgerActive} setActive={setBurgerActive} />
+      <СonfirmationOrder
+        modalOrder={orderFlags.modalOrder}
+        setDisabled={setDisabled}
+      />
     </section>
   );
 };

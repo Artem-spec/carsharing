@@ -23,6 +23,8 @@ const orderState = {
   babyChair: false,
   rightHandDrive: false,
   price: "",
+  id: 0,
+  status: "",
 };
 const order = (state = orderState, action) => {
   switch (action.type) {
@@ -109,6 +111,10 @@ const order = (state = orderState, action) => {
         babyChair: false,
         rightHandDrive: false,
       };
+    case "RESET_ORDER":
+      return orderState;
+    case "MODIFY_ORDER":
+      return action.payload;
     default:
       return state;
   }
