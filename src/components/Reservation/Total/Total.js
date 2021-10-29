@@ -17,7 +17,7 @@ const Total = (props) => {
   // На тот случай если ввели URL с id заказа и нажали назад
   // Условие отличное от остальных компонентов
   useEffect(() => {
-    if (order.id) {
+    if (order.id || !order.duration) {
       dispatch(modifyOrderFlags({ confirmationOrder: false }));
       dispatch(resetOrder());
       history.push("/reservation/geolocation");

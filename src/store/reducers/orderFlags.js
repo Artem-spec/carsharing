@@ -8,7 +8,7 @@ const initState = {
 const orderFlags = (state = initState, action) => {
   switch (action.type) {
     case "MODIFY_ORDER_FLAGS":
-      return { ...action.payload };
+      return { ...state, ...action.payload };
     case "RESET_ORDER_FLAGS":
       return { ...initState };
     default:

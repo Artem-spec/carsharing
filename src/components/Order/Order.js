@@ -39,14 +39,14 @@ const Order = (props) => {
             : "";
           if (!rateDescr) {
             setConfirmation(true);
-            dispatch(modifyOrderFlags({ orderСancellation: true }));
+            dispatch(modifyOrderFlags({ orderСancellation: true, confirmationOrder: true }));
+          }else{
+            dispatch(modifyOrderFlags({ orderСancellation: false, confirmationOrder: true }));
+            dispatch(resetActiveLink());
           }
           dispatch(modifyOrder(getObjModifyOrder(response, rateDescr)));
           dispatch(modifyCar(response.carId));
           setButtonDisabled(false);
-          if (response.orderStatusId.name !== "Новые")
-            dispatch(modifyOrderFlags({ confirmationOrder: true }));
-          else dispatch(resetActiveLink());
         }
         setLoading(false);
       }

@@ -179,7 +179,7 @@ const Reservation = () => {
               "reservation__order-id"
             )}
           >
-            Заказ оформлен RU{order.id}
+            Заказ номер RU{order.id}
           </div>
         )}
         {!orderFlags.confirmationOrder && (

@@ -31,7 +31,7 @@ const Additionally = (props) => {
   const [rateChecked, setRateChecked] = useState(null);
 
   useEffect(() => {
-    if (order.id) {
+    if (order.id || !order.squeezePoint.description) {
       dispatch(modifyOrderFlags({ confirmationOrder: false }));
       dispatch(resetOrder());
       history.push("/reservation/geolocation");

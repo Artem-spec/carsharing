@@ -49,6 +49,7 @@ const Geolocation = (props) => {
     if (order.id) {
       dispatch(modifyOrderFlags({ confirmationOrder: false }));
       dispatch(resetOrder());
+      console.log(order);
       history.push("/reservation/geolocation");
     }
     dispatch(modifyOrderFlags({ orderСancellation: false }));
